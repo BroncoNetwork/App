@@ -1,5 +1,6 @@
 package cs356.bronconetwork;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,11 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+	
+	public void register(View v) {
+		Intent i = new Intent(this, Register.class);
+		startActivity(i);
 	}
 
 	@Override

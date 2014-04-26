@@ -10,7 +10,7 @@
     android:background="@drawable/images">
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/pw1"
         android:layout_width="228dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -26,11 +26,11 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/username"
         android:layout_width="228dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_below="@+id/editText1"
+        android:layout_alignLeft="@+id/pw1"
+        android:layout_below="@+id/pw1"
         android:layout_marginTop="31dp"
         android:background="#99999999"
         android:ems="10"
@@ -50,7 +50,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/regSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
@@ -76,6 +76,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="29dp"
-        android:text="Sign Up for BroncoNetwork" />
+        android:text="Sign Up for BroncoNetwork"
+        android:onClick="register" />
 
 </RelativeLayout>
