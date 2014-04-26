@@ -234,9 +234,9 @@ int drawable abc_textfield_searchview_holo_dark 0x7f020053
 int drawable abc_textfield_searchview_holo_light 0x7f020054
 int drawable abc_textfield_searchview_right_holo_dark 0x7f020055
 int drawable abc_textfield_searchview_right_holo_light 0x7f020056
-int drawable ic_launcher 0x7f020057
-int drawable icon 0x7f020058
-int drawable images 0x7f020059
+int drawable bg 0x7f020057
+int drawable ic_launcher 0x7f020058
+int drawable icon 0x7f020059
 int id action_bar 0x7f05001c
 int id action_bar_activity_content 0x7f050015
 int id action_bar_container 0x7f05001b
@@ -261,7 +261,7 @@ int id dialog 0x7f05000e
 int id disableHome 0x7f050008
 int id dropdown 0x7f05000f
 int id edit_query 0x7f050030
-int id email 0x7f050044
+int id email 0x7f050043
 int id end 0x7f050013
 int id expand_activities_button 0x7f050026
 int id expanded_menu 0x7f05002c
@@ -279,7 +279,7 @@ int id normal 0x7f050000
 int id progress_circular 0x7f050018
 int id progress_horizontal 0x7f050019
 int id pw1 0x7f05003d
-int id pw2 0x7f050043
+int id pw2 0x7f050044
 int id radio 0x7f05002f
 int id regSubmit 0x7f050040
 int id search_badge 0x7f050032
