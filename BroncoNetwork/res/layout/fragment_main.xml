@@ -65,6 +65,8 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_centerVertical="true"
         android:gravity="center"
+        android:onClick="forgetPass"
+        android:clickable="true"
         android:text="Forget your password???"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

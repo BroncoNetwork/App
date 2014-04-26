@@ -27,6 +27,11 @@ public class MainActivity extends ActionBarActivity {
 		Intent i = new Intent(this, Register.class);
 		startActivity(i);
 	}
+	
+	public void forgetPass(View view) {
+    	Intent a = new Intent(this, ForgetpassActivity.class);
+		startActivity(a);    
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
