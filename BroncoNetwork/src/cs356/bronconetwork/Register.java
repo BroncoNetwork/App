@@ -1,5 +1,6 @@
 package cs356.bronconetwork;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ public class Register extends Activity {
 	public void onCreate(Bundle b) {
 		super.onCreate(b);
 		setContentView(R.layout.register);	
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
 	}
 	
 	public void submit(View v) {

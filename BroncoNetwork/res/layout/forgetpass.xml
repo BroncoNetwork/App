@@ -9,8 +9,81 @@
     tools:context=".ForgetpassActivity" >
 
     <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Under construction..." />
+        android:layout_alignLeft="@+id/email"
+        android:layout_below="@+id/textView1"
+        android:text="email"
+        android:textColor="#9e9e9e" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="Reset Password"
+        android:textColor="#9e9e9e9e"
+        android:textSize="36sp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:background="?android:attr/editTextBackground"
+        android:ems="@integer/register_field_length"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_centerVertical="true"
+        android:text="authentication code"
+        android:textColor="#9e9e9e" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/validate_email"
+        android:layout_below="@+id/TextView01"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/validate_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/email"
+        android:layout_below="@+id/email"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/rect_button"
+        android:minHeight="35dp"
+        android:minWidth="128dp"
+        android:text="validate"
+        android:onClick="validate_email"
+        android:textColor="#FFFFFFFF" />
+
+    <Button
+        android:id="@+id/enter_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/editText1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/rect_button"
+        android:minHeight="35dp"
+        android:minWidth="128dp"
+        android:onClick="enter_code"
+        android:text="enter code"
+        android:textColor="#FFFFFFFF" />
 
 </RelativeLayout>

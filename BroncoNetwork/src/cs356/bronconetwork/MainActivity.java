@@ -1,5 +1,6 @@
 package cs356.bronconetwork;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,8 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
 	}
 	
 	public void register(View v) {
