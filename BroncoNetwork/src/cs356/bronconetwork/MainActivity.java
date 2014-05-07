@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 public class MainActivity extends ActionBarActivity {
+	
+	private static EditText username, pw;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,22 @@ public class MainActivity extends ActionBarActivity {
 		}
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
+	}
+	
+	public void login(View v) {
+		// get username and password
+		String username = this.username.getText().toString();
+		String pw = this.pw.getText().toString();
+		// check it against the database entry
+		
+		// get user information from database
+		
+		Intent i = new Intent(this, MainEntry.class);
+		
+		// pass information through intent to set the user
+		
+		startActivity(i);
+		finish();
 	}
 	
 	public void register(View v) {
@@ -63,12 +83,22 @@ public class MainActivity extends ActionBarActivity {
 
 		public PlaceholderFragment() {
 		}
+		
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+			
+			username = (EditText) getView().findViewById(R.id.username);
+			pw = (EditText) getView().findViewById(R.id.pw);
+
+		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			
 			return rootView;
 		}
 	}

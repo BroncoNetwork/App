@@ -21,8 +21,8 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pw1"
-        android:layout_alignRight="@+id/pw1"
+        android:layout_alignLeft="@+id/pw"
+        android:layout_alignRight="@+id/pw"
         android:layout_below="@+id/textView2"
         android:background="?android:attr/editTextBackground"
         android:ems="@integer/register_field_length" >
@@ -39,7 +39,7 @@
         android:textColor="#9e9e9e" />
 
     <EditText
-        android:id="@+id/pw1"
+        android:id="@+id/pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
@@ -52,8 +52,8 @@
         android:id="@+id/pw2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pw1"
-        android:layout_below="@+id/pw1"
+        android:layout_alignLeft="@+id/pw"
+        android:layout_below="@+id/pw"
         android:background="?android:attr/editTextBackground"
         android:ems="@integer/register_field_length"
         android:hint="re-enter password"
