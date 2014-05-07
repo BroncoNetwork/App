@@ -57,10 +57,15 @@ public class LoginActivity  extends AsyncTask<String,Void,String>{
 	   
 	   @Override
 	   protected void onPostExecute(String result){
-		   if(result.length() > 1)
-			   Toast.makeText(context, "Cannot Login", Toast.LENGTH_LONG).show();
-		   else
-			   Toast.makeText(context, "Login Successfully ", Toast.LENGTH_LONG).show();
+		   result = result.trim();
+		   if(result.length() < 1)
+		   {
+			   	Toast.makeText(context, "Cannot Login", Toast.LENGTH_LONG).show();
+		   }
+		   else 
+		   {
+			   Toast.makeText(context, "Login Successfully" , Toast.LENGTH_LONG).show();
+		   }
 	   }
 	   
 	}
