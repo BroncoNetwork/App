@@ -41,6 +41,8 @@ public class MainEntryLayout extends FrameLayout {
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = -1;
 	
+	public final static int DELTA_X = 70;
+	
 	protected final static int MODE_READY = 0;
 	protected final static int MODE_SLIDE = 1;
 	protected final static int MODE_FINISHED = 2;
@@ -507,7 +509,7 @@ public class MainEntryLayout extends FrameLayout {
 
 			float diff = x - mHistoricalX;
 
-			if((mDirection*diff > 50 && mMode == MODE_READY) || (mDirection*diff < -50 && mMode == MODE_FINISHED)) {
+			if((mDirection*diff > DELTA_X && mMode == MODE_READY) || (mDirection*diff < -DELTA_X && mMode == MODE_FINISHED)) {
 				mHistoricalX = (int) x;
 				
 				initSlideMode();

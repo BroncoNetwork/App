@@ -1,8 +1,6 @@
 package cs356.bronconetwork;
 
 
-import cs356.bronconetwork.fragments.TestFragment;
-import cs356.bronconetwork.fragments.TestFragment2;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,19 +10,23 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import cs356.bronconetwork.fragments.Inbox;
+import cs356.bronconetwork.fragments.TestFragment;
+import cs356.bronconetwork.fragments.TestFragment2;
 
 public class MainEntry extends Activity {
 	
 	private MainEntryLayout slideHolder;
 	private ListView sideBar;
 	private String[] sideBarItems = {
-		"Profile", "Newsfeed", "Groups", "Courses", "Settings"	
+		"Profile", "Newsfeed", "Groups", "Courses", "Inbox", "Logout"	
 	};
 	private FragmentManager fMger = getFragmentManager();
 	private FragmentTransaction fTrans = fMger.beginTransaction();
 	
 	private TestFragment test1;
 	private TestFragment2 test2;
+	private Inbox inbox;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,10 @@ public class MainEntry extends Activity {
 						break;
 					case 2: break;
 					case 3: break;
-					case 4: break;
+					case 4: 
+						if(inbox == null) inbox = new Inbox();
+						fTrans.replace(R.id.mainEntryContent, inbox);
+						break;
 				}
 				fTrans.commit();
 				slideHolder.toggle();

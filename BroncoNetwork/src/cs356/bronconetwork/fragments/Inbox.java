@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TestFragment2 extends Fragment {
-
+public class Inbox extends Fragment {
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -17,7 +17,7 @@ public class TestFragment2 extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_test2, container, false);
+		return inflater.inflate(R.layout.fragment_inbox, container, false);
 	}
 
 	@Override
