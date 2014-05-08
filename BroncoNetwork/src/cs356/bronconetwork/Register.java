@@ -18,7 +18,7 @@ public class Register extends Activity {
 	
 	public void submit(View v) {
 		username = findViewById(R.id.username).toString();
-		pw1 = findViewById(R.id.pw1).toString();
+		pw1 = findViewById(R.id.pw).toString();
 		pw2 = findViewById(R.id.pw2).toString();
 		email = findViewById(R.id.email).toString();
 		if(pw1.equals(pw2))	{
