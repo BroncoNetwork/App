@@ -67,7 +67,6 @@ public class MainActivity extends ActionBarActivity {
 	{
 		Intent i = new Intent(this, MainEntry.class);
 		startActivity(i);
-		finish();
 	}
 	
 	public void message(String message)

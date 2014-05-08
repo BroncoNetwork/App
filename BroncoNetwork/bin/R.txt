@@ -240,10 +240,9 @@ int drawable icon 0x7f020059
 int drawable icon_newsfeed 0x7f02005a
 int drawable icon_profile 0x7f02005b
 int drawable login_logo 0x7f02005c
-int drawable login_logo2 0x7f02005d
-int drawable post_text_edit 0x7f02005e
-int drawable rect_button 0x7f02005f
-int drawable rect_text_edit 0x7f020060
+int drawable post_text_edit 0x7f02005d
+int drawable rect_button 0x7f02005e
+int drawable rect_text_edit 0x7f02005f
 int id EditText01 0x7f050057
 int id TextView01 0x7f050040
 int id action_bar 0x7f05001c

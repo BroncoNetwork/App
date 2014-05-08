@@ -1083,10 +1083,9 @@ containing a value of this type.
         public static final int icon_newsfeed=0x7f02005a;
         public static final int icon_profile=0x7f02005b;
         public static final int login_logo=0x7f02005c;
-        public static final int login_logo2=0x7f02005d;
-        public static final int post_text_edit=0x7f02005e;
-        public static final int rect_button=0x7f02005f;
-        public static final int rect_text_edit=0x7f020060;
+        public static final int post_text_edit=0x7f02005d;
+        public static final int rect_button=0x7f02005e;
+        public static final int rect_text_edit=0x7f02005f;
     }
     public static final class id {
         public static final int EditText01=0x7f050057;

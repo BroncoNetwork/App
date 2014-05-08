@@ -69,7 +69,7 @@
 	            android:layout_centerHorizontal="true"
 	            android:background="@drawable/rect_button"
 	            android:minHeight="35dip"
-	            android:onClick="log_out"
+	            android:onClick="logout"
 	            android:text="Logout"
 	            android:textColor="#FFFFFFFF" />
 
