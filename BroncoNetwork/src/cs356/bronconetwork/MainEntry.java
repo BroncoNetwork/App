@@ -3,6 +3,7 @@ package cs356.bronconetwork;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class MainEntry extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mainentry);		
+		setContentView(R.layout.mainentry);	
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
@@ -57,20 +58,30 @@ public class MainEntry extends Activity {
 						getActionBar().show();
 						getActionBar().setTitle("Newsfeed");
 						getActionBar().setIcon(R.drawable.icon_newsfeed);
-						fTrans.replace(R.id.mainEntryContent, newsfeed_fragment);
+						fTrans.hide(test2);
+						fTrans.hide(inbox);
+						if(newsfeed_fragment.isHidden()) {
+							fTrans.show(newsfeed_fragment);
+						}
 						break;
 					case 1:
 						getActionBar().show();
 						getActionBar().setTitle("Profile");
 						getActionBar().setIcon(R.drawable.icon_profile);
-						if(test2 == null) test2 = new TestFragment2();
-						fTrans.replace(R.id.mainEntryContent, test2);
+						fTrans.hide(inbox);
+						fTrans.hide(newsfeed_fragment);
+						if(test2.isHidden()) {
+							fTrans.show(test2);
+						}
 						break;
 					case 2: break;
 					case 3: break;
 					case 4: 
-						if(inbox == null) inbox = new Inbox();
-						fTrans.replace(R.id.mainEntryContent, inbox);
+						fTrans.hide(test2);
+						fTrans.hide(newsfeed_fragment);
+						if(inbox.isHidden()) {
+							fTrans.show(inbox);
+						}
 						break;
 					case 5:
 						logout();
@@ -86,6 +97,10 @@ public class MainEntry extends Activity {
 		getActionBar().setTitle("Newsfeed");
 		getActionBar().setIcon(R.drawable.icon_newsfeed);
 		newsfeed_fragment = new NewsfeedFragment();
+		test2 = new TestFragment2();
+		inbox = new Inbox();
+		fTrans.add(R.id.mainEntryContent, test2);
+		fTrans.add(R.id.mainEntryContent, inbox);
 		fTrans.add(R.id.mainEntryContent, newsfeed_fragment).commit();
 		
 	}
