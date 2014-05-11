@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("MAINACTIVITY ONCREATE");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -41,9 +42,9 @@ public class MainActivity extends ActionBarActivity {
 		actionBar.hide();
 	}
 	
-	
 	//This function will call the loginActivity when user types in username and password
 	public void login(View v) {
+		System.out.println("LOGIN");
 		String username = usernameField.getText().toString();
 		String password = pwField.getText().toString();
 		
@@ -75,11 +76,13 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	public void register(View v) {
+		System.out.println("REGISTER");
 		Intent i = new Intent(this, Register.class);
 		startActivity(i);
 	}
 	
 	public void forgetPass(View view) {
+		System.out.println("FORGETPASS ");
     	Intent a = new Intent(this, ForgetpassActivity.class);
 		startActivity(a);    
 	}

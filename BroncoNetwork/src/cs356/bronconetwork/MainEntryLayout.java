@@ -41,7 +41,7 @@ public class MainEntryLayout extends FrameLayout {
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = -1;
 	
-	public final static int DELTA_X = 200;
+	public final static int DELTA_X = 90;
 	
 	protected final static int MODE_READY = 0;
 	protected final static int MODE_SLIDE = 1;
@@ -683,7 +683,7 @@ public class MainEntryLayout extends FrameLayout {
 	
 	private class SlideAnimation extends Animation {
 		
-		private static final float SPEED = 0.6f;
+		private static final float SPEED = 3.0f;
 		
 		private float mStart;
 		private float mEnd;

@@ -31,6 +31,13 @@ public class MainEntry extends Activity {
 	private TestFragment2 test2;
 	private Inbox inbox;
 
+	
+	public void onBackPressed() {
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+	}
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
