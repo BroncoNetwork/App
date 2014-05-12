@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 public class NewsfeedFragment extends Fragment {
 
+	TextView mComments;
 	Button mPost;
 	EditText mText;
 	ListView mNewsfeedList;
@@ -56,6 +57,8 @@ public class NewsfeedFragment extends Fragment {
 				}
 			}
 		});
+		
+		mComments = (TextView)fragView.findViewById(R.id.comments);
 		mText = (EditText)fragView.findViewById(R.id.text_bar);
 		mNewsfeedList = (ListView)fragView.findViewById(R.id.newsfeed_list);
 		postArray = new ArrayList<Post>();

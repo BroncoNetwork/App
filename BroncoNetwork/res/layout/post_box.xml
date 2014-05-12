@@ -3,8 +3,9 @@
     android:id="@+id/post_box"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/card_style"
     android:orientation="vertical"
-    android:background="#FFFFFFFF" >
+    android:padding="20dp" >
 
     <ImageView
         android:id="@+id/post_icon"
@@ -14,6 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/border"
         android:src="@drawable/icon" />
 
     <TextView
@@ -24,9 +26,9 @@
         android:layout_below="@+id/post_icon"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"
-        android:paddingBottom="15dp"
         android:paddingRight="15dp"
-        android:text="message" />
+        android:text="message"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/author"
@@ -35,9 +37,10 @@
         android:layout_alignTop="@+id/post_icon"
         android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/post_icon"
-        android:paddingLeft="3dp"
+        android:paddingLeft="10dp"
         android:paddingRight="15dp"
-        android:text="author" />
+        android:text="author"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/time"
@@ -46,9 +49,10 @@
         android:layout_alignBottom="@+id/post_icon"
         android:layout_alignLeft="@+id/author"
         android:layout_marginBottom="3dp"
-        android:paddingLeft="3dp"
+        android:paddingLeft="10dp"
         android:paddingRight="15dp"
-        android:text="time" />
+        android:text="time"
+        android:textColor="#7E7E7E" />
 
     <TextView
         android:id="@+id/target"
@@ -56,10 +60,24 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/author"
         android:layout_alignBottom="@+id/author"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/author"
         android:paddingLeft="3dp"
         android:paddingRight="15dp"
-        android:text="target" />
+        android:text="target"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/message"
+        android:background="#005c27"
+        android:onClick="comments"
+        android:padding="5dp"
+        android:text="comments"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 
 </RelativeLayout>

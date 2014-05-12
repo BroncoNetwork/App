@@ -7,6 +7,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -96,6 +99,7 @@ public class MainEntry extends Activity {
 		getActionBar().show();
 		getActionBar().setTitle("Newsfeed");
 		getActionBar().setIcon(R.drawable.icon_newsfeed);
+		getActionBar().setBackgroundDrawable(new ColorDrawable(new Color().parseColor("#005c27")));
 		newsfeed_fragment = new NewsfeedFragment();
 		test2 = new TestFragment2();
 		inbox = new Inbox();

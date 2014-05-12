@@ -1078,17 +1078,19 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int bg=0x7f020057;
-        public static final int ic_launcher=0x7f020058;
-        public static final int icon=0x7f020059;
-        public static final int icon_newsfeed=0x7f02005a;
-        public static final int icon_profile=0x7f02005b;
-        public static final int login_logo=0x7f02005c;
-        public static final int post_text_edit=0x7f02005d;
-        public static final int rect_button=0x7f02005e;
-        public static final int rect_text_edit=0x7f02005f;
+        public static final int border=0x7f020058;
+        public static final int card_style=0x7f020059;
+        public static final int ic_launcher=0x7f02005a;
+        public static final int icon=0x7f02005b;
+        public static final int icon_newsfeed=0x7f02005c;
+        public static final int icon_profile=0x7f02005d;
+        public static final int login_logo=0x7f02005e;
+        public static final int post_text_edit=0x7f02005f;
+        public static final int rect_button=0x7f020060;
+        public static final int rect_text_edit=0x7f020061;
     }
     public static final class id {
-        public static final int EditText01=0x7f05005a;
+        public static final int EditText01=0x7f05005b;
         public static final int action_bar=0x7f05001c;
         public static final int action_bar_activity_content=0x7f050015;
         public static final int action_bar_container=0x7f05001b;
@@ -1100,7 +1102,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05005c;
+        public static final int action_settings=0x7f05005d;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int author=0x7f050055;
@@ -1108,6 +1110,7 @@ containing a value of this type.
         public static final int button2=0x7f050048;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
+        public static final int comments=0x7f050057;
         public static final int container=0x7f05003c;
         public static final int default_activity_button=0x7f050028;
         public static final int dialog=0x7f05000e;
@@ -1142,12 +1145,12 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int pw=0x7f050047;
-        public static final int pw2=0x7f050059;
+        public static final int pw2=0x7f05005a;
         public static final int radio=0x7f05002f;
         public static final int regSubmit=0x7f050045;
-        public static final int resetpassSubmit=0x7f05005b;
+        public static final int resetpassSubmit=0x7f05005c;
         public static final int root=0x7f05004e;
-        public static final int scroll=0x7f050057;
+        public static final int scroll=0x7f050058;
         public static final int search_badge=0x7f050032;
         public static final int search_bar=0x7f050031;
         public static final int search_button=0x7f050033;
@@ -1169,7 +1172,7 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int target=0x7f050040;
         public static final int textView1=0x7f05003f;
-        public static final int textView2=0x7f050058;
+        public static final int textView2=0x7f050059;
         public static final int textView3=0x7f050046;
         public static final int textView4=0x7f05003d;
         public static final int text_bar=0x7f050050;
