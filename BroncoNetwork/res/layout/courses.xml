@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E4F2E4"
+    tools:context=".Courses" >
+
+    <Spinner
+        android:id="@+id/major_"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/class_num"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/major_"
+        android:layout_marginRight="53dp" />
+
+    <ListView
+        android:id="@+id/curr_course_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/major_"
+        android:layout_marginTop="10dp" >
+    </ListView>
+
+</RelativeLayout>
