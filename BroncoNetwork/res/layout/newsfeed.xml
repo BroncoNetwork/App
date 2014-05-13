@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#BFBFBF"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/newsfeed_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/rect_text_edit"
+        android:minHeight="35dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/text_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:ems="10"
+            android:minHeight="35dp" >
+        </EditText>
+
+        <Button
+            android:id="@+id/post_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="3"
+            android:background="#005c27"
+            android:minHeight="35dip"
+            android:text="Post"
+            android:textColor="#FFFFFFFF" />
+
+    </LinearLayout>
+    
+    <ListView
+        android:id="@+id/newsfeed_list"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/newsfeed_header"
+        android:layout_weight="1"
+        android:divider="@null"
+		android:dividerHeight="0dp" >
+    </ListView>
+
+</LinearLayout>

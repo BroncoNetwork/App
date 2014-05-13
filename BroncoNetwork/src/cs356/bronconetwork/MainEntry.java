@@ -1,15 +1,22 @@
 package cs356.bronconetwork;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import cs356.bronconetwork.MainActivity.PlaceholderFragment;
 import cs356.bronconetwork.fragments.Inbox;
 import cs356.bronconetwork.fragments.TestFragment;
 import cs356.bronconetwork.fragments.TestFragment2;
@@ -19,19 +26,27 @@ public class MainEntry extends Activity {
 	private MainEntryLayout slideHolder;
 	private ListView sideBar;
 	private String[] sideBarItems = {
-		"Profile", "Newsfeed", "Groups", "Courses", "Inbox", "Logout"	
+		"Newsfeed", "Profile", "Groups", "Courses", "Inbox", "Logout"	
 	};
 	private FragmentManager fMger = getFragmentManager();
 	private FragmentTransaction fTrans = fMger.beginTransaction();
 	
-	private TestFragment test1;
+	private NewsfeedFragment newsfeed_fragment;
 	private TestFragment2 test2;
 	private Inbox inbox;
 
+	
+	public void onBackPressed() {
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+	}
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mainentry);		
+		setContentView(R.layout.mainentry);	
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
@@ -43,17 +58,36 @@ public class MainEntry extends Activity {
 				fTrans = getFragmentManager().beginTransaction();
 				switch(position) {
 					case 0: 
-						fTrans.replace(R.id.mainEntryContent, test1);
+						getActionBar().show();
+						getActionBar().setTitle("Newsfeed");
+						getActionBar().setIcon(R.drawable.icon_newsfeed);
+						fTrans.hide(test2);
+						fTrans.hide(inbox);
+						if(newsfeed_fragment.isHidden()) {
+							fTrans.show(newsfeed_fragment);
+						}
 						break;
 					case 1:
-						if(test2 == null) test2 = new TestFragment2();
-						fTrans.replace(R.id.mainEntryContent, test2);
+						getActionBar().show();
+						getActionBar().setTitle("Profile");
+						getActionBar().setIcon(R.drawable.icon_profile);
+						fTrans.hide(inbox);
+						fTrans.hide(newsfeed_fragment);
+						if(test2.isHidden()) {
+							fTrans.show(test2);
+						}
 						break;
 					case 2: break;
 					case 3: break;
 					case 4: 
-						if(inbox == null) inbox = new Inbox();
-						fTrans.replace(R.id.mainEntryContent, inbox);
+						fTrans.hide(test2);
+						fTrans.hide(newsfeed_fragment);
+						if(inbox.isHidden()) {
+							fTrans.show(inbox);
+						}
+						break;
+					case 5:
+						logout();
 						break;
 				}
 				fTrans.commit();
@@ -62,11 +96,23 @@ public class MainEntry extends Activity {
 			
 		});
 		
-		getActionBar().hide();
-		test1 = new TestFragment();
-		fTrans.add(R.id.mainEntryContent, test1).commit();
+		getActionBar().show();
+		getActionBar().setTitle("Newsfeed");
+		getActionBar().setIcon(R.drawable.icon_newsfeed);
+		getActionBar().setBackgroundDrawable(new ColorDrawable(new Color().parseColor("#005c27")));
+		newsfeed_fragment = new NewsfeedFragment();
+		test2 = new TestFragment2();
+		inbox = new Inbox();
+		fTrans.add(R.id.mainEntryContent, test2);
+		fTrans.add(R.id.mainEntryContent, inbox);
+		fTrans.add(R.id.mainEntryContent, newsfeed_fragment).commit();
 		
 	}
 	
-	
+	public void logout() {
+		getActionBar().hide();
+		Intent i = new Intent(this, MainActivity.class);
+		startActivity(i);
+		finish();
+	}
 }

@@ -1,9 +1,7 @@
 package cs356.bronconetwork;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
@@ -29,10 +27,10 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
 	
 	private static EditText usernameField, pwField;
-	private static int loginTimes = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("MAINACTIVITY ONCREATE");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -44,13 +42,16 @@ public class MainActivity extends ActionBarActivity {
 		actionBar.hide();
 	}
 	
-	
 	//This function will call the loginActivity when user types in username and password
 	public void login(View v) {
+		System.out.println("LOGIN");
 		String username = usernameField.getText().toString();
 		String password = pwField.getText().toString();
 		
-		if(usernameField.getText().toString().equals("") || pwField.getText().toString().equals(""))
+		username = "user";
+		password = "pass";
+		
+		if(username.equals("") || password.equals(""))
 		{
 			message("Please enter your username and password");
 		}
@@ -67,7 +68,6 @@ public class MainActivity extends ActionBarActivity {
 	{
 		Intent i = new Intent(this, MainEntry.class);
 		startActivity(i);
-		finish();
 	}
 	
 	public void message(String message)
@@ -76,20 +76,15 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	public void register(View v) {
+		System.out.println("REGISTER");
 		Intent i = new Intent(this, Register.class);
 		startActivity(i);
-		finish();
 	}
 	
-	public void forgetPassFrontScreen(View view) {
-    	    forgetPassActivity();
-	}
-	
-	public void forgetPassActivity()
-	{
-		Intent a = new Intent(this, ForgetpassActivity.class);
-		startActivity(a);
-		finish();
+	public void forgetPass(View view) {
+		System.out.println("FORGETPASS ");
+    	Intent a = new Intent(this, ForgetpassActivity.class);
+		startActivity(a);    
 	}
 
 	@Override
@@ -140,7 +135,8 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	public class loginActivity  extends AsyncTask<String,Void,String>{
-			
+
+
 		   protected void onPreExecute(){
 
 		   }
@@ -152,7 +148,7 @@ public class MainActivity extends ActionBarActivity {
 		         try{
 		            String username = (String)arg0[0];
 		            String password = (String)arg0[1];
-		            String link = "http://bronconetwork.comuv.com/login.php?username="
+		            String link = "http://bronconetwork.comuv.com/test.php?username="
 				            +username+"&password="+password;
 		            
 		            HttpClient client = new DefaultHttpClient();
@@ -164,17 +160,10 @@ public class MainActivity extends ActionBarActivity {
 
 		           StringBuffer sb = new StringBuffer("");
 		           String line="";
-		           
-		        /* FileOutputStream fOut = openFileOutput("outputtesting.txt",
-	            		MODE_WORLD_READABLE);
-	            OutputStreamWriter osw = new OutputStreamWriter(fOut); 	*/
-		           
 		           while ((line = in.readLine()) != null) {
 		              sb.append(line);
-		              //osw.write(line);
-		              //break;
+		              break;
 		            }
-		           //osw.close();
 		            in.close();
 		            
 		            return sb.toString();
@@ -187,23 +176,12 @@ public class MainActivity extends ActionBarActivity {
 		   @Override
 		   protected void onPostExecute(String result){
 			   result = result.trim();
-			   if(result.length() < 1 || result.charAt(0) == '<')
+			   if(result.length() < 1)
 			   {
-				   if(loginTimes == 2)
-				   {
-					   message("Too many wrong attempts");
-					   loginTimes = 0;
-					   forgetPassActivity();
-				   }
-				   else
-				   {
-					   loginTimes++;
-					   message("Cannot Login");
-				   }
+				   message("Cannot Login");
 			   }
 			   else 
 			   {
-				   loginTimes = 0;
 				   message("Login Successfully");
 				   startMainEntry(); //jump to MainEntry activity if username and password are correct.
 			   }
