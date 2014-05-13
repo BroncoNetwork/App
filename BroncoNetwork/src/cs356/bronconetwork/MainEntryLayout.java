@@ -41,7 +41,7 @@ public class MainEntryLayout extends FrameLayout {
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = -1;
 	
-	public final static int DELTA_X = 90;
+	public final static int DELTA_X = 30;
 	
 	protected final static int MODE_READY = 0;
 	protected final static int MODE_SLIDE = 1;
@@ -63,6 +63,7 @@ public class MainEntryLayout extends FrameLayout {
 	private boolean mInterceptTouch = true;
 	private boolean mAlwaysOpened = false;
 	private boolean mDispatchWhenOpened = false;
+	private boolean canMove = false;
 	
 	private Queue<Runnable> mWhenReady = new LinkedList<Runnable>();
 	
@@ -499,7 +500,9 @@ public class MainEntryLayout extends FrameLayout {
 		
 		float x = ev.getX();
 		
-		if(ev.getAction() == MotionEvent.ACTION_DOWN) {
+		if(ev.getAction() == MotionEvent.ACTION_DOWN && x <= 40) {
+			
+			canMove = true;
 			mHistoricalX = (int) x;
 			
 			return true;
@@ -508,21 +511,23 @@ public class MainEntryLayout extends FrameLayout {
 		if(ev.getAction() == MotionEvent.ACTION_MOVE) {
 
 			float diff = x - mHistoricalX;
-
-			if((mDirection*diff > DELTA_X && mMode == MODE_READY) || (mDirection*diff < -DELTA_X && mMode == MODE_FINISHED)) {
-				mHistoricalX = (int) x;
-				
-				initSlideMode();
-			} else if(mMode == MODE_SLIDE) {
-				mOffset += diff;
-				
-				mHistoricalX = (int) x;
-				
-				if(!isSlideAllowed()) {
-					finishSlide();
+			
+			if(canMove) {
+				if((mDirection*diff > DELTA_X && mMode == MODE_READY) || (mDirection*diff < -DELTA_X && mMode == MODE_FINISHED)) {
+					mHistoricalX = (int) x;
+					
+					initSlideMode();
+				} else if(mMode == MODE_SLIDE) {
+					mOffset += diff;
+					
+					mHistoricalX = (int) x;
+					
+					if(!isSlideAllowed()) {
+						finishSlide();
+					}
+				} else {
+					return false;
 				}
-			} else {
-				return false;
 			}
 		}
 		
@@ -532,6 +537,7 @@ public class MainEntryLayout extends FrameLayout {
 			}
 			
 			mCloseOnRelease = false;
+			canMove = false;
 			
 			return false;
 		}

@@ -1,43 +1,33 @@
-package cs356.bronconetwork;
+package cs356.bronconetwork.fragments;
 
 import java.util.ArrayList;
 
-import android.app.Fragment;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.text.SpannableString;
-import android.text.format.DateUtils;
+import android.support.v4.app.Fragment;
 import android.text.format.Time;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import cs356.bronconetwork.Post;
+import cs356.bronconetwork.R;
 
 public class NewsfeedFragment extends Fragment {
 
-	TextView mComments;
-	Button mPost;
-	EditText mText;
-	ListView mNewsfeedList;
-	ArrayList<Post> postArray;
+	private TextView mComments;
+	private Button mPost;
+	private EditText mText;
+	private ListView mNewsfeedList;
+	private ArrayList<Post> postArray;
 	
-	Time currentTime;
+	private Time currentTime;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		System.out.println("NEWSFEED");
 		super.onCreate(savedInstanceState);
 	}
 

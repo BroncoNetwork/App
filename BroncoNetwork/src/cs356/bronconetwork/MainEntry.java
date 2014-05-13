@@ -1,39 +1,34 @@
 package cs356.bronconetwork;
 
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import cs356.bronconetwork.MainActivity.PlaceholderFragment;
-import cs356.bronconetwork.fragments.Inbox;
-import cs356.bronconetwork.fragments.TestFragment;
+import cs356.bronconetwork.fragments.InboxMain;
+import cs356.bronconetwork.fragments.NewsfeedFragment;
 import cs356.bronconetwork.fragments.TestFragment2;
 
-public class MainEntry extends Activity {
+
+
+public class MainEntry extends FragmentActivity {
 	
 	private MainEntryLayout slideHolder;
 	private ListView sideBar;
-	private String[] sideBarItems = {
-		"Newsfeed", "Profile", "Groups", "Courses", "Inbox", "Logout"	
-	};
-	private FragmentManager fMger = getFragmentManager();
+	private FragmentManager fMger = getSupportFragmentManager();
 	private FragmentTransaction fTrans = fMger.beginTransaction();
 	
 	private NewsfeedFragment newsfeed_fragment;
 	private TestFragment2 test2;
-	private Inbox inbox;
+	private InboxMain inbox;
 
 	
 	public void onBackPressed() {
@@ -50,14 +45,13 @@ public class MainEntry extends Activity {
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.sidebarlistitem, sideBarItems);
-		sideBar.setAdapter(adapter);
+		sideBar.setAdapter(new SideBarAdapter(this));
 		sideBar.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				fTrans = getFragmentManager().beginTransaction();
+				fTrans = getSupportFragmentManager().beginTransaction();
 				switch(position) {
-					case 0: 
+					case 0: // newsfeed
 						getActionBar().show();
 						getActionBar().setTitle("Newsfeed");
 						getActionBar().setIcon(R.drawable.icon_newsfeed);
@@ -67,7 +61,7 @@ public class MainEntry extends Activity {
 							fTrans.show(newsfeed_fragment);
 						}
 						break;
-					case 1:
+					case 1: // profile
 						getActionBar().show();
 						getActionBar().setTitle("Profile");
 						getActionBar().setIcon(R.drawable.icon_profile);
@@ -77,16 +71,21 @@ public class MainEntry extends Activity {
 							fTrans.show(test2);
 						}
 						break;
-					case 2: break;
-					case 3: break;
-					case 4: 
+					case 2: // groups
+						break;
+					case 3: // courses
+						break;
+					case 4: // inbox
+						getActionBar().show();
+						getActionBar().setTitle("Inbox");
+						getActionBar().setIcon(R.drawable.icon_inbox);
 						fTrans.hide(test2);
 						fTrans.hide(newsfeed_fragment);
 						if(inbox.isHidden()) {
 							fTrans.show(inbox);
 						}
 						break;
-					case 5:
+					case 5: // logout
 						logout();
 						break;
 				}
@@ -96,13 +95,15 @@ public class MainEntry extends Activity {
 			
 		});
 		
+		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
+		
 		getActionBar().show();
 		getActionBar().setTitle("Newsfeed");
 		getActionBar().setIcon(R.drawable.icon_newsfeed);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(new Color().parseColor("#005c27")));
+		getActionBar().setBackgroundDrawable(actionBarColor);
 		newsfeed_fragment = new NewsfeedFragment();
 		test2 = new TestFragment2();
-		inbox = new Inbox();
+		inbox = new InboxMain(fMger);
 		fTrans.add(R.id.mainEntryContent, test2);
 		fTrans.add(R.id.mainEntryContent, inbox);
 		fTrans.add(R.id.mainEntryContent, newsfeed_fragment).commit();
