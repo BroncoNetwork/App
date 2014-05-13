@@ -11,13 +11,15 @@ import android.view.ViewGroup;
 import cs356.bronconetwork.R;
 
 @SuppressLint("ValidFragment")
-public class InboxMain extends Fragment {
+public class InboxFragment extends Fragment implements NetworkFragment {
 	
 	private ViewPager inboxPager;
 	private InboxAdapter adapter;
 	private FragmentManager mgr;
+	private String name = "Inbox";
+	private int icon = R.drawable.icon_inbox;
 	
-	public InboxMain(FragmentManager mgr) {
+	public InboxFragment(FragmentManager mgr) {
 		this.mgr = mgr;
 	}
 	
@@ -47,6 +49,14 @@ public class InboxMain extends Fragment {
 	public void onPause() {
 		super.onPause();
 		
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getDrawableId() {
+		return icon;
 	}
 
 }

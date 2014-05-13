@@ -16,13 +16,15 @@ import android.widget.TextView;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
 
-public class NewsfeedFragment extends Fragment {
+public class NewsfeedFragment extends Fragment implements NetworkFragment {
 
 	private TextView mComments;
 	private Button mPost;
 	private EditText mText;
 	private ListView mNewsfeedList;
 	private ArrayList<Post> postArray;
+	private String name = "Newsfeed";
+	private int icon = R.drawable.icon_newsfeed;
 	
 	private Time currentTime;
 	
@@ -92,5 +94,13 @@ public class NewsfeedFragment extends Fragment {
 		postArray.add(0, post);
 		mText.setText("");
 		mNewsfeedList.invalidateViews();
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getDrawableId() {
+		return icon;
 	}
 }
