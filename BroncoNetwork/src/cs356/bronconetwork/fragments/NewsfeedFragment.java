@@ -74,7 +74,6 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		postArray.add(post);
 
 		mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity()));
-		System.out.println("NEWSFEED");
 		return fragView;
 	}
 

@@ -107,4 +107,8 @@ public class MainEntry extends FragmentActivity {
 		startActivity(i);
 		finish();
 	}
+	
+	public NetworkFragment getFrag(int i) {
+		return frags[i];
+	}
 }

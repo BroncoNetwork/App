@@ -51,7 +51,7 @@ public class InboxListAdapter extends BaseAdapter {
 		Mail mail = items.get(position);
 		title.setText(Html.fromHtml("<b>"+mail.getTitle()+"</b>"));
 		String preview = mail.getMsg();
-		if(preview.length() > 50) preview = preview.substring(0, 25)+ "...";
+		if(preview.length() > 50) preview = preview.substring(0, 40)+ "...";
 		msg.setText(preview);
 		
 		return v;

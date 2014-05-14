@@ -23,7 +23,6 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	private TabHost tabHost;
 	private ViewPager inboxPager;
 	private InboxAdapter adapter;
-	private FragmentManager mgr;
 	private String name = "Inbox";
 	private int icon = R.drawable.icon_inbox;
 	
@@ -32,7 +31,6 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	
 	public InboxFragment(MainEntry mainEntry) {
 		this.mainEntry = mainEntry;
-		mgr = mainEntry.getSupportFragmentManager();
 	}
 	
 	@Override
@@ -54,7 +52,7 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 		super.onActivityCreated(savedInstanceState);
 		tabHost = (TabHost) getView().findViewById(R.id.inboxTabHost);
 		inboxPager = (ViewPager) getView().findViewById(R.id.inboxViewPager);
-		adapter = new InboxAdapter(mgr);
+		adapter = new InboxAdapter(mainEntry);
 		inboxPager.setAdapter(adapter);
 		tabHost.setup();
 		

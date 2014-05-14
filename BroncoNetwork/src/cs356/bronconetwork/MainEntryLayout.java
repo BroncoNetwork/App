@@ -42,6 +42,8 @@ public class MainEntryLayout extends FrameLayout {
 	public final static int DIRECTION_RIGHT = -1;
 	
 	public final static int DELTA_X = 30;
+	public final static int OPEN_X = 40;
+	public final static int CLOSE_X = 500;
 	
 	protected final static int MODE_READY = 0;
 	protected final static int MODE_SLIDE = 1;
@@ -500,7 +502,7 @@ public class MainEntryLayout extends FrameLayout {
 		
 		float x = ev.getX();
 		
-		if(ev.getAction() == MotionEvent.ACTION_DOWN && x <= 40) {
+		if(ev.getAction() == MotionEvent.ACTION_DOWN && (x <= OPEN_X || x >= CLOSE_X)) {
 			
 			canMove = true;
 			mHistoricalX = (int) x;
