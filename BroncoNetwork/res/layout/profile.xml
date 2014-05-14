@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E4F2E4"
+    android:columnCount="1"
+    tools:context=".ProfileFragment" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/profilepicbg" />
+
+    <TextView
+        android:id="@+id/first_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="20dp"
+        android:text="FirstName"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/privateMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_marginRight="35dp"
+        android:clickable="true"
+        android:onClick="inbox"
+        android:text="Private Message" />
+
+    <TextView
+        android:id="@+id/last_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/first_Name"
+        android:layout_alignBottom="@+id/first_Name"
+        android:layout_toRightOf="@+id/first_Name"
+        android:layout_marginLeft="15dp"
+        android:text="LastName"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/major_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textMajor"
+        android:layout_alignBaseline="@+id/textMajor"
+        android:text="MyMajor" />
+
+    <TextView
+        android:id="@+id/email_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textEmail"
+        android:layout_toRightOf="@+id/textEmail"
+        android:text="email@email.com" />
+
+    <TextView
+        android:id="@+id/textCourses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textEmail"
+        android:layout_below="@+id/textEmail"
+        android:layout_marginTop="15dp"
+        android:text="Courses" />
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textMajor"
+        android:layout_below="@+id/textMajor"
+        android:text="Email: " />
+
+    <TextView
+        android:id="@+id/AboutMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/first_Name"
+        android:layout_below="@+id/first_Name"
+        android:layout_marginTop="17dp"
+        android:text="About me:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textMajor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/AboutMe"
+        android:layout_centerVertical="true"
+        android:text="Major: " />
+
+    <ListView
+        android:id="@+id/course_list"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:divider="@null"
+		android:dividerHeight="0dp" 
+        android:layout_below="@+id/textCourses" >
+    </ListView>
+
+</RelativeLayout>
