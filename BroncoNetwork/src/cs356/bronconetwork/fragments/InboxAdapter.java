@@ -17,7 +17,7 @@ import android.widget.ListView;
 public class InboxAdapter extends FragmentStatePagerAdapter {
 	
 	private Fragment[] frags = {
-		new InboxFragment(), new InboxFragment()
+		new InboxList(), new InboxList()
 	};
 	
     public InboxAdapter(FragmentManager fm) {
@@ -43,16 +43,16 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
      * Inbox segment
      */
     @SuppressLint("ValidFragment")
-	public static class InboxFragment extends Fragment {
+	public class InboxList extends Fragment {
     	
     	private ListView list;
     	private ArrayList<Mail> items = new ArrayList<Mail>();
     	
-    	public InboxFragment() {
+    	public InboxList() {
     		
     	}
     	
-    	public InboxFragment(ArrayList<Mail> items) {
+    	public InboxList(ArrayList<Mail> items) {
     		this.items = items;
     	}
     	

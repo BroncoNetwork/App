@@ -50,7 +50,10 @@ public class MainActivity extends ActionBarActivity {
 		String username = usernameField.getText().toString();
 		String password = pwField.getText().toString();
 		
-		if(usernameField.getText().toString().equals("") || pwField.getText().toString().equals(""))
+		username = "user";
+		password = "pass";
+		
+		if(username.equals("") || password.equals(""))
 		{
 			message("Please enter your username and password");
 		}

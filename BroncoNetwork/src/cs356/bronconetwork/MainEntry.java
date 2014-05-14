@@ -40,7 +40,7 @@ public class MainEntry extends FragmentActivity {
 		new TestFragment(), // profile placeholder
 		new TestFragment(), // groups placeholder
 		new CoursesFragment(this),
-		new InboxFragment(fMger)
+		new InboxFragment(this)
 	};
 
 	
@@ -70,7 +70,7 @@ public class MainEntry extends FragmentActivity {
 				else {
 					getActionBar().show();
 					getActionBar().setTitle(frags[position].getName());
-					getActionBar().setIcon(R.drawable.icon_newsfeed);
+					getActionBar().setIcon(frags[position].getDrawableId());
 					
 					for(NetworkFragment frag: frags) 
 						fTrans.hide((Fragment) frag);
