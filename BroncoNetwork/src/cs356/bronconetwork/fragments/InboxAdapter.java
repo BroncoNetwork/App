@@ -25,9 +25,12 @@ import android.widget.Toast;
 
 public class InboxAdapter extends FragmentStatePagerAdapter {
 	
+	public static final int INBOX = 0;
+	public static final int SENT = 1;
+	
 	private MainEntry mainEntry;
 	private Fragment[] frags = {
-		new InboxList(), new InboxList()
+		new InboxList(INBOX), new InboxList(SENT)
 	};
 	
     public InboxAdapter(MainEntry mainEntry) {
@@ -58,9 +61,11 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     	
     	private ListView list;
     	private ArrayList<Mail> items = new ArrayList<Mail>();
+    	private boolean sent;
     	
-    	public InboxList() {
-    		
+    	public InboxList(int which) {
+    		if(which == INBOX) sent = false;
+    		else sent = true;
     	}
     	
     	public InboxList(ArrayList<Mail> items) {
@@ -85,8 +90,13 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		
     		// in the future will fill this with user specific mail items retrieved from the database
     		final ArrayList<Mail> items = new ArrayList<Mail>();
-    		items.add(new Mail("Hi THere!", "This is a test msg. ii hope this works woopdie do yay uh huh"));
-    		items.add(new Mail("Welcome to Bronco Network", "If this is your first time doing something like this don't worry...."));
+    		if(sent) {
+    			items.add(new Mail("From Thuan", "Hey guys I added mroe stuff to github so get on it!"));
+    			items.add(new Mail("From Joe", "Hey guys I can't make it to the meeting tomorrow some things came up"));
+    		} else {
+    			items.add(new Mail("Hi THere!", "This is a test msg. ii hope this works woopdie do yay uh huh"));
+    			items.add(new Mail("Welcome to Bronco Network", "If this is your first time doing something like this don't worry...."));
+    		}
     		
     		list.setAdapter(new InboxListAdapter(items, getActivity()));
     		list.setOnItemClickListener(new OnItemClickListener() {
