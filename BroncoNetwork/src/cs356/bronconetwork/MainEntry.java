@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,6 +30,8 @@ public class MainEntry extends FragmentActivity {
 	public static final int COURSES 	= 3;
 	public static final int INBOX 		= 4;
 	public static final int LOGOUT 		= 5;
+	
+	private static String USERNAME;
 	
 	private MainEntryLayout slideHolder;
 	private ListView sideBar;
@@ -56,6 +59,9 @@ public class MainEntry extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainentry);	
+		
+		Intent intent = getIntent();
+		USERNAME = intent.getExtras().getString("USERNAME");
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
