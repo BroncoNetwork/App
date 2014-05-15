@@ -45,7 +45,7 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return frags.length;
     }
 
     @Override
@@ -91,8 +91,8 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		// in the future will fill this with user specific mail items retrieved from the database
     		final ArrayList<Mail> items = new ArrayList<Mail>();
     		if(sent) {
-    			items.add(new Mail("From Thuan", "Hey guys I added mroe stuff to github so get on it!"));
-    			items.add(new Mail("From Joe", "Hey guys I can't make it to the meeting tomorrow some things came up"));
+    			items.add(new Mail("To Thuan", "Hey guys I added mroe stuff to github so get on it!"));
+    			items.add(new Mail("To Joe", "Hey guys I can't make it to the meeting tomorrow some things came up"));
     		} else {
     			items.add(new Mail("Hi THere!", "This is a test msg. ii hope this works woopdie do yay uh huh"));
     			items.add(new Mail("Welcome to Bronco Network", "If this is your first time doing something like this don't worry...."));
@@ -107,7 +107,7 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 					Mail mail = items.get(position);
 					final AlertDialog dialog = builder.setTitle(mail.getTitle())
 						   .setMessage(mail.getMsg())
-						   .setNegativeButton("Cancel", new OnClickListener() {
+						   .setNegativeButton("Reply", new OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									dialog.dismiss();
@@ -124,6 +124,11 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 				}    			
     		});
     	}	
+    	
+    	public void changeImageOffset(int offset) {
+    		
+    	}
 
     }
+
 }

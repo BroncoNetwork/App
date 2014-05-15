@@ -35,7 +35,7 @@ public class TestFragment extends Fragment implements NetworkFragment {
 	}
 	
 	public int getDrawableId() {
-		return 0;
+		return R.drawable.ic_launcher;
 	}
 
 }

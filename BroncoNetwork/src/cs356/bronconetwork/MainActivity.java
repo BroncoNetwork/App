@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	private static EditText usernameField, pwField;
 	private static int loginTimes = 0;
+	private String username;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,6 @@ public class MainActivity extends ActionBarActivity {
 		String username = usernameField.getText().toString();
 		String password = pwField.getText().toString();
 		
-		username = "user";
-		password = "pass";
-		
 		if(username.equals("") || password.equals(""))
 		{
 			message("Please enter your username and password");
@@ -66,9 +64,10 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 	//This function will call the MainEntry activity
-	public void startMainEntry()
+	public void startMainEntry(String username)
 	{
 		Intent i = new Intent(this, MainEntry.class);
+		i.putExtra("USERNAME", username);
 		startActivity(i);
 		finish();
 	}
@@ -142,9 +141,11 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 	
-	public class loginActivity  extends AsyncTask<String,Void,String>{
+	public class loginActivity extends AsyncTask<String,Void,String> {
+		
+		private String username;
 			
-		   protected void onPreExecute(){
+		   protected void onPreExecute() {
 
 		   }
 		   
@@ -180,11 +181,13 @@ public class MainActivity extends ActionBarActivity {
 		           //osw.close();
 		            in.close();
 		            
+		            this.username = username;
+		            
 		            return sb.toString();
-		      }catch(Exception e){
+		      } catch(Exception e){
 		         return new String("Exception: " + e.getMessage());
 		      }
-		      }
+		   }
 		    
 		   
 		   @Override
@@ -208,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
 			   {
 				   loginTimes = 0;
 				   message("Login Successfully");
-				   startMainEntry(); //jump to MainEntry activity if username and password are correct.
+				   startMainEntry(username); //jump to MainEntry activity if username and password are correct.
 			   }
 		   }
 		   

@@ -42,7 +42,7 @@ public class SideBarAdapter extends ArrayAdapter<SideBarItem> {
 
 	@Override
 	public long getItemId(int position) {
-		return items.get(position).getId();
+		return position;
 	}
 
 	@Override
@@ -50,12 +50,12 @@ public class SideBarAdapter extends ArrayAdapter<SideBarItem> {
 		View v = convertView;
 		if(v == null) {
 			LayoutInflater vi = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.sidebar_item, null);
+			v = vi.inflate(R.layout.sidebar_item, null, false);
 		}
 		ImageView image = (ImageView) v.findViewById(R.id.pageImg);
 		TextView page = (TextView) v.findViewById(R.id.page);
 		
-		image.setImageDrawable(c.getResources().getDrawable(items.get(position).getId()));
+		image.setImageDrawable(c.getResources().getDrawable(items.get(position).getDrawableId()));
 		page.setText(items.get(position).getName());
 		
 		return v;
@@ -75,7 +75,7 @@ public class SideBarAdapter extends ArrayAdapter<SideBarItem> {
 			return name;
 		}
 		
-		public int getId() {
+		public int getDrawableId() {
 			return id;
 		}
 	}

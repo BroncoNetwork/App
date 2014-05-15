@@ -3,25 +3,30 @@ package cs356.bronconetwork.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TabHost.TabSpec;
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.R;
+import cs356.bronconetwork.ViewPagerParallax;
 
 @SuppressLint("ValidFragment")
 public class InboxFragment extends Fragment implements NetworkFragment {
 	
 	private MainEntry mainEntry;
 	private TabHost tabHost;
-	private ViewPager inboxPager;
+	private ViewPagerParallax inboxPager;
 	private InboxAdapter adapter;
 	private String name = "Inbox";
 	private int icon = R.drawable.icon_inbox;
@@ -51,8 +56,10 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		tabHost = (TabHost) getView().findViewById(R.id.inboxTabHost);
-		inboxPager = (ViewPager) getView().findViewById(R.id.inboxViewPager);
+		inboxPager = (ViewPagerParallax) getView().findViewById(R.id.inboxViewPager);
 		adapter = new InboxAdapter(mainEntry);
+		inboxPager.setBackgroundAsset(R.drawable.login_logo2);
+		inboxPager.set_max_pages(adapter.getCount());
 		inboxPager.setAdapter(adapter);
 		tabHost.setup();
 		
@@ -75,10 +82,12 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
+				
 			}
 
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			public void onPageScrolled(int pos, float percent, int offset) {
+				
 			}
 
 			@Override
