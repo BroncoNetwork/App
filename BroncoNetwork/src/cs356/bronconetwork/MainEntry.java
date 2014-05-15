@@ -17,6 +17,7 @@ import cs356.bronconetwork.fragments.CoursesFragment;
 import cs356.bronconetwork.fragments.InboxFragment;
 import cs356.bronconetwork.fragments.NetworkFragment;
 import cs356.bronconetwork.fragments.NewsfeedFragment;
+import cs356.bronconetwork.fragments.ProfileFragment;
 import cs356.bronconetwork.fragments.TestFragment;
 
 
@@ -37,7 +38,7 @@ public class MainEntry extends FragmentActivity {
 	
 	private NetworkFragment[] frags = {
 		new NewsfeedFragment(), 
-		new TestFragment(), // profile placeholder
+		new ProfileFragment(this), // profile placeholder
 		new TestFragment(), // groups placeholder
 		new CoursesFragment(this),
 		new InboxFragment(this)
