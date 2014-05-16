@@ -5,11 +5,17 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -156,13 +162,25 @@ public class MainActivity extends ActionBarActivity {
 		         try{
 		            String username = (String)arg0[0];
 		            String password = (String)arg0[1];
-		            String link = "http://bronconetwork.comuv.com/login.php?username="
-				            +username+"&password="+password;
+		            String link = "http://bronconetwork.comuv.com/login.php";
 		            
 		            HttpClient client = new DefaultHttpClient();
+		            HttpPost send = new HttpPost(link);
+		            
+		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		            nameValuePairs.add(new BasicNameValuePair("username",username));
+		            nameValuePairs.add(new BasicNameValuePair("password",password));
+		            
+		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		            
+		            HttpResponse response = client.execute(send);
+		            
+		            
+		           /* HttpClient client = new DefaultHttpClient();
 		            HttpGet request = new HttpGet();
 		            request.setURI(new URI(link));
-		            HttpResponse response = client.execute(request);
+		            HttpResponse response = client.execute(request);*/
+		            
 		            BufferedReader in = new BufferedReader
 		           (new InputStreamReader(response.getEntity().getContent()));
 
@@ -175,6 +193,7 @@ public class MainActivity extends ActionBarActivity {
 		           
 		           while ((line = in.readLine()) != null) {
 		              sb.append(line);
+		              Log.i("DATABASE INFO", line);
 		              //osw.write(line);
 		              //break;
 		            }
