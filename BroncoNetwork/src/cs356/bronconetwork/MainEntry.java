@@ -32,8 +32,10 @@ public class MainEntry extends FragmentActivity {
 	public static final int INBOX 		= 4;
 	public static final int LOGOUT 		= 5;
 	
-	private static String USERNAME;
 	
+	private String user = "";
+	private String email = "";
+	private String[] courses;
 	private MainEntryLayout slideHolder;
 	private ListView sideBar;
 	private FragmentManager fMger = getSupportFragmentManager();
@@ -61,8 +63,11 @@ public class MainEntry extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainentry);	
 		
-		Intent intent = getIntent();
-		USERNAME = intent.getExtras().getString("USERNAME");
+		//call instance of UserData to use global data of user
+		UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+		user = userInfo.getUserName();
+		email = userInfo.getEmail();
+		courses = userInfo.getCourses();
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
@@ -117,5 +122,23 @@ public class MainEntry extends FragmentActivity {
 	
 	public NetworkFragment getFrag(int i) {
 		return frags[i];
+	}
+	
+	//this function will be used in fragment 
+	public String getUser()
+	{
+		return user;
+	}
+	
+	//this function will be used in fragment
+	public String getEmail()
+	{
+		return email;
+	}
+	
+	//this function will be used in fragment
+	public String[] getCourses()
+	{
+		return courses;
 	}
 }

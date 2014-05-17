@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Major" />
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/course_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +23,6 @@
         android:layout_alignBottom="@+id/course_major"
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/course_major"
-        android:text="CourseNum" />
+        android:text="CourseNum" /> -->
 
 </RelativeLayout>

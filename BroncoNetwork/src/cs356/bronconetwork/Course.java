@@ -2,19 +2,13 @@ package cs356.bronconetwork;
 
 public class Course {
 	
-	private String major;
-	private String courseNum;
+	private String courseName;
 	
-	public Course(String major, String courseNum) {
-		this.major = major;
-		this.courseNum = courseNum;
+	public Course(String courseName) {
+		this.courseName = courseName;
 	}
 	
-	public String getMajor() {
-		return major;
-	}
-	
-	public String getCourseNum() {
-		return courseNum;
+	public String getCourseName() {
+		return courseName;
 	}
 }

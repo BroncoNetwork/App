@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 public class ProfileCourseAdapter extends BaseAdapter{
 	
-	private ArrayList<Course> _data;
+	private ArrayList<String> _data;
  	Context _c;
 	
-	ProfileCourseAdapter(ArrayList<Course> data, Context c) {
+	ProfileCourseAdapter(ArrayList<String> data, Context c) {
 		_data = data;
 		_c = c;
 	}
@@ -51,11 +51,11 @@ public class ProfileCourseAdapter extends BaseAdapter{
 			v = vi.inflate(R.layout.profile_course_box, null);
 		}
 		TextView majorView = (TextView)v.findViewById(R.id.course_major);
-		TextView courseNumView = (TextView)v.findViewById(R.id.course_num);
+		//TextView courseNumView = (TextView)v.findViewById(R.id.course_num);
 
-		Course course = _data.get(position);
-		majorView.setText(course.getMajor());
-		courseNumView.setText(course.getCourseNum());
+		String course = _data.get(position);
+		majorView.setText(course);
+		//courseNumView.setText(course.getCourseNum());
 		
 		return v;
 	}

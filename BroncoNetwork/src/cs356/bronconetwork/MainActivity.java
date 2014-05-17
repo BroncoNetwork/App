@@ -12,7 +12,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,19 +35,21 @@ public class MainActivity extends ActionBarActivity {
 	
 	private static EditText usernameField, pwField;
 	private static int loginTimes = 0;
-	private String username;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
+		
+		
 	}
 	
 	
@@ -70,10 +71,9 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 	//This function will call the MainEntry activity
-	public void startMainEntry(String username)
+	public void startMainEntry()
 	{
 		Intent i = new Intent(this, MainEntry.class);
-		i.putExtra("USERNAME", username);
 		startActivity(i);
 		finish();
 	}
@@ -149,7 +149,6 @@ public class MainActivity extends ActionBarActivity {
 	
 	public class loginActivity extends AsyncTask<String,Void,String> {
 		
-		private String username;
 			
 		   protected void onPreExecute() {
 
@@ -175,32 +174,39 @@ public class MainActivity extends ActionBarActivity {
 		            
 		            HttpResponse response = client.execute(send);
 		            
-		            
-		           /* HttpClient client = new DefaultHttpClient();
-		            HttpGet request = new HttpGet();
-		            request.setURI(new URI(link));
-		            HttpResponse response = client.execute(request);*/
-		            
 		            BufferedReader in = new BufferedReader
-		           (new InputStreamReader(response.getEntity().getContent()));
+		            (new InputStreamReader(response.getEntity().getContent()));
 
-		           StringBuffer sb = new StringBuffer("");
-		           String line="";
+		            StringBuffer sb = new StringBuffer("");
+		            String line="";
 		           
-		        /* FileOutputStream fOut = openFileOutput("outputtesting.txt",
+		            /*FileOutputStream fOut = openFileOutput("outputtesting.txt",
 	            		MODE_WORLD_READABLE);
-	            OutputStreamWriter osw = new OutputStreamWriter(fOut); 	*/
+		            OutputStreamWriter osw = new OutputStreamWriter(fOut);*/ 	
 		           
-		           while ((line = in.readLine()) != null) {
+	            	UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+	            	String[] tempData = new String[10];  
+	            	int i = 0;
+	            	while ((line = in.readLine()) != null) {
 		              sb.append(line);
-		              Log.i("DATABASE INFO", line);
+		              //Log.i("DATABASE INFO", line);
 		              //osw.write(line);
+		              if(i < 10)
+		              {
+		            	  tempData[i++] = line.toString();
+		              }
 		              //break;
 		            }
-		           //osw.close();
+	            	//osw.close();
 		            in.close();
 		            
-		            this.username = username;
+		            //create data for new user
+		            userInfo.setUserName(tempData[1]);
+		            userInfo.setEmail(tempData[2]);
+		            for(int j = 3;j < 10;j++ )
+		            {
+		            	userInfo.setCourse(tempData[j], j - 3);
+		            }
 		            
 		            return sb.toString();
 		      } catch(Exception e){
@@ -212,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
 		   @Override
 		   protected void onPostExecute(String result){
 			   result = result.trim();
-			   if(result.length() < 1 || result.charAt(0) == '<')
+			   if(result.charAt(0)== '<')
 			   {
 				   if(loginTimes == 2)
 				   {
@@ -230,7 +236,7 @@ public class MainActivity extends ActionBarActivity {
 			   {
 				   loginTimes = 0;
 				   message("Login Successfully");
-				   startMainEntry(username); //jump to MainEntry activity if username and password are correct.
+				   startMainEntry(); //jump to MainEntry activity if username and password are correct.
 			   }
 		   }
 		   
