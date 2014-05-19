@@ -17,9 +17,12 @@ public class Post {
 					  time = 4;
 	Time timestamp;
 	int icon;
+	int size;
 	String content[];
+	ArrayList<Comment> comments;
 
 	public Post() {
+		size = 0;
 		icon = 0;
 		content = new String[5];
 		content[id] = "";
@@ -28,6 +31,7 @@ public class Post {
 		content[message] = "";
 		content[time] = "";
 		timestamp = new Time();
+		comments = new ArrayList<Comment>();
 	}
 	
 	public String getId() {
@@ -86,5 +90,24 @@ public class Post {
 	
 	public void setIcon(int icon) {
 		this.icon = icon;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+	public void addComment(String id, String author, String target, String message, Time time) {
+		Comment comment = new Comment();
+		comment.setId(id);
+		comment.setAuthor(author);
+		comment.setTarget(target);
+		comment.setMessage(message);
+		comment.setTime(time);
+		++size;
+		comments.add(comment);
 	}
 }

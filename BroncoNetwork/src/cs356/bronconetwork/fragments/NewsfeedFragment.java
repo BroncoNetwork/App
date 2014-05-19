@@ -73,7 +73,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		post.setMessage("Hey guys this is a test to see if the post works.");
 		postArray.add(post);
 
-		mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity()));
+		mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1));
 		return fragView;
 	}
 

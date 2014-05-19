@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E4F2E4"
+    tools:context=".Courses" >
+
+	<LinearLayout
+	    android:id="@+id/spinner_container"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+	    <Spinner
+	        android:id="@+id/major_"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_weight="1"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:textAlignment="center"	        
+    		android:textSize="20dip" />
+	
+	    <Spinner
+	        android:id="@+id/class_num"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@+id/major_"
+	        android:layout_weight="1"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:textAlignment="center"	        
+    		android:textSize="20dip" />
+	    
+	    <Button
+	        android:id="@+id/go_course"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1.25"
+	        android:background="#ecb326"
+	        android:text="go"
+	        android:textColor="#FFFFFFFF" />
+	
+	</LinearLayout>
+	
+    <ListView
+        android:id="@+id/curr_course_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_container"
+        android:layout_marginTop="10dp" >
+    </ListView>
+</RelativeLayout>
