@@ -51,6 +51,7 @@ public class Register extends Activity {
 			// create user
 			new registerActivity().execute(username,pw1,email);
 		}
+		
 	}
 	
 	public void startMainEntry()
@@ -119,6 +120,9 @@ public class Register extends Activity {
 			   }
 			   else
 			   {
+				   UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+				   userInfo.setUserName(usernameField.getText().toString());
+				   userInfo.setEmail(emailField.getText().toString());
 				   message("Register Successfully");
 				   startMainEntry(); //jump to MainEntry activity
 			   }

@@ -115,6 +115,12 @@ public class MainEntry extends FragmentActivity {
 	
 	public void logout() {
 		getActionBar().hide();
+		//clear courses of current user when logging out
+		UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+		for(int i = 0;i < 7;i++)
+		{
+			userInfo.setCourse("", i);
+		}
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
 		finish();
