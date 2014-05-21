@@ -659,7 +659,7 @@ public class MainEntryLayout extends FrameLayout {
 	
 	private void finishSlide() {
 		if(mDirection*mEndOffset > 0) {
-			if(mDirection*mOffset > mDirection*mEndOffset/2) {
+			if(mDirection*mOffset > mDirection*mEndOffset/10) {
 				if(mDirection*mOffset > mDirection*mEndOffset) mOffset = mEndOffset;
 				
 				Animation anim = new SlideAnimation(mOffset, mEndOffset);
@@ -673,7 +673,7 @@ public class MainEntryLayout extends FrameLayout {
 				startAnimation(anim);
 			}
 		} else {
-			if(mDirection*mOffset < mDirection*mStartOffset/2) {
+			if(mDirection*mOffset < mDirection*mStartOffset/1.2) {
 				if(mDirection*mOffset < mDirection*mEndOffset) mOffset = mEndOffset;
 				
 				Animation anim = new SlideAnimation(mOffset, mEndOffset);
