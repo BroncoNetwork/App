@@ -37,10 +37,11 @@ public class MainEntry extends FragmentActivity {
 	private String user = "";
 	private String email = "";
 	private String[] courses;
+	private String currentC = "";
 	
 	public MainEntryLayout slideHolder;
 	private ListView sideBar;
-	public FragmentManager fMger = getSupportFragmentManager();
+	FragmentManager fMger = getSupportFragmentManager();
 	
 	public NetworkFragment[] frags = {
 		new NewsfeedFragment(), 
@@ -64,12 +65,13 @@ public class MainEntry extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainentry);	
-		
+		//FragmentManager fMger = getSupportFragmentManager();
 		//call instance of UserData to use global data of user
 		UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
 		user = userInfo.getUserName();
 		email = userInfo.getEmail();
 		courses = userInfo.getCourses();
+		//currentC = userInfo.getCurrentCourse();
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
@@ -79,7 +81,7 @@ public class MainEntry extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				FragmentTransaction fTrans = fMger.beginTransaction();
-				fTrans = getSupportFragmentManager().beginTransaction();
+				//fTrans = getSupportFragmentManager().beginTransaction();
 				
 				// if logout then logout
 				if(position == 5) logout();
@@ -118,8 +120,10 @@ public class MainEntry extends FragmentActivity {
 	}
 	
 	//This function will switch current fragment to CoursePageFragment
-	public void gotoCoursePage()
+	public void gotoCoursePage(String currentCourse)
 	{
+		//currentC = "CS356";
+		setCurrentCourse(currentCourse);
 		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
 		FragmentTransaction fTrans = fMger.beginTransaction();
 		fTrans.hide((Fragment) frags[COURSES]);
@@ -127,6 +131,9 @@ public class MainEntry extends FragmentActivity {
 		getActionBar().setTitle(frags[COURSESPAGE].getName());
 		getActionBar().setIcon(frags[COURSESPAGE].getDrawableId());
 		getActionBar().setBackgroundDrawable(actionBarColor);
+		
+		//NetworkFragment testing = (NetworkFragment) getFragmentManager().findFragmentBytag(CoursePageFragment);
+		//testing.
 		
 		fTrans.show((Fragment) frags[COURSESPAGE]);
 		fTrans.commit();
@@ -167,5 +174,17 @@ public class MainEntry extends FragmentActivity {
 	public String[] getCourses()
 	{
 		return courses;
+	}
+	
+	public String getCurrentCourse()
+	{
+		UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+		return userInfo.getCurrentCourse();
+	}
+	
+	public void setCurrentCourse(String course)
+	{
+		UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
+		userInfo.setCurrent(course);
 	}
 }

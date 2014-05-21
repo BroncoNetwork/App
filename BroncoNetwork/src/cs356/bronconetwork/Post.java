@@ -1,6 +1,8 @@
 package cs356.bronconetwork;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -82,6 +84,13 @@ public class Post {
 	public void setTime(long time) {
 		timestamp.set(time);
 		content[this.time] = (String) DateUtils.getRelativeTimeSpanString(time,System.currentTimeMillis(),0);
+	}
+	
+	//add time
+	public void setTime()
+	{
+		String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		content[this.time] = timeStamp;
 	}
 
 	public int getIcon() {

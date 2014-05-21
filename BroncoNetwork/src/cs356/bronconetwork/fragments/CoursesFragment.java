@@ -179,19 +179,76 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	  
 	@Override 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_course_list, container, false);
+		//return inflater.inflate(R.layout.fragment_course_list, container, false);
+		final View fragView = inflater.inflate(R.layout.fragment_course_list, container, false);
+		go_to_course_button = (Button)fragView.findViewById(R.id.go_course);
+		go_to_course_button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if(selected_major.length() > 0 && selected_course.length() > 0) {
+					Toast.makeText(c.getApplicationContext(),"Go to "+selected_major+selected_course,Toast.LENGTH_LONG).show();
+					go_to_course(selected_major+selected_course);
+				}
+			}
+		});
+		
+		major_list = (Spinner) fragView.findViewById(R.id.major_);
+		
+		ArrayAdapter<String> major_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, major);
+		major_list.setAdapter(major_adapter);
+		major_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			boolean first_open_major = true;
+	        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				if(first_open_major)
+					first_open_major = false;
+				else {
+		        	int position = major_list.getSelectedItemPosition();
+					selected_major = major[position];
+		            Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major,Toast.LENGTH_LONG).show();
+		            
+		            course_list = (Spinner) fragView.findViewById(R.id.class_num);
+		            
+		    		switch(selected_major) {
+		    		case "CS":
+		    			ArrayAdapter<String> class_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, cs_courses);
+		    			course_list.setAdapter(class_adapter);
+		    			course_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		    	            boolean first_open_course = true;
+		    		        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		    		        	if(first_open_course)
+		    		        		first_open_course = false;
+		    		        	else {
+			    					int position = course_list.getSelectedItemPosition();
+			    		            selected_course = cs_courses[position];
+			    					Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major+selected_course,Toast.LENGTH_LONG).show();
+		    					}
+		    				}
+		    		        @Override
+		    		        public void onNothingSelected(AdapterView<?> arg0) {
+		    		               
+		    		        }
+		    			});
+		    		}
+				}
+	        }
+	        @Override
+	        public void onNothingSelected(AdapterView<?> arg0) {
+	               
+	        }
+		});
+		
+		return fragView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		go_to_course_button = (Button) getView().findViewById(R.id.go_course);
+		/*go_to_course_button = (Button) getView().findViewById(R.id.go_course);
 		go_to_course_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if(selected_major.length() > 0 && selected_course.length() > 0) {
 					Toast.makeText(c.getApplicationContext(),"Go to "+selected_major+selected_course,Toast.LENGTH_LONG).show();
-					go_to_course();
+					go_to_course(selected_major+selected_course);
 				}
 			}
 		});
@@ -240,7 +297,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	               
 	        }
 		});
-	}
+*/	}
 	
 	public String getName() {
 		return name;
@@ -252,7 +309,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	
 	//This function will call the function inside MainEntry activity to jump to 
 	//CoursePageFragment
-	public void go_to_course() {
-		((MainEntry)getActivity()).gotoCoursePage();
+	public void go_to_course(String chosenCourse) {
+		((MainEntry)getActivity()).gotoCoursePage(chosenCourse);
 	}
 }

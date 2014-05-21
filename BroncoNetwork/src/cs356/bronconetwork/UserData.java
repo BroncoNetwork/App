@@ -9,6 +9,7 @@ public class UserData extends Application{
 	private String userName = "";
 	private String email = "";
 	private String[] courses = new String[7]; 
+	private String currentCourse = "";
 	
 	public UserData(){}
 	
@@ -40,5 +41,15 @@ public class UserData extends Application{
 	public String[] getCourses()
 	{
 		return courses;
+	}
+	
+	public String getCurrentCourse()
+	{
+		return currentCourse;
+	}
+	
+	public void setCurrent(String course)
+	{
+		currentCourse = course;
 	}
 }
