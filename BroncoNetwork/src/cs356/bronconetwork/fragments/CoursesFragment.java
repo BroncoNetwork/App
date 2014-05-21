@@ -197,6 +197,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		});
 		
 		major_list = (Spinner) getView().findViewById(R.id.major_);
+		
 		ArrayAdapter<String> major_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, major);
 		major_list.setAdapter(major_adapter);
 		major_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -249,12 +250,9 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		return icon;
 	}
 	
+	//This function will call the function inside MainEntry activity to jump to 
+	//CoursePageFragment
 	public void go_to_course() {
-		FragmentTransaction fTrans = getActivity().getSupportFragmentManager().beginTransaction();
-		CoursePageFragment cpf = new CoursePageFragment(getActivity());
-		fTrans.hide(this);
-		fTrans.add(R.id.mainEntryContent,cpf);
-		fTrans.show(cpf);
-		fTrans.commit();
+		((MainEntry)getActivity()).gotoCoursePage();
 	}
 }

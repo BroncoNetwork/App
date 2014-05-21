@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import cs356.bronconetwork.fragments.CoursePageFragment;
 import cs356.bronconetwork.fragments.CoursesFragment;
 import cs356.bronconetwork.fragments.InboxFragment;
 import cs356.bronconetwork.fragments.NetworkFragment;
@@ -30,23 +31,24 @@ public class MainEntry extends FragmentActivity {
 	public static final int GROUPS 		= 2;
 	public static final int COURSES 	= 3;
 	public static final int INBOX 		= 4;
-	public static final int LOGOUT 		= 5;
-	
+	public static final int COURSESPAGE = 5;
+	public static final int LOGOUT 		= 6;
 	
 	private String user = "";
 	private String email = "";
 	private String[] courses;
-	private MainEntryLayout slideHolder;
-	private ListView sideBar;
-	private FragmentManager fMger = getSupportFragmentManager();
-	private FragmentTransaction fTrans = fMger.beginTransaction();
 	
-	private NetworkFragment[] frags = {
+	public MainEntryLayout slideHolder;
+	private ListView sideBar;
+	public FragmentManager fMger = getSupportFragmentManager();
+	
+	public NetworkFragment[] frags = {
 		new NewsfeedFragment(), 
 		new ProfileFragment(this), // profile placeholder
 		new TestFragment(), // groups placeholder
 		new CoursesFragment(this),
-		new InboxFragment(this)
+		new InboxFragment(this),
+		new CoursePageFragment(this)
 	};
 
 	
@@ -72,13 +74,15 @@ public class MainEntry extends FragmentActivity {
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
 		sideBar.setAdapter(new SideBarAdapter(this));
+		
 		sideBar.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				FragmentTransaction fTrans = fMger.beginTransaction();
 				fTrans = getSupportFragmentManager().beginTransaction();
 				
 				// if logout then logout
-				if(position == LOGOUT) logout();
+				if(position == 5) logout();
 				else {
 					getActionBar().show();
 					getActionBar().setTitle(frags[position].getName());
@@ -96,9 +100,9 @@ public class MainEntry extends FragmentActivity {
 		});
 		
 		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
-		
+		FragmentTransaction fTrans = fMger.beginTransaction();
 		// add the bronconetwork fragments and initially hide them
-		for(int i=frags.length-1 ; i > -1; i--) {
+		for(int i=frags.length-1 ; i >= 0; i--) {
 			fTrans.add(R.id.mainEntryContent, (Fragment) frags[i]);
 			fTrans.hide((Fragment) frags[i]);
 		}
@@ -112,6 +116,23 @@ public class MainEntry extends FragmentActivity {
 		fTrans.commit();
 		
 	}
+	
+	//This function will switch current fragment to CoursePageFragment
+	public void gotoCoursePage()
+	{
+		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
+		FragmentTransaction fTrans = fMger.beginTransaction();
+		fTrans.hide((Fragment) frags[COURSES]);
+		getActionBar().show();
+		getActionBar().setTitle(frags[COURSESPAGE].getName());
+		getActionBar().setIcon(frags[COURSESPAGE].getDrawableId());
+		getActionBar().setBackgroundDrawable(actionBarColor);
+		
+		fTrans.show((Fragment) frags[COURSESPAGE]);
+		fTrans.commit();
+	}
+	
+	
 	
 	public void logout() {
 		getActionBar().hide();
