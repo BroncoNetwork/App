@@ -4,7 +4,7 @@
     android:id="@+id/course_box"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_style"
+    android:background="#FFFFFFFF"
     android:orientation="vertical"
     android:padding="15dp"
     tools:context=".ProfileCourseAdapter" >

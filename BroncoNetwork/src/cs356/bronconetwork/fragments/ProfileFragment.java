@@ -56,12 +56,17 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View fragView = inflater.inflate(R.layout.profile, container, false);
-		firstName = (TextView)fragView.findViewById(R.id.first_Name);
+		//firstName = (TextView)fragView.findViewById(R.id.first_Name);
 		//lastName = (TextView)fragView.findViewById(R.id.last_Name);
-		major = (TextView)fragView.findViewById(R.id.major_);
-		email = (TextView)fragView.findViewById(R.id.email_);
+		//major = (TextView)fragView.findViewById(R.id.major_);
+		//email = (TextView)fragView.findViewById(R.id.email_);
 		courseList = (ListView)fragView.findViewById(R.id.course_list);
 		courseArray = new ArrayList<String>();
+		
+		courseArray.add(new String());
+
+		courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
+		courseList.invalidateViews();
 		
 		setData();
 		//new GetUserData
@@ -79,14 +84,11 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 		
 	}
 	
-	//get data from databases
+	//get course data from databases
 	public void setData() {
 		
-		firstName.setText(((MainEntry)getActivity()).getUser());
-		//lastName.setText("Nham");
-		major.setText("Computer Science");
-		email.setText(((MainEntry)getActivity()).getEmail());
-	
+		//user info is retrieved in ProfileCourseAdapter
+		
 		for(int i = 0;i < ((MainEntry)getActivity()).getCourses().length;i++)
 		{
 			if(!((MainEntry)getActivity()).getCourses()[i].equals(""))
@@ -95,8 +97,6 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 			}
 		}
 		
-		courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
-		courseList.invalidateViews();
 	}
 	
 	public String getName() {

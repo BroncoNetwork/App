@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/post_box"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ecb326"
+    android:orientation="horizontal"
+    android:padding="20dp" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Basic Info"
+        android:textColor="#FFFFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/first_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:text="FirstName"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFFFF"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/textMajor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textEmail"
+        android:text="Major: "
+        android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/first_Name"
+        android:text="Email: "
+        android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/major_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textMajor"
+        android:layout_toRightOf="@+id/textMajor"
+        android:text="MyMajor"
+        android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/email_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textEmail"
+        android:layout_toRightOf="@+id/textEmail"
+        android:text="email@email.com"
+        android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/privateMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView1"
+        android:background="#FFFFFFFF"
+        android:clickable="true"
+        android:onClick="inbox"
+        android:padding="3dp"
+        android:text="Private Message"
+        android:textColor="#ecb326"
+        android:textStyle="bold" />
+
+</RelativeLayout>

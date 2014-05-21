@@ -3,6 +3,7 @@ package cs356.bronconetwork.fragments;
 import java.util.ArrayList;
 
 import cs356.bronconetwork.Course;
+import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.R;
 import cs356.bronconetwork.R.id;
 import cs356.bronconetwork.R.layout;
@@ -46,17 +47,26 @@ public class ProfileCourseAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		View v = convertView;
-		if(v == null) {
+		if(v == null && position == 0) {
+			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.profile_basic_info_box, null);
+			String course = _data.get(position);
+
+			TextView firstName = (TextView)v.findViewById(R.id.first_Name);
+			//lastName = (TextView)v.findViewById(R.id.last_Name);
+			TextView major = (TextView)v.findViewById(R.id.major_);
+			TextView email = (TextView)v.findViewById(R.id.email_);
+			
+			firstName.setText(((MainEntry)_c).getUser());
+			//lastName.setText("Nham");
+			major.setText("Computer Science");
+			email.setText(((MainEntry)_c).getEmail());
+		}
+		else if(v == null && position > 0) {
 			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.profile_course_box, null);
+			String course = _data.get(position-1);
 		}
-		TextView majorView = (TextView)v.findViewById(R.id.course_major);
-		//TextView courseNumView = (TextView)v.findViewById(R.id.course_num);
-
-		String course = _data.get(position);
-		majorView.setText(course);
-		//courseNumView.setText(course.getCourseNum());
-		
 		return v;
 	}
 
