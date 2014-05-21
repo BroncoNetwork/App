@@ -9,10 +9,11 @@ if (mysqli_connect_errno($con))
 {
    echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
-$username = $_POST['username'];
-$password = $_POST['password'];
-$email = $_POST['email'];
-mysqli_query($con,"INSERT INTO Posts (author,msg,timestamp, target) VALUES ('$author', '$msg', '$timestamp', '$target')");
+$author = $_POST['author'];
+$target = $_POST['target'];
+$msg = $_POST['msg'];
+$time = $_POST['timestamp'];
+mysqli_query($con,"INSERT INTO Post (author,target,message,time) VALUES ('$author', '$target', '$msg', '$time')");
 
 if (mysqli_error($con))
   { die(mysqli_error($con)); } 
