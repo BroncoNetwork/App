@@ -10,7 +10,7 @@
     tools:context=".ProfileCourseAdapter" >
 
     <TextView
-        android:id="@+id/course_major"
+        android:id="@+id/profile_course_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Major" />
