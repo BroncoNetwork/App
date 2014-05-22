@@ -43,6 +43,10 @@ public class UserData extends Application{
 		return courses;
 	}
 	
+	public String getCourse(int index) {
+		return courses[index];
+	}
+	
 	public String getCurrentCourse()
 	{
 		return currentCourse;

@@ -65,18 +65,4 @@
         android:text="email@email.com"
         android:textColor="#FFFFFFFF" />
 
-    <TextView
-        android:id="@+id/privateMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/textView1"
-        android:background="#FFFFFFFF"
-        android:clickable="true"
-        android:onClick="inbox"
-        android:padding="3dp"
-        android:text="Private Message"
-        android:textColor="#ecb326"
-        android:textStyle="bold" />
-
 </RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/course_box"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".CourseListAdapter" >
+
+    <TextView
+        android:id="@+id/course_number_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Major" />
+
+    <!-- <TextView
+        android:id="@+id/course_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/course_major"
+        android:layout_alignBottom="@+id/course_major"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/course_major"
+        android:text="CourseNum" /> -->
+
+</RelativeLayout>

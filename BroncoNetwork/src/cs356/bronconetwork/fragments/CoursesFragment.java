@@ -1,5 +1,7 @@
 package cs356.bronconetwork.fragments;
 
+import java.util.ArrayList;
+
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.R;
 import cs356.bronconetwork.R.id;
@@ -15,9 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class CoursesFragment extends Fragment implements NetworkFragment {
@@ -26,7 +32,9 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	private int icon = R.drawable.icon_courses;
 	private Spinner major_list;
 	private Spinner course_list;
+	private ListView my_courses;
 	private Button go_to_course_button;
+	private ArrayList<String> course_array;
 	private Context c;
 	private String[] major = {
       "ABM",
@@ -235,6 +243,30 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	               
 	        }
 		});
+		
+		course_array = new ArrayList<String>();
+		
+		for(int i = 0;i < ((MainEntry)getActivity()).getCourses().length;i++)
+		{
+			if(!((MainEntry)getActivity()).getCourses()[i].equals(""))
+			{
+				course_array.add(((MainEntry)getActivity()).getCourses()[i]);
+			}
+		}
+		
+		my_courses = (ListView) fragView.findViewById(R.id.curr_course_list);
+		
+		my_courses.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				go_to_course((String) ((TextView) (view.findViewById(R.id.course_number_list))).getText());
+			}
+
+	    });
+		
+		my_courses.setAdapter(new CourseListAdapter(course_array, getActivity()));
+		my_courses.invalidateViews();
 		
 		return fragView;
 	}
