@@ -65,7 +65,9 @@ public class ProfileCourseAdapter extends BaseAdapter{
 		else if(v == null && position > 0) {
 			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.profile_course_box, null);
-			String course = _data.get(position-1);
+			
+			TextView courseNumber = (TextView)v.findViewById(R.id.profile_course_number);
+			courseNumber.setText(_data.get(position));
 		}
 		return v;
 	}

@@ -126,7 +126,9 @@ public class MainEntry extends FragmentActivity {
 		setCurrentCourse(currentCourse);
 		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
 		FragmentTransaction fTrans = fMger.beginTransaction();
-		fTrans.hide((Fragment) frags[COURSES]);
+		for(int i=frags.length-1 ; i >= 0; i--) {
+			fTrans.hide((Fragment) frags[i]);
+		}
 		getActionBar().show();
 		getActionBar().setTitle(frags[COURSESPAGE].getName());
 		getActionBar().setIcon(frags[COURSESPAGE].getDrawableId());

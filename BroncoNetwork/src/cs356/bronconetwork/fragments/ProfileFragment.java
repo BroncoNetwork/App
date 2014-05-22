@@ -24,9 +24,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import cs356.bronconetwork.Course;
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.R;
@@ -65,6 +67,16 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 		
 		courseArray.add(new String());
 
+		courseList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				if(position > 0)
+					go_to_course((String) ((TextView) (view.findViewById(R.id.profile_course_number))).getText());
+			}
+
+	    });
+		
 		courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
 		courseList.invalidateViews();
 		
@@ -107,4 +119,9 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 		return icon;
 	}
 
+	//This function will call the function inside MainEntry activity to jump to 
+	//CoursePageFragment
+	public void go_to_course(String chosenCourse) {
+		((MainEntry)getActivity()).gotoCoursePage(chosenCourse);
+	}
 }
