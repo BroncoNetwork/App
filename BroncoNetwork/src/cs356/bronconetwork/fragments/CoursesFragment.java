@@ -245,12 +245,12 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		});
 		
 		course_array = new ArrayList<String>();
-		
-		for(int i = 0;i < ((MainEntry)getActivity()).getCourses().length;i++)
+		String[] courses = ((MainEntry) getActivity()).getCourses();
+		for(int i=0; i < courses.length; i++)
 		{
-			if(!((MainEntry)getActivity()).getCourses()[i].equals(""))
+			if(!courses[i].equals(""))
 			{
-				course_array.add(((MainEntry)getActivity()).getCourses()[i]);
+				course_array.add(courses[i]);
 			}
 		}
 		

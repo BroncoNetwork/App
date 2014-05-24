@@ -30,7 +30,7 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 	
 	private MainEntry mainEntry;
 	private Fragment[] frags = {
-		new InboxList(INBOX), new InboxList(SENT)
+		new InboxList(INBOX), new InboxList(SENT), new ComposeFragment()
 	};
 	
     public InboxAdapter(MainEntry mainEntry) {
@@ -107,12 +107,6 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 					Mail mail = items.get(position);
 					final AlertDialog dialog = builder.setTitle(mail.getTitle())
 						   .setMessage(mail.getMsg())
-						   .setNegativeButton("Reply", new OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.dismiss();
-								}					
-						   })
 						   .setPositiveButton("Ok", new OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
@@ -124,10 +118,6 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 				}    			
     		});
     	}	
-    	
-    	public void changeImageOffset(int offset) {
-    		
-    	}
 
     }
 

@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/pw2"
         android:layout_below="@+id/pw2"
-        android:text="email(optional)"
+        android:text="*email"
         android:textColor="#9e9e9e" />
 
     <EditText

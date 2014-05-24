@@ -77,7 +77,7 @@ public class Register extends Activity {
 		   @Override
 		   protected String doInBackground(String... arg0) {
 		      
-		         try{
+		         try {
 		            String username = (String)arg0[0];
 		            String password = (String)arg0[1];
 		            String email = (String)arg0[2];

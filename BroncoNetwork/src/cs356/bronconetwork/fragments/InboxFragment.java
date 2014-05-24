@@ -1,18 +1,15 @@
 package cs356.bronconetwork.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
@@ -58,20 +55,24 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 		tabHost = (TabHost) getView().findViewById(R.id.inboxTabHost);
 		inboxPager = (ViewPagerParallax) getView().findViewById(R.id.inboxViewPager);
 		adapter = new InboxAdapter(mainEntry);
-		inboxPager.setBackgroundAsset(R.drawable.login_logo2);
+		inboxPager.setBackgroundAsset(R.drawable.transparent);
 		inboxPager.set_max_pages(adapter.getCount());
 		inboxPager.setAdapter(adapter);
 		tabHost.setup();
 		
 		TabSpec inbox = tabHost.newTabSpec("Inbox");
 		TabSpec sent = tabHost.newTabSpec("Sent");
+		TabSpec compose = tabHost.newTabSpec("Compose");
 		inbox.setContent(new TabContent());
 		inbox.setIndicator("Inbox");
 		sent.setContent(new TabContent());
 		sent.setIndicator("Sent");
+		compose.setContent(new TabContent());
+		compose.setIndicator("Compose");
 		
 		tabHost.addTab(inbox);
 		tabHost.addTab(sent);
+		tabHost.addTab(compose);
 		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {

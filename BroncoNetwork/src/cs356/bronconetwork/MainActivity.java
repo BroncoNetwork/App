@@ -235,7 +235,6 @@ public class MainActivity extends ActionBarActivity {
 			   else 
 			   {
 				   loginTimes = 0;
-				   message("Login Successfully");
 				   startMainEntry(); //jump to MainEntry activity if username and password are correct.
 			   }
 		   }

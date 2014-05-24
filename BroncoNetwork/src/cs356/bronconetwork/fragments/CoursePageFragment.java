@@ -204,7 +204,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		   
 		   @Override
 		   protected void onPostExecute(String result){
-			      message("NOTICE " + result );
+			      
 		   }
 		   
 		}
