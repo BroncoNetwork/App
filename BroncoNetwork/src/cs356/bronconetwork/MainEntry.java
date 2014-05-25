@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import cs356.bronconetwork.fragments.CoursePageFragment;
 import cs356.bronconetwork.fragments.CoursesFragment;
+import cs356.bronconetwork.fragments.GroupsFragment;
 import cs356.bronconetwork.fragments.InboxFragment;
 import cs356.bronconetwork.fragments.NetworkFragment;
 import cs356.bronconetwork.fragments.NewsfeedFragment;
@@ -128,8 +129,16 @@ public class MainEntry extends FragmentActivity {
 		switch(item.getItemId()) {
 			case R.id.refresh: 
 				// right now only works for refreshing the inbox
-				((InboxFragment) frags[INBOX]).refresh();
-				Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+				if(((Fragment) frags[NEWSFEED]).isVisible()) {
+					((NewsfeedFragment) frags[NEWSFEED]).refresh();
+					Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+				} else if(((Fragment) frags[INBOX]).isVisible()) {
+					((InboxFragment) frags[INBOX]).refresh();
+					Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+				} else if (((Fragment) frags[COURSEPAGE]).isVisible()) {
+					((CoursePageFragment) frags[COURSEPAGE]).getData();
+					Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+				}
 			break;
 		}
 		return super.onOptionsItemSelected(item);

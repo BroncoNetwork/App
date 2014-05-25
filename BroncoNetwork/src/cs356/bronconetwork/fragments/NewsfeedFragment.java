@@ -83,6 +83,10 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		
 	}
 	
+	public void refresh() {
+		
+	}
+	
 	public void post() {
 		System.out.println("POST");
 		Post post = new Post();

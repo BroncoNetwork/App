@@ -96,59 +96,10 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
-
-		//load online database
-		//use functions of MainEntry to get data of current user
-		
-		
-		/*currentTime = new Time(Time.getCurrentTimezone());
-		currentTime.setToNow();
-		
-		mCoursePageList = (ListView)getView().findViewById(R.id.course_page_list);
-		postArray = new ArrayList<Post>();
-		
-		mPost = (Button)getView().findViewById(R.id.post_button);
-		mPost.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(mText.getText().length() >= 5) {
-					post();
-				}
-			}
-		});
-		
-		mComments = (TextView)getView().findViewById(R.id.comments);
-		mText = (EditText)getView().findViewById(R.id.text_bar);
-
-		mCoursePageList.setAdapter(new CustomAdapter(postArray, getActivity(), 0));
-		// Creates the first item (course info)
-		postArray.add(0,new Post());*/
-		
-		//message("stupid");
-		/*String target = ((MainEntry)getActivity()).currentCourse;
-		new retrieveDataActivity().execute(target);*/
-		//getData();
-		//test posts
-		/*Time time = new Time();
-		Post post = new Post();
-		time.set(0,0,0,20,0,2013);
-		post.setAuthor("Brian");
-		post.setTarget("CS356");
-		post.setTime(time);
-		post.setMessage("Hey guys this is a test to see if the post works.");
-		postArray.add(0, post);
-		
-		post = new Post();
-		time.set(7,4,2014);
-		post.setAuthor("Someone");
-		post.setTarget("Class");
-		post.setTime(time);
-		post.setMessage("Hey guys this is a test to see if the post works.");
-		postArray.add(0, post);*/
 	}
 	
 	public void getData()
 	{
-		//String target = ((MainEntry)getActivity()).getCurrentCourse();
 		if(name.equals(""))
 			message("no current course");
 		else
@@ -219,7 +170,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	       			}
 			   }
 			   mAdapter = new CustomAdapter(postArray, getActivity(), 0);
-			   mCoursePageList.setAdapter(new CustomAdapter(postArray, getActivity(), 0));
+			   mCoursePageList.setAdapter(mAdapter);
 		   }
 		   
 		}
@@ -237,18 +188,17 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
 					Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(mText.getWindowToken(), 0);
-		System.out.println("POST");
+		
 		Post post = new Post();
-		post.setAuthor("Brian");
-		post.setTarget("Brian");
-		//post.setTime(System.currentTimeMillis());
-		//String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		// push to UI
+		post.setAuthor(((UserData) getActivity().getApplicationContext()).getUserName());
+		post.setTarget(name);
 		post.setTime();
 		post.setMessage(mText.getText().toString());
 		postArray.add(0, post);
 		mCoursePageList.invalidateViews();
 		
-		//insert into database
+		// push to DB
 		String user = ((MainEntry)getActivity()).getUser();
 		String msg = mText.getText().toString();
 		String timeStamp = post.getTime();
@@ -278,37 +228,20 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		            HttpClient client = new DefaultHttpClient();
 		            HttpPost send = new HttpPost(link);
 		            
-		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-		            nameValuePairs.add(new BasicNameValuePair("target",course));
+		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
 		            nameValuePairs.add(new BasicNameValuePair("author",user));
+		            nameValuePairs.add(new BasicNameValuePair("target",course));
 		            nameValuePairs.add(new BasicNameValuePair("msg",msg));
 		            nameValuePairs.add(new BasicNameValuePair("timestamp",time));
 		            
 		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		            
-		            HttpResponse response = client.execute(send);
-		            
-		            BufferedReader in = new BufferedReader
-		           (new InputStreamReader(response.getEntity().getContent()));
-
-		           StringBuffer sb = new StringBuffer("");
-		           String line="";
-		           
-		           while ((line = in.readLine()) != null) {
-		              sb.append(line);
-		            }
-		            in.close();
-		            return sb.toString();
+		            client.execute(send);
+		            return "";
 		      }catch(Exception e){
 		         return new String("Exception: " + e.getMessage());
 		      }
 		      }
-		    
-		   
-		   @Override
-		   protected void onPostExecute(String result){
-			   
-		   }
 		   
 		}
 	

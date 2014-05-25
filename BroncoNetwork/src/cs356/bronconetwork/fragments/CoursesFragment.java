@@ -195,7 +195,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 			public void onClick(View v) {
 				if(selected_major.length() > 0 && selected_course.length() > 0) {
 					Toast.makeText(mainEntry, "Go to "+selected_major+selected_course, Toast.LENGTH_LONG).show();
-					go_to_course(selected_major+selected_course);
+					go_to_course(selected_major + " " + selected_course);
 				}
 			}
 		});
