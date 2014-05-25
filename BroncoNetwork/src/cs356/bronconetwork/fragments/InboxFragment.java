@@ -28,9 +28,6 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	private String name = "Inbox";
 	private int icon = R.drawable.icon_inbox;
 	
-	public static final int INBOX = 0;
-	public static final int SENT = 1;
-	
 	public InboxFragment(MainEntry mainEntry) {
 		this.mainEntry = mainEntry;
 	}
@@ -38,10 +35,6 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-//		InboxFragment inboxFrag = new InboxFragment();
-//		android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//		transaction.add(R.id.inbox, inboxFrag).commit();
 	}
 
 	@Override
@@ -54,7 +47,7 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 		super.onActivityCreated(savedInstanceState);
 		tabHost = (TabHost) getView().findViewById(R.id.inboxTabHost);
 		inboxPager = (ViewPagerParallax) getView().findViewById(R.id.inboxViewPager);
-		adapter = new InboxAdapter(mainEntry);
+		adapter = new InboxAdapter(this);
 		inboxPager.setBackgroundAsset(R.drawable.transparent);
 		inboxPager.set_max_pages(adapter.getCount());
 		inboxPager.setAdapter(adapter);
@@ -98,6 +91,10 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 			
 		});
 	}
+	
+	public void refresh() {
+		adapter.refresh();
+	}
 
 	@Override
 	public void onPause() {
@@ -111,6 +108,18 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 	
 	public int getDrawableId() {
 		return icon;
+	}
+	
+	public MainEntry getMainEntry() {
+		return mainEntry;
+	}
+	
+	public TabHost getTabHost() {
+		return tabHost;
+	}
+	
+	public ViewPagerParallax getInboxPager() {
+		return inboxPager;
 	}
 	
 	class TabContent implements TabContentFactory {

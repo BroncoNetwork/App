@@ -3,54 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText android:id="@+id/to"
+    <TextView android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/toField"
+        android:layout_alignBottom="@+id/toField"
+        android:layout_toLeftOf="@+id/toField"
+        android:text="To:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
+        android:layout_alignRight="@+id/toField"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/rect_button"
+        android:minHeight="35dp"
+        android:minWidth="100dip"
+        android:text="Send"
+        android:textColor="#fff" />
+
+    <EditText android:id="@+id/toField"
+        android:inputType="text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/msgField"
+        android:layout_below="@+id/send"
+        android:layout_marginTop="16dp"
         android:ems="12" >
 
         <requestFocus />
     </EditText>
 
-    <EditText android:id="@+id/msg"
+    <EditText
+        android:id="@+id/msgField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/to"
+        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="83dp"
         android:ems="12"
         android:inputType="textMultiLine" />
 
-    <TextView android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/to"
-        android:layout_alignBottom="@+id/to"
-        android:layout_toLeftOf="@+id/to"
-        android:text="To:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView android:id="@+id/textView2"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/to"
-        android:layout_marginTop="49dp"
+        android:layout_below="@+id/toField"
+        android:layout_marginTop="24dp"
         android:text="Message:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/msg"
-        android:layout_alignRight="@+id/msg"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/rect_button"
-        android:minWidth="100dip"
-        android:minHeight="35dp"
-        android:text="Send"
-        android:textColor="#fff" />
     
 </RelativeLayout>

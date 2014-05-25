@@ -61,7 +61,6 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		System.out.println("COURSEPAGE");
 		super.onCreate(savedInstanceState);
 	}
 	

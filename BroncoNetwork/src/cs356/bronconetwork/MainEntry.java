@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import cs356.bronconetwork.fragments.CoursePageFragment;
@@ -125,12 +126,19 @@ public class MainEntry extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.inbox_menu, menu);
+		inflater.inflate(R.menu.options, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.refresh: 
+				// right now only works for refreshing the inbox
+				((InboxFragment) frags[INBOX]).refresh();
+				Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+			break;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 

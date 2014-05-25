@@ -2,18 +2,13 @@ package cs356.bronconetwork.fragments;
 
 import java.util.ArrayList;
 
-import cs356.bronconetwork.Course;
-import cs356.bronconetwork.MainEntry;
-import cs356.bronconetwork.R;
-import cs356.bronconetwork.R.id;
-import cs356.bronconetwork.R.layout;
-import cs356.bronconetwork.UserData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import cs356.bronconetwork.R;
 
 
 public class CourseListAdapter extends BaseAdapter{

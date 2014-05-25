@@ -1,41 +1,63 @@
 package cs356.bronconetwork.fragments;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
-import cs356.bronconetwork.Mail;
-import cs356.bronconetwork.MainEntry;
-import cs356.bronconetwork.R;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TabHost;
+import cs356.bronconetwork.Mail;
+import cs356.bronconetwork.R;
+import cs356.bronconetwork.UserData;
 
 
 public class InboxAdapter extends FragmentStatePagerAdapter {
 	
 	public static final int INBOX = 0;
 	public static final int SENT = 1;
+	public static final int COMPOSE = 2;
 	
-	private MainEntry mainEntry;
+	private InboxFragment inboxFrag;
 	private Fragment[] frags = {
-		new InboxList(INBOX), new InboxList(SENT), new ComposeFragment()
+		new InboxList(INBOX), new InboxList(SENT), new ComposeFragment(this)
 	};
 	
-    public InboxAdapter(MainEntry mainEntry) {
-        super(mainEntry.getSupportFragmentManager());
-        this.mainEntry = mainEntry;
+    public InboxAdapter(InboxFragment inboxFrag) {
+        super(inboxFrag.getMainEntry().getSupportFragmentManager());
+        this.inboxFrag = inboxFrag;
+    }
+    
+    public void refresh() {
+    	((InboxList) frags[INBOX]).refresh();
+    	((InboxList) frags[SENT]).refresh();
+    }
+    
+    public InboxFragment getInboxFrag() {
+    	return inboxFrag;
     }
 
     @Override
@@ -60,7 +82,6 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 	public class InboxList extends Fragment {
     	
     	private ListView list;
-    	private ArrayList<Mail> items = new ArrayList<Mail>();
     	private boolean sent;
     	
     	public InboxList(int which) {
@@ -68,8 +89,8 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		else sent = true;
     	}
     	
-    	public InboxList(ArrayList<Mail> items) {
-    		this.items = items;
+    	public InboxList() {
+
     	}
     	
     	@Override
@@ -88,36 +109,105 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		
     		list = (ListView) getView().findViewById(R.id.inboxList);
     		
-    		// in the future will fill this with user specific mail items retrieved from the database
-    		final ArrayList<Mail> items = new ArrayList<Mail>();
-    		if(sent) {
-    			items.add(new Mail("To Thuan", "Hey guys I added mroe stuff to github so get on it!"));
-    			items.add(new Mail("To Joe", "Hey guys I can't make it to the meeting tomorrow some things came up"));
-    		} else {
-    			items.add(new Mail("Hi THere!", "This is a test msg. ii hope this works woopdie do yay uh huh"));
-    			items.add(new Mail("Welcome to Bronco Network", "If this is your first time doing something like this don't worry...."));
-    		}
+    		// get the mail msgs
+    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
+    		new GetMessages().execute(user);
     		
-    		list.setAdapter(new InboxListAdapter(items, getActivity()));
-    		list.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					// open up a new window to display the full message
-					AlertDialog.Builder builder = new AlertDialog.Builder(mainEntry);
-					Mail mail = items.get(position);
-					final AlertDialog dialog = builder.setTitle(mail.getTitle())
-						   .setMessage(mail.getMsg())
-						   .setPositiveButton("Ok", new OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.dismiss();
-								}					
-						   })
-						   .create();
-					dialog.show();
-				}    			
-    		});
-    	}	
+    		Log.i("INFO", "INSIDE, sent: " + sent);
+    	}
+    	
+    	// refresh list
+    	public void refresh() {
+    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
+    		new GetMessages().execute(user);
+    	}
+    	
+        class GetMessages extends AsyncTask<String, Integer, String> {
+     
+        	private String link = "";
+        	public GetMessages() {
+        		if(sent) link = "http://bronconetwork.comuv.com/getSent.php";
+        		else link = "http://bronconetwork.comuv.com/getInbox.php";
+        	}
+        	
+        	public String doInBackground(String... args) {
+    			try {		        
+    		        HttpClient client = new DefaultHttpClient();
+    		        HttpPost send = new HttpPost(link);
+    		        
+    		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+    		        nameValuePairs.add(new BasicNameValuePair("username", args[0]));
+    		        
+    		        send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    		            
+    		        HttpResponse response = client.execute(send);
+    		            
+    		        BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+    	            StringBuffer sb = new StringBuffer("");
+    		        String line="";
+
+    	            while ((line = in.readLine()) != null) {
+    	            	sb.append(line);
+    		        }
+    	            
+    	            // got the response
+    	           String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
+    	            return ans;
+    			} catch(Exception e) {
+    				Log.e("ERROR", e.getMessage());
+    				return "";
+    		    }
+        	}
+        	
+        	public void onPostExecute(String result) {
+        		// parse each message
+        		final ArrayList<Mail> msgs = new ArrayList<Mail>();
+        		StringTokenizer eachMsg = new StringTokenizer(result, "`");
+        		while(eachMsg.hasMoreTokens()) {
+        			StringTokenizer eachEle = new StringTokenizer(eachMsg.nextToken(), "|");
+        			while(eachEle.hasMoreTokens()) {
+        				String from = eachEle.nextToken();
+        				String to = eachEle.nextToken();
+        				String timestamp = eachEle.nextToken();
+        				String msg = eachEle.nextToken();
+        				if(sent) msgs.add(new Mail("To: " + to, from, timestamp, msg));
+        				else msgs.add(new Mail("From: " + from, to, timestamp, msg));
+        			}
+        		}
+        		
+        		// setup the listview
+        		list.setAdapter(new InboxListAdapter(msgs, getActivity()));
+        		list.setOnItemClickListener(new OnItemClickListener() {
+    				@Override
+    				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    					// open up a new window to display the full message
+    					AlertDialog.Builder builder = new AlertDialog.Builder(inboxFrag.getMainEntry());
+    					final Mail mail = msgs.get(position);
+    					final AlertDialog dialog = builder.setTitle(mail.getFrom())
+    						   .setMessage(mail.getMsg())
+    						   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    								@Override
+    								public void onClick(DialogInterface dialog, int which) {
+    									dialog.dismiss();
+    								}
+    						   })
+    						   .setNegativeButton("Reply", new DialogInterface.OnClickListener() {
+    								@Override
+    								public void onClick(DialogInterface dialog, int which) {
+    									dialog.dismiss();
+    									TabHost tabHost = inboxFrag.getTabHost();
+    									tabHost.setCurrentTab(COMPOSE);
+    									inboxFrag.getInboxPager().setCurrentItem(tabHost.getCurrentTab());
+    									((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom());
+    									((ComposeFragment) frags[COMPOSE]).getMsgField().requestFocus();
+    								}			
+    						   })
+    						   .create();
+    					dialog.show();
+    				}		
+        		});
+        	}
+        }
 
     }
 

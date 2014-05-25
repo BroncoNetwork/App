@@ -1157,7 +1157,7 @@ containing a value of this type.
         public static final int major_=0x7f05004c;
         public static final int message=0x7f050040;
         public static final int middle=0x7f050012;
-        public static final int msg=0x7f050043;
+        public static final int msgField=0x7f050045;
         public static final int never=0x7f050009;
         public static final int newsfeed_header=0x7f050069;
         public static final int newsfeed_list=0x7f05006a;
@@ -1191,7 +1191,7 @@ containing a value of this type.
         public static final int search_plate=0x7f050036;
         public static final int search_src_text=0x7f050037;
         public static final int search_voice_btn=0x7f05003b;
-        public static final int send=0x7f050046;
+        public static final int send=0x7f050044;
         public static final int shortcut=0x7f05002e;
         public static final int showCustom=0x7f050007;
         public static final int showHome=0x7f050004;
@@ -1207,14 +1207,14 @@ containing a value of this type.
         public static final int textCourses=0x7f05006d;
         public static final int textEmail=0x7f050070;
         public static final int textMajor=0x7f05006f;
-        public static final int textView1=0x7f050044;
-        public static final int textView2=0x7f050045;
+        public static final int textView1=0x7f050042;
+        public static final int textView2=0x7f050046;
         public static final int textView3=0x7f05005f;
         public static final int textView4=0x7f05004f;
         public static final int text_bar=0x7f050059;
         public static final int time=0x7f050041;
         public static final int title=0x7f05002b;
-        public static final int to=0x7f050042;
+        public static final int toField=0x7f050043;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
@@ -1304,8 +1304,8 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int forgetpass=0x7f0c0000;
-        public static final int inbox_menu=0x7f0c0001;
-        public static final int main=0x7f0c0002;
+        public static final int main=0x7f0c0001;
+        public static final int options=0x7f0c0002;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

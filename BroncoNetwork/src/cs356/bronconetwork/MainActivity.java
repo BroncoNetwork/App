@@ -1,10 +1,7 @@
 package cs356.bronconetwork;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +14,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -149,9 +146,14 @@ public class MainActivity extends ActionBarActivity {
 	
 	public class loginActivity extends AsyncTask<String,Void,String> {
 		
+		private ProgressDialog dialog;
+		
 			
 		   protected void onPreExecute() {
-
+			   dialog = new ProgressDialog(MainActivity.this);
+			   dialog.setTitle("Authenticating");
+			   dialog.setMessage("Please wait...");
+			   dialog.show();
 		   }
 		   
 		   //This function is used to make connection to online database
@@ -216,8 +218,9 @@ public class MainActivity extends ActionBarActivity {
 		    
 		   
 		   @Override
-		   protected void onPostExecute(String result){
+		   protected void onPostExecute(String result) {
 			   result = result.trim();
+			   dialog.dismiss();
 			   if(result.charAt(0)== '<')
 			   {
 				   if(loginTimes == 2)

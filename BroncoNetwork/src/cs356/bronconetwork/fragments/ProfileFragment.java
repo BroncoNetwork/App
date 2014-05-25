@@ -1,38 +1,21 @@
 package cs356.bronconetwork.fragments;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import cs356.bronconetwork.Course;
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.R;
-import cs356.bronconetwork.UserData;
 
 @SuppressLint("ValidFragment")
 public class ProfileFragment extends Fragment implements NetworkFragment{
@@ -51,7 +34,6 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		System.out.println("PROFILE");
 		super.onCreate(savedInstanceState);
 	}
 

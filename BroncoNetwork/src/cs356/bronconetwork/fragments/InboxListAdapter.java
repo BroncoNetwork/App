@@ -49,7 +49,7 @@ public class InboxListAdapter extends BaseAdapter {
 		TextView msg = (TextView) v.findViewById(R.id.preview);
 		
 		Mail mail = items.get(position);
-		title.setText(Html.fromHtml("<b>"+mail.getTitle()+"</b>"));
+		title.setText(Html.fromHtml("<b>"+mail.getFrom()+"</b>"));
 		String preview = mail.getMsg();
 		if(preview.length() > 50) preview = preview.substring(0, 40)+ "...";
 		msg.setText(preview);

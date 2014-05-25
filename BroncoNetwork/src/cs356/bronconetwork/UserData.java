@@ -11,7 +11,7 @@ public class UserData extends Application{
 	private String[] courses = new String[7]; 
 	private String currentCourse = "";
 	
-	public UserData(){}
+	public UserData() {}
 	
 	public void setUserName(String newUserName)
 	{
