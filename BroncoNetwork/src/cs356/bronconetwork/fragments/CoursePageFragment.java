@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -13,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import cs356.bronconetwork.Mail;
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
@@ -26,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,21 +45,20 @@ import android.widget.Toast;
 @SuppressLint("ValidFragment")
 public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
-	private String name = "CoursePage";
+	private String name = ""; // CoursePage initialization and setup are all based on the name
+							  // to load a new CoursePage, just setName(newCourse) and getData();
 	private int icon = R.drawable.icon_courses;
-	private Context c;
 	
 	private TextView mComments;
 	private Button mPost;
 	private EditText mText;
 	private ListView mCoursePageList;
-	private ArrayList<Post> postArray;
+	private ArrayList<Post> postArray = new ArrayList<Post>();
 	private Time currentTime;
-	private CustomAdapter mAdapter = new CustomAdapter(postArray,getActivity(),0);
+	private CustomAdapter mAdapter;
   
-	public CoursePageFragment(Context c) {
-		//getActivity().getActionBar().setTitle(course);
-		this.c = c;
+	public CoursePageFragment(String course) {
+		name = course;
 	}
 	
 	@Override
@@ -72,10 +74,9 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		currentTime = new Time(Time.getCurrentTimezone());
 		currentTime.setToNow();
 		
-		mCoursePageList = (ListView)fragView.findViewById(R.id.course_page_list);
-		postArray = new ArrayList<Post>();
+		mCoursePageList = (ListView) fragView.findViewById(R.id.course_page_list);
 		
-		mPost = (Button)fragView.findViewById(R.id.post_button);
+		mPost = (Button) fragView.findViewById(R.id.post_button);
 		mPost.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if(mText.getText().length() >= 5) {
@@ -84,12 +85,8 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 			}
 		});
 		
-		mComments = (TextView)fragView.findViewById(R.id.comments);
-		mText = (EditText)fragView.findViewById(R.id.text_bar);
-
-		mCoursePageList.setAdapter(new CustomAdapter(postArray, getActivity(), 0));
-		// Creates the first item (course info)
-		postArray.add(0,new Post());
+		mComments = (TextView) fragView.findViewById(R.id.comments);
+		mText = (EditText) fragView.findViewById(R.id.text_bar);
 		
 		getData();
 		return fragView;
@@ -152,33 +149,31 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	public void getData()
 	{
 		//String target = ((MainEntry)getActivity()).getCurrentCourse();
-		String target = "CS356";
-		if(target.equals(""))
+		if(name.equals(""))
 			message("no current course");
 		else
-			new retrieveDataActivity().execute(target);
+			new retrieveDataActivity().execute();
 	}
 	
-	public class retrieveDataActivity  extends AsyncTask<String,Void,String>{
+	public class retrieveDataActivity extends AsyncTask<String, Void, String>{
 
 
-		   protected void onPreExecute(){
-			   
+		   protected void onPreExecute() {
+			   postArray.clear();
 		   }
 		   
 		   //This function is used to make connection to online database
 		   @Override
 		   protected String doInBackground(String... arg0) {
 		      
-		         try{
-		            String course = (String)arg0[0];
+		         try {
 		            String link = "http://bronconetwork.comuv.com/getPost.php";
 		            
 		            HttpClient client = new DefaultHttpClient();
 		            HttpPost send = new HttpPost(link);
 		            
-		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-		            nameValuePairs.add(new BasicNameValuePair("target",course));
+		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		            nameValuePairs.add(new BasicNameValuePair("target", name));
 		            
 		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		            
@@ -193,17 +188,38 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		           while ((line = in.readLine()) != null) {
 		              sb.append(line);
 		            }
-		            in.close();
-		            return sb.toString();
-		      }catch(Exception e){
+		            String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
+		            return ans;
+		      } catch(Exception e) {
 		         return new String("Exception: " + e.getMessage());
 		      }
-		      }
-		    
+		   }		    
 		   
 		   @Override
-		   protected void onPostExecute(String result){
-			      
+		   public void onPostExecute(String result) {
+			   result = result.trim();
+			   // Creates the first item (course info)
+			   postArray.add(0,new Post());
+			   // add the rest of the posts if there are any
+			   if(result.length() > 0) {
+				   result = result.substring(0, result.length()-1);
+	       			StringTokenizer eachPost = new StringTokenizer(result, "`");
+	       			while(eachPost.hasMoreTokens()) {
+	       				String next = eachPost.nextToken();
+	       				Log.i("next", next);
+		       			StringTokenizer eachEle = new StringTokenizer(next, "|");
+		       			while(eachEle.hasMoreTokens()) {
+		       				String author = eachEle.nextToken();
+		       				String target = eachEle.nextToken();
+		       				String msg = eachEle.nextToken();
+		       				String time = eachEle.nextToken();
+		       				Log.i("each", author + "." + target + "." + msg + "." + time);
+		       				postArray.add(0, new Post(author, target, msg, time));
+		       			}
+	       			}
+			   }
+			   mAdapter = new CustomAdapter(postArray, getActivity(), 0);
+			   mCoursePageList.setAdapter(new CustomAdapter(postArray, getActivity(), 0));
 		   }
 		   
 		}
@@ -236,16 +252,15 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		String user = ((MainEntry)getActivity()).getUser();
 		String msg = mText.getText().toString();
 		String timeStamp = post.getTime();
-		String target = "CS356";
-		new postActivity().execute(target,user,msg,timeStamp);
+		new postActivity().execute(name, user, msg, timeStamp);
 		
 		mText.setText("");
 	}
 	
-	public class postActivity  extends AsyncTask<String,Void,String>{
+	public class postActivity  extends AsyncTask<String,Void,String> {
 
 
-		   protected void onPreExecute(){
+		   protected void onPreExecute() {
 			   
 		   }
 		   
@@ -254,10 +269,10 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		   protected String doInBackground(String... arg0) {
 		      
 		         try{
-		            String course = (String)arg0[0];
-		            String user = (String)arg0[1];
-		            String msg = (String)arg0[2];
-		            String time = (String)arg0[3];
+		            String course = (String) arg0[0];
+		            String user = (String) arg0[1];
+		            String msg = (String) arg0[2];
+		            String time = (String) arg0[3];
 		            String link = "http://bronconetwork.comuv.com/post.php";
 		            
 		            HttpClient client = new DefaultHttpClient();
@@ -299,10 +314,12 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
 	
 	
-	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public void message(String message)
 	{
-		Toast.makeText(c, message, Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Application;
 
-public class UserData extends Application{
+public class UserData extends Application {
 
 	private String userName = "";
 	private String email = "";

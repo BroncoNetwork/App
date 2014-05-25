@@ -17,11 +17,23 @@ public class Post {
 					  target = 2,
 					  message = 3,
 					  time = 4;
-	Time timestamp;
-	int icon;
-	int size;
-	String content[];
-	ArrayList<Comment> comments;
+	private Time timestamp;
+	private int icon;
+	private int size;
+	private String content[];
+	private ArrayList<Comment> comments;
+	
+	public Post(String auth, String tar, String msg, String ti) {
+		size = 0;
+		icon = 0;
+		content = new String[5];
+		content[id] = "";
+		content[author] = auth;
+		content[target] = tar;
+		content[message] = msg;
+		content[time] = ti;
+		comments = new ArrayList<Comment>();
+	}
 
 	public Post() {
 		size = 0;
@@ -107,6 +119,13 @@ public class Post {
 	
 	public void setSize(int size) {
 		this.size = size;
+	}
+	
+	public String toString() {
+		return "Author: " + content[author] +
+			   " Target: " + content[target] +
+			   " Message: " + content[message] +
+			   " TimeStamp: " + content[time];
 	}
 	
 	public void addComment(String id, String author, String target, String message, Time time) {

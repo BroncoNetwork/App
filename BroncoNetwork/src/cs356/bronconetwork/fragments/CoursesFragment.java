@@ -35,7 +35,8 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	private ListView my_courses;
 	private Button go_to_course_button;
 	private ArrayList<String> course_array;
-	private Context c;
+	private MainEntry mainEntry;
+	private CourseListAdapter courseListAdapter;
 	private String[] major = {
       "ABM",
       "ACC",
@@ -181,8 +182,8 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	private String selected_major = "";
 	private String selected_course = "";
   
-	public CoursesFragment(Context c) {
-		this.c = c;
+	public CoursesFragment(MainEntry mainEntry) {
+		this.mainEntry = mainEntry;
 	}
 	  
 	@Override 
@@ -193,7 +194,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		go_to_course_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if(selected_major.length() > 0 && selected_course.length() > 0) {
-					Toast.makeText(c.getApplicationContext(),"Go to "+selected_major+selected_course,Toast.LENGTH_LONG).show();
+					Toast.makeText(mainEntry, "Go to "+selected_major+selected_course, Toast.LENGTH_LONG).show();
 					go_to_course(selected_major+selected_course);
 				}
 			}
@@ -201,7 +202,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		
 		major_list = (Spinner) fragView.findViewById(R.id.major_);
 		
-		ArrayAdapter<String> major_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, major);
+		ArrayAdapter<String> major_adapter = new ArrayAdapter<String>(mainEntry, R.layout.spinner_text_layout, major);
 		major_list.setAdapter(major_adapter);
 		major_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			boolean first_open_major = true;
@@ -211,13 +212,13 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 				else {
 		        	int position = major_list.getSelectedItemPosition();
 					selected_major = major[position];
-		            Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major,Toast.LENGTH_LONG).show();
+		            Toast.makeText(mainEntry, "You have selected "+selected_major, Toast.LENGTH_LONG).show();
 		            
 		            course_list = (Spinner) fragView.findViewById(R.id.class_num);
 		            
 		    		switch(selected_major) {
 		    		case "CS":
-		    			ArrayAdapter<String> class_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, cs_courses);
+		    			ArrayAdapter<String> class_adapter = new ArrayAdapter<String>(mainEntry, R.layout.spinner_text_layout, cs_courses);
 		    			course_list.setAdapter(class_adapter);
 		    			course_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    	            boolean first_open_course = true;
@@ -227,7 +228,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		    		        	else {
 			    					int position = course_list.getSelectedItemPosition();
 			    		            selected_course = cs_courses[position];
-			    					Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major+selected_course,Toast.LENGTH_LONG).show();
+			    					Toast.makeText(mainEntry,"You have selected "+selected_major+selected_course,Toast.LENGTH_LONG).show();
 		    					}
 		    				}
 		    		        @Override
@@ -245,7 +246,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		});
 		
 		course_array = new ArrayList<String>();
-		String[] courses = ((MainEntry) getActivity()).getCourses();
+		String[] courses = mainEntry.getCourses();
 		for(int i=0; i < courses.length; i++)
 		{
 			if(!courses[i].equals(""))
@@ -254,19 +255,17 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 			}
 		}
 		
+		courseListAdapter = new CourseListAdapter(course_array, mainEntry);
 		my_courses = (ListView) fragView.findViewById(R.id.curr_course_list);
-		
+		my_courses.setAdapter(courseListAdapter);
 		my_courses.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				go_to_course((String) ((TextView) (view.findViewById(R.id.course_number_list))).getText());
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				String target = (String) courseListAdapter.getItem(position);
+				go_to_course(target);
 			}
 
 	    });
-		
-		my_courses.setAdapter(new CourseListAdapter(course_array, getActivity()));
-		my_courses.invalidateViews();
 		
 		return fragView;
 	}
@@ -342,6 +341,6 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	//This function will call the function inside MainEntry activity to jump to 
 	//CoursePageFragment
 	public void go_to_course(String chosenCourse) {
-		((MainEntry)getActivity()).gotoCoursePage(chosenCourse);
+		mainEntry.gotoCoursePage(chosenCourse);
 	}
 }
