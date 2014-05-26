@@ -150,9 +150,10 @@ public class MainEntry extends FragmentActivity {
 		setCurrentCourse(currentCourse);
 		ColorDrawable actionBarColor = new ColorDrawable(new Color().parseColor("#005c27"));
 		FragmentTransaction fTrans = fMger.beginTransaction();
-		for(int i=frags.length-1 ; i >= 0; i--) {
+		/*for(int i=frags.length-1 ; i >= 0; i--) {
 			fTrans.hide((Fragment) frags[i]);
-		}
+		}*/
+		fTrans.hide((Fragment) frags[COURSES]);
 		((CoursePageFragment) frags[COURSEPAGE]).setName(currentCourse);
 		((CoursePageFragment) frags[COURSEPAGE]).getData();
 		

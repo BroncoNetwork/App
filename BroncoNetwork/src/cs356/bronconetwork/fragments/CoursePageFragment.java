@@ -100,9 +100,9 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
 	public void getData()
 	{
-		if(name.equals(""))
+		/*if(name.equals(""))
 			message("no current course");
-		else
+		else*/
 			new retrieveDataActivity().execute();
 	}
 	
@@ -151,6 +151,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 			   result = result.trim();
 			   // Creates the first item (course info)
 			   postArray.add(0,new Post());
+			   
 			   // add the rest of the posts if there are any
 			   if(result.length() > 0) {
 				   result = result.substring(0, result.length()-1);
@@ -165,11 +166,13 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		       				String msg = eachEle.nextToken();
 		       				String time = eachEle.nextToken();
 		       				Log.i("each", author + "." + target + "." + msg + "." + time);
-		       				postArray.add(0, new Post(author, target, msg, time));
+		       				postArray.add(postArray.size()-1, new Post(author, target, msg, time));
 		       			}
 	       			}
 			   }
-			   mAdapter = new CustomAdapter(postArray, getActivity(), 0);
+			   
+			   
+			   mAdapter = new CustomAdapter(postArray, getActivity(), 0, name);//???
 			   mCoursePageList.setAdapter(mAdapter);
 		   }
 		   

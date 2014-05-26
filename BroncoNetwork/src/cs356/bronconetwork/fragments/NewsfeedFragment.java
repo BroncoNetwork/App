@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
+import cs356.bronconetwork.UserData;
 
 public class NewsfeedFragment extends Fragment implements NetworkFragment {
 
@@ -25,6 +26,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 	private ArrayList<Post> postArray;
 	private String name = "Newsfeed";
 	private int icon = R.drawable.icon_newsfeed;
+	private UserData user = new UserData();
 	
 	private Time currentTime;
 	
@@ -55,6 +57,8 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		mNewsfeedList = (ListView)fragView.findViewById(R.id.newsfeed_list);
 		postArray = new ArrayList<Post>();
 
+		
+		
 		//test posts
 		Time time = new Time();
 		Post post = new Post();
@@ -73,7 +77,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		post.setMessage("Hey guys this is a test to see if the post works.");
 		postArray.add(post);
 
-		mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1));
+		mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1,""));
 		return fragView;
 	}
 
