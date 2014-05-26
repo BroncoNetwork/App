@@ -103,7 +103,10 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		/*if(name.equals(""))
 			message("no current course");
 		else*/
+		if(!name.equals(""))
+		{
 			new retrieveDataActivity().execute();
+		}
 	}
 	
 	public class retrieveDataActivity extends AsyncTask<String, Void, String>{
