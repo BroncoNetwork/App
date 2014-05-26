@@ -64,7 +64,7 @@ public class MainEntry extends FragmentActivity {
 		
 		user = (UserData) getApplicationContext();
 
-		frags[NEWSFEED] = new NewsfeedFragment();
+		frags[NEWSFEED] = new NewsfeedFragment(user.getCourses());
 		frags[PROFILE] = new ProfileFragment(this);
 		frags[GROUPS] = new TestFragment();
 		frags[COURSES] = new CoursesFragment(this);
@@ -84,6 +84,10 @@ public class MainEntry extends FragmentActivity {
 				// if logout then logout
 				if(position == 5) logout();
 				else {
+					if(position == 0)//if click on newsfeed button,it will reload the latest news.
+					{
+						((NewsfeedFragment) frags[0]).getData();
+					}
 					getActionBar().show();
 					getActionBar().setTitle(frags[position].getName());
 					getActionBar().setIcon(frags[position].getDrawableId());
@@ -106,6 +110,7 @@ public class MainEntry extends FragmentActivity {
 			fTrans.add(R.id.mainEntryContent, (Fragment) frags[i]);
 			fTrans.hide((Fragment) frags[i]);
 		}
+		
 		getActionBar().show();
 		getActionBar().setTitle(frags[NEWSFEED].getName());
 		getActionBar().setIcon(frags[NEWSFEED].getDrawableId());
