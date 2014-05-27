@@ -126,13 +126,15 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 		   
 		   @Override
 		   public void onPostExecute(String result) {
-			   String[] temp = result.split("__");
-			   for(int i = 0; i < temp.length; i++)
+			   if(result.length() > 2)
 			   {
-				   String[] temp2 = temp[i].split("<a>");
-				   postArray.add(postArray.size(), new Post(temp2[0], temp2[1], temp2[2], temp2[3]));
+				   String[] temp = result.split("__");
+				   for(int i = 0; i < temp.length; i++)
+				   {
+					   String[] temp2 = temp[i].split("<a>");
+					   postArray.add(postArray.size(), new Post(temp2[0], temp2[1], temp2[2], temp2[3]));
+				   }
 			   }
-			   
 			   mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1,""));
 		   }
 		   
