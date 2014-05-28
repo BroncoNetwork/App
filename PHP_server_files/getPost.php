@@ -13,7 +13,7 @@ $con=mysqli_connect("mysql6.000webhost.com","a7453331_admin","bronco909","a74533
  else
  {
   $course = $_POST['target'];
-  $result = mysqli_query($con,"SELECT author,target,message,timeStamp FROM Post Where target='$course'");
+  $result = mysqli_query($con,"SELECT author,target,message,timeStamp FROM Post Where target='$course' ORDER BY id");
  
   while($row = mysqli_fetch_array($result))
   {
