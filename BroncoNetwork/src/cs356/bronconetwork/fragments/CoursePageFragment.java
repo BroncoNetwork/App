@@ -169,7 +169,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		       				String msg = eachEle.nextToken();
 		       				String time = eachEle.nextToken();
 		       				Log.i("each", author + "." + target + "." + msg + "." + time);
-		       				postArray.add(postArray.size()-1, new Post(author, target, msg, time));
+		       				postArray.add(1, new Post(author, target, msg, time));
 		       			}
 	       			}
 			   }
@@ -201,7 +201,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		post.setTarget(name);
 		post.setTime();
 		post.setMessage(mText.getText().toString());
-		postArray.add(0, post);
+		postArray.add(1, post);
 		mCoursePageList.invalidateViews();
 		
 		// push to DB

@@ -132,7 +132,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 				   for(int i = 0; i < temp.length; i++)
 				   {
 					   String[] temp2 = temp[i].split("<a>");
-					   postArray.add(postArray.size(), new Post(temp2[0], temp2[1], temp2[2], temp2[3]));
+					   postArray.add(0, new Post(temp2[0], temp2[1], temp2[2], temp2[3]));
 				   }
 			   }
 			   mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1,""));

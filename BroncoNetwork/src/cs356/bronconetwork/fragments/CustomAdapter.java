@@ -77,13 +77,9 @@ public class CustomAdapter extends BaseAdapter {
 				break;
 			}
 		}
-		
 		if((position > 0 && _flag == 0) || _flag != 0) {
 			Post post;
-			if(_flag == 0)
-				post = _data.get(position-1);
-			else
-				post = _data.get(position);
+			post = _data.get(position);
 			ImageView image = (ImageView)v.findViewById(R.id.post_icon);
 			TextView authorView = (TextView)v.findViewById(R.id.author);
 			TextView targetView = (TextView)v.findViewById(R.id.target);
@@ -113,5 +109,4 @@ public class CustomAdapter extends BaseAdapter {
 		}
 		return v;
 	}
-	
 }
