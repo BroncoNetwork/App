@@ -158,7 +158,11 @@ public class MainEntry extends FragmentActivity {
 		for(int i=frags.length-1 ; i >= 0; i--) {
 			fTrans.hide((Fragment) frags[i]);
 		}
+<<<<<<< HEAD
 		//fTrans.hide((Fragment) frags[COURSES]);
+=======
+		fTrans.hide((Fragment) frags[COURSES]);
+>>>>>>> 6cdee87af43a8ab11a3fb433b7801ff09d94d875
 		((CoursePageFragment) frags[COURSEPAGE]).setName(currentCourse);
 		((CoursePageFragment) frags[COURSEPAGE]).getData();
 		

@@ -15,7 +15,7 @@ $con=mysqli_connect("mysql6.000webhost.com","a7453331_admin","bronco909","a74533
   $course5 = $_POST['target5'];
   $course6 = $_POST['target6'];
   $course7 = $_POST['target7'];
-  $result = mysqli_query($con,"SELECT author,target,message,timeStamp FROM Post Where target='$course1' or target='$course2' or target='$course3' or target='$course4' or target='$course5' or target='$course6' or target='$course7'");
+  $result = mysqli_query($con,"SELECT author,target,message,timeStamp FROM Post Where target='$course1' or target='$course2' or target='$course3' or target='$course4' or target='$course5' or target='$course6' or target='$course7' ORDER BY id");
  
   while($row = mysqli_fetch_array($result))
   {
