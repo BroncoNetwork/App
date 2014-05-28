@@ -56,9 +56,14 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	private ArrayList<Post> postArray = new ArrayList<Post>();
 	private Time currentTime;
 	private CustomAdapter mAdapter;
+	private ArrayList<String> course_array;
+	private MainEntry mainEntry;
+	private Button addCourse;
+	private String course;
   
-	public CoursePageFragment(String course) {
+	public CoursePageFragment(String course, MainEntry mainEntry) {
 		name = course;
+		this.mainEntry = mainEntry;
 	}
 	
 	@Override
@@ -85,6 +90,33 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 			}
 		});
 		
+		addCourse = (Button)fragView.findViewById(R.id.add_course);
+		addCourse.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				//checks the course array if current course is already there
+				//if not update the database
+				course_array = new ArrayList<String>();
+				String[] courses = mainEntry.getCourses();
+				for(int i=0; i < courses.length; i++)
+				{
+					if(!courses[i].equals(""))
+					{
+						course_array.add(courses[i]);
+					}
+				}
+				if(course_array.contains(name)) {
+					Toast.makeText(mainEntry, "Already added to courses", Toast.LENGTH_LONG).show();
+				} else {
+					int courseNum = course_array.size()+1;
+					course_array.add(name);
+					course = "Course" + courseNum;
+					new updateCourses().execute();
+		            Toast.makeText(mainEntry, "Added " + name + " to courses", Toast.LENGTH_LONG).show();
+					
+				}
+			}
+		});
+		
 		//mComments = (TextView) fragView.findViewById(R.id.comments);
 		mText = (EditText) fragView.findViewById(R.id.text_bar);
 		
@@ -107,6 +139,54 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		{
 			new retrieveDataActivity().execute();
 		}
+	}
+	
+	public class updateCourses extends AsyncTask<String, Void, String>{
+
+
+		   protected void onPreExecute() {
+			   
+		   }
+		   
+		   //This function is used to make connection to online database
+		   @Override
+		   protected String doInBackground(String... arg0) {
+		      
+		         try {
+		            String link = "http://bronconetwork.comuv.com/updateCourses.php";
+		            
+		            HttpClient client = new DefaultHttpClient();
+		            HttpPost send = new HttpPost(link);
+		            
+		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+		            nameValuePairs.add(new BasicNameValuePair("course", name));
+					nameValuePairs.add(new BasicNameValuePair("username",mainEntry.getUser()));
+					nameValuePairs.add(new BasicNameValuePair("courseNum",course));
+		            
+		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		            
+		            HttpResponse response = client.execute(send);
+		            
+		            BufferedReader in = new BufferedReader
+		           (new InputStreamReader(response.getEntity().getContent()));
+
+		           StringBuffer sb = new StringBuffer("");
+		           String line="";
+		           
+		           while ((line = in.readLine()) != null) {
+		              sb.append(line);
+		            }
+		            String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
+		            return ans;
+		      } catch(Exception e) {
+		         return new String("Exception: " + e.getMessage());
+		      }
+		   }		    
+		   
+		   @Override
+		   public void onPostExecute(String result) {
+			   
+		   }
 	}
 	
 	public class retrieveDataActivity extends AsyncTask<String, Void, String>{

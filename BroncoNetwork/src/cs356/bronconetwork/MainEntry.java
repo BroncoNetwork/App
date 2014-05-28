@@ -69,7 +69,7 @@ public class MainEntry extends FragmentActivity {
 		frags[GROUPS] = new TestFragment();
 		frags[COURSES] = new CoursesFragment(this);
 		frags[INBOX] = new InboxFragment(this);
-		frags[COURSEPAGE] = new CoursePageFragment("");
+		frags[COURSEPAGE] = new CoursePageFragment("",this);
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
