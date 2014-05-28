@@ -61,13 +61,11 @@ public class ProfileCourseAdapter extends BaseAdapter{
 		}
 		else if(v == null && position > 0) {
 			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.profile_course_box, null);
+			v = vi.inflate(R.layout.course_list_box, null);
 			
-			TextView courseNumber = (TextView)v.findViewById(R.id.profile_course_number);
+			TextView courseNumber = (TextView)v.findViewById(R.id.course_number_list);
 			courseNumber.setText(_data.get(position));
 		}
 		return v;
 	}
-
-	
 }

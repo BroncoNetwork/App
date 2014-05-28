@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4F2E4"
+    android:background="#d3d6d4"
     android:columnCount="1"
     tools:context=".ProfileFragment" >
 
@@ -105,11 +105,13 @@
     <ListView
         android:id="@+id/course_list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textCourses"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:divider="@null"
+		android:dividerHeight="0dp" >
 
     </ListView>
 

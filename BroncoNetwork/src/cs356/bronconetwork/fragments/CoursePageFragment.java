@@ -85,7 +85,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 			}
 		});
 		
-		mComments = (TextView) fragView.findViewById(R.id.comments);
+		//mComments = (TextView) fragView.findViewById(R.id.comments);
 		mText = (EditText) fragView.findViewById(R.id.text_bar);
 		
 		getData();

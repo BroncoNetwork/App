@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#E4F2E4"
+    android:background="#d3d6d4"
     tools:context=".Courses" >
 
 	<LinearLayout
 	    android:id="@+id/spinner_container"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
+	    android:orientation="horizontal"
+	    android:background="#FFFFFFFF"
+	    android:layout_marginBottom="0.5dp" >
 
 	    <Spinner
 	        android:id="@+id/major_"
@@ -49,8 +51,10 @@
     <ListView
         android:id="@+id/curr_course_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/spinner_container"
-        android:layout_marginTop="10dp" >
+        android:divider="@null"
+		android:dividerHeight="0dp" >
+
     </ListView>
 </RelativeLayout>

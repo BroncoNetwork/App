@@ -26,10 +26,10 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 	private ImageView profilePic;
 	private String name = "Profile";
 	private int icon = R.drawable.icon_profile;
-	private Context context;
+	private MainEntry mainEntry;
 	
-	public ProfileFragment(Context c) {
-		  this.context = c;
+	public ProfileFragment(MainEntry mainEntry) {
+		  this.mainEntry = mainEntry;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				if(position > 0)
-					go_to_course((String) ((TextView) (view.findViewById(R.id.profile_course_number))).getText());
+					go_to_course((String) ((TextView) (view.findViewById(R.id.course_number_list))).getText());
 			}
 
 	    });
@@ -104,6 +104,6 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 	//This function will call the function inside MainEntry activity to jump to 
 	//CoursePageFragment
 	public void go_to_course(String chosenCourse) {
-		((MainEntry)getActivity()).gotoCoursePage(chosenCourse);
+		mainEntry.gotoCoursePage(chosenCourse);
 	}
 }

@@ -148,7 +148,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 	}
 	
 	public void refresh() {
-		
+		getData();
 	}
 	
 	public void message(String message)

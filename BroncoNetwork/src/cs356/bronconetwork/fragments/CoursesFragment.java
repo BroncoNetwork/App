@@ -246,6 +246,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		});
 		
 		course_array = new ArrayList<String>();
+		course_array.add(new String());
 		String[] courses = mainEntry.getCourses();
 		for(int i=0; i < courses.length; i++)
 		{

@@ -4,16 +4,20 @@
     android:id="@+id/course_box"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFFFF"
+    android:background="#d3d6d4"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     tools:context=".CourseListAdapter" >
 
     <TextView
         android:id="@+id/course_number_list"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Major" />
+        android:text="Major"
+        android:padding="15dp"
+        android:textSize="18dip"
+        android:background="#FFFFFFFF" />
 
     <!-- <TextView
         android:id="@+id/course_num"

@@ -39,7 +39,11 @@ public class CourseListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
-		if(v == null) {
+		if(v == null && position == 0) {
+			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.course_list_header, null);
+		}
+		else if(v == null && position > 0) {
 			LayoutInflater vi = (LayoutInflater)_c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.course_list_box, null);
 			
