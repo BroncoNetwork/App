@@ -20,12 +20,20 @@ public class Post {
 	private Time timestamp;
 	private int icon;
 	private int size;
+	private int type = 0;
 	private String content[];
 	private ArrayList<Comment> comments;
 	
 	public Post(String auth, String tar, String msg, String ti) {
 		size = 0;
 		icon = 0;
+		type = 0;
+		if((msg.contains(".jpg") ||
+			msg.contains(".gif") ||
+			msg.contains(".png") ||
+			msg.contains(".bmp") ||
+			msg.contains(".webp")))
+					type = 1;
 		content = new String[5];
 		content[id] = "";
 		content[author] = auth;
@@ -38,6 +46,7 @@ public class Post {
 	public Post() {
 		size = 0;
 		icon = 0;
+		type = 0;
 		content = new String[5];
 		content[id] = "";
 		content[author] = "";
@@ -73,10 +82,22 @@ public class Post {
 	}
 	
 	public String getMessage() {
+		if((content[this.message].contains(".jpg") ||
+			content[this.message].contains(".gif") ||
+			content[this.message].contains(".png") ||
+			content[this.message].contains(".bmp") ||
+			content[this.message].contains(".webp")))
+				type = 1;
 		return content[this.message];
 	}
 	
 	public void setMessage(String message) {
+		if((message.contains(".jpg") ||
+			message.contains(".gif") ||
+			message.contains(".png") ||
+			message.contains(".bmp") ||
+			message.contains(".webp")))
+				type = 1;
 		content[this.message] = message;
 	}
 	
@@ -126,6 +147,10 @@ public class Post {
 			   " Target: " + content[target] +
 			   " Message: " + content[message] +
 			   " TimeStamp: " + content[time];
+	}
+	
+	public int getType() {
+		return type;
 	}
 	
 	public void addComment(String id, String author, String target, String message, Time time) {

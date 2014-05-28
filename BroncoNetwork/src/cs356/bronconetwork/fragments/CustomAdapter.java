@@ -2,6 +2,7 @@ package cs356.bronconetwork.fragments;
 
 import java.util.ArrayList;
 
+import cs356.bronconetwork.DownloadImageTask;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
 import cs356.bronconetwork.R.id;
@@ -67,27 +68,47 @@ public class CustomAdapter extends BaseAdapter {
 			courseNumber.setText(course);
 		}
 		else {
-			v = vi.inflate(R.layout.post_box, null);
+			switch(_data.get(position).getType()) {
+			case 0:
+				v = vi.inflate(R.layout.post_box, null);
+				break;
+			case 1:
+				v = vi.inflate(R.layout.post_box_image, null);
+				break;
+			}
 		}
 		
 		if((position > 0 && _flag == 0) || _flag != 0) {
-			ImageView image = (ImageView)v.findViewById(R.id.post_icon);
-			TextView authorView = (TextView)v.findViewById(R.id.author);
-			TextView targetView = (TextView)v.findViewById(R.id.target);
-			TextView messageView = (TextView)v.findViewById(R.id.message);
-			TextView timeView = (TextView)v.findViewById(R.id.time);
 			Post post;
 			if(_flag == 0)
 				post = _data.get(position-1);
 			else
 				post = _data.get(position);
+			ImageView image = (ImageView)v.findViewById(R.id.post_icon);
+			TextView authorView = (TextView)v.findViewById(R.id.author);
+			TextView targetView = (TextView)v.findViewById(R.id.target);
+			View messageView;
+			switch(_data.get(position).getType()) {
+			case 0:
+				messageView = (TextView)v.findViewById(R.id.message);
+				((TextView)messageView).setText(post.getMessage());
+				break;
+			case 1:
+				messageView = (ImageView)v.findViewById(R.id.message);
+				String url = _data.get(position).getMessage();
+				if(!url.contains("http://") && !url.contains("https://"))
+					url = "http://" + url;
+				new DownloadImageTask((ImageView) messageView)
+                	.execute(url);
+				break;
+			}
+			TextView timeView = (TextView)v.findViewById(R.id.time);
 			image.setImageResource(post.getIcon());
 			authorView.setText(Html.fromHtml("<b>"+post.getAuthor()+"</b>"));
 			if(post.getAuthor() != post.getTarget())
 				targetView.setText(Html.fromHtml("<b>"+post.getTarget()+"</b>"));
 			else
 				targetView.setText("");
-			messageView.setText(post.getMessage());
 			timeView.setText(post.getTime());
 		}
 		return v;
