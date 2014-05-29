@@ -216,4 +216,16 @@ public class MainEntry extends FragmentActivity {
 	{
 		user.setCurrent(course);
 	}
+	
+	public void setNewCourse(String course)
+	{
+		for(int i = 0;i < user.getCourses().length;i++)
+		{
+			if(user.getCourses()[i].equals(""))
+			{
+				user.setCourse(course,i);
+				i = 7;
+			}
+		}
+	}
 }

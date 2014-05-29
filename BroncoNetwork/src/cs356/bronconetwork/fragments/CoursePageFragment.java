@@ -101,7 +101,8 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 				{
 					if(!courses[i].equals(""))
 					{
-						course_array.add(courses[i]);
+						//course_array.add(courses[i]);
+						mainEntry.setNewCourse(name);
 					}
 				}
 				if(course_array.contains(name)) {
