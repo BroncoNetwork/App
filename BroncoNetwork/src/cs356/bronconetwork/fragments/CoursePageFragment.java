@@ -61,8 +61,8 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	private Button addCourse;
 	private String course;
   
-	public CoursePageFragment(String course, MainEntry mainEntry) {
-		name = course;
+	public CoursePageFragment(MainEntry mainEntry) {
+		//name = course;
 		this.mainEntry = mainEntry;
 	}
 	
@@ -101,8 +101,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 				{
 					if(!courses[i].equals(""))
 					{
-						//course_array.add(courses[i]);
-						mainEntry.setNewCourse(name);
+						course_array.add(courses[i]);
 					}
 				}
 				if(course_array.contains(name)) {
@@ -111,9 +110,9 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 					int courseNum = course_array.size()+1;
 					course_array.add(name);
 					course = "Course" + courseNum;
+					mainEntry.setNewCourse(name);
 					new updateCourses().execute();
 		            Toast.makeText(mainEntry, "Added " + name + " to courses", Toast.LENGTH_LONG).show();
-					
 				}
 			}
 		});
@@ -146,7 +145,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 
 
 		   protected void onPreExecute() {
-			   
+			   //postArray.clear();
 		   }
 		   
 		   //This function is used to make connection to online database
@@ -171,14 +170,14 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		            BufferedReader in = new BufferedReader
 		           (new InputStreamReader(response.getEntity().getContent()));
 
-		           StringBuffer sb = new StringBuffer("");
+		           /*StringBuffer sb = new StringBuffer("");
 		           String line="";
 		           
 		           while ((line = in.readLine()) != null) {
 		              sb.append(line);
-		            }
-		            String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
-		            return ans;
+		            }*/
+		            //String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
+		            return "";
 		      } catch(Exception e) {
 		         return new String("Exception: " + e.getMessage());
 		      }
@@ -186,6 +185,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		   
 		   @Override
 		   public void onPostExecute(String result) {
+			   //getData();
 			   
 		   }
 	}

@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 		finish();
 	}
 	
-	public void forgetPassFrontScreen(View view) {
+	public void forgetPass(View view) {
     	    forgetPassActivity();
 	}
 	

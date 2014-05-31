@@ -245,6 +245,36 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	        }
 		});
 		
+		/*course_array = new ArrayList<String>();
+		course_array.add(new String());
+		String[] courses = mainEntry.getCourses();
+		for(int i=0; i < courses.length; i++)
+		{
+			if(!courses[i].equals(""))
+			{
+				course_array.add(courses[i]);
+			}
+		}
+		
+		courseListAdapter = new CourseListAdapter(course_array, mainEntry);*/
+		my_courses = (ListView) fragView.findViewById(R.id.curr_course_list);
+		/*my_courses.setAdapter(courseListAdapter);*/
+		my_courses.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				String target = (String) courseListAdapter.getItem(position);
+				go_to_course(target);
+			}
+
+	    });
+		
+		getData();
+		
+		return fragView;
+	}
+	
+	public void getData()
+	{
 		course_array = new ArrayList<String>();
 		course_array.add(new String());
 		String[] courses = mainEntry.getCourses();
@@ -257,18 +287,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		}
 		
 		courseListAdapter = new CourseListAdapter(course_array, mainEntry);
-		my_courses = (ListView) fragView.findViewById(R.id.curr_course_list);
 		my_courses.setAdapter(courseListAdapter);
-		my_courses.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String target = (String) courseListAdapter.getItem(position);
-				go_to_course(target);
-			}
-
-	    });
-		
-		return fragView;
 	}
 
 	@Override

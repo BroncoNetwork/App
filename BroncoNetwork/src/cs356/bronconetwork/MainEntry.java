@@ -69,7 +69,7 @@ public class MainEntry extends FragmentActivity {
 		frags[GROUPS] = new TestFragment();
 		frags[COURSES] = new CoursesFragment(this);
 		frags[INBOX] = new InboxFragment(this);
-		frags[COURSEPAGE] = new CoursePageFragment("",this);
+		frags[COURSEPAGE] = new CoursePageFragment(this);
 		
 		slideHolder = (MainEntryLayout) findViewById(R.id.slideHolder);
 		sideBar = (ListView) findViewById(R.id.sideBar);
@@ -87,6 +87,14 @@ public class MainEntry extends FragmentActivity {
 					if(position == 0)//if click on newsfeed button,it will reload the latest news.
 					{
 						((NewsfeedFragment) frags[0]).getData();
+					}
+					else if(position == 1)
+					{
+						((ProfileFragment) frags[1]).setData();
+					}
+					else if(position == 3)
+					{
+						((CoursesFragment) frags[3]).getData();
 					}
 					getActionBar().show();
 					getActionBar().setTitle(frags[position].getName());
@@ -217,6 +225,7 @@ public class MainEntry extends FragmentActivity {
 		user.setCurrent(course);
 	}
 	
+	//
 	public void setNewCourse(String course)
 	{
 		for(int i = 0;i < user.getCourses().length;i++)
@@ -224,7 +233,7 @@ public class MainEntry extends FragmentActivity {
 			if(user.getCourses()[i].equals(""))
 			{
 				user.setCourse(course,i);
-				i = 7;
+				break;
 			}
 		}
 	}

@@ -59,11 +59,10 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 
 	    });
 		
-		courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
-		courseList.invalidateViews();
+		/*courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
+		courseList.invalidateViews();*/
 		
 		setData();
-		//new GetUserData
 		return fragView;
 	}
 	
@@ -82,16 +81,19 @@ public class ProfileFragment extends Fragment implements NetworkFragment{
 	public void setData() {
 		
 		//user info is retrieved in ProfileCourseAdapter
-		
-		for(int i = 0;i < ((MainEntry)getActivity()).getCourses().length;i++)
+		courseArray.clear();
+		courseArray.add(new String());
+		for(int i = 0;i < mainEntry.getCourses().length;i++)
 		{
-			if(!((MainEntry)getActivity()).getCourses()[i].equals(""))
+			if(!mainEntry.getCourses()[i].equals(""))
 			{
-				courseArray.add(((MainEntry)getActivity()).getCourses()[i]);
+				courseArray.add(mainEntry.getCourses()[i]);
 			}
 		}
-		
+		courseList.setAdapter(new ProfileCourseAdapter(courseArray, getActivity()));
+		courseList.invalidateViews();
 	}
+	
 	
 	public String getName() {
 		return name;
