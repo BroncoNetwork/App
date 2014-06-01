@@ -11,7 +11,14 @@ public class UserData extends Application {
 	private String[] courses = new String[7]; 
 	private String currentCourse = "";
 	
-	public UserData() {}
+	//initialize 7 empty courses on new account
+	public UserData() 
+	{
+		for(int i = 0;i < 7;i++)
+		{
+			courses[i] = "";
+		}
+	}
 	
 	public void setUserName(String newUserName)
 	{

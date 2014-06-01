@@ -49,7 +49,18 @@ public class Register extends Activity {
 		if(pw1.equals(pw2))	
 		{
 			// create user
-			new registerActivity().execute(username,pw1,email);
+			if(isValidEmail(email))
+			{
+				new registerActivity().execute(username,pw1,email);
+			}
+			else
+			{
+				message("The email is not a valid one.");
+			}
+		}
+		else
+		{
+			message("Password does not match.");
 		}
 		
 	}
@@ -130,6 +141,14 @@ public class Register extends Activity {
 		   }
 		   
 		}
+	
+			public final static boolean isValidEmail(CharSequence target) {
+				if (target == null) {
+					return false;
+				} else {
+					return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+				}
+			}
 
 }
 
