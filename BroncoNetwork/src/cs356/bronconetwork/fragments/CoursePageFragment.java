@@ -47,6 +47,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
 	private String name = ""; // CoursePage initialization and setup are all based on the name
 							  // to load a new CoursePage, just setName(newCourse) and getData();
+	private String title = "";
 	private int icon = R.drawable.icon_courses;
 	
 	private TextView mComments;
@@ -160,7 +161,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		            
 		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 		            nameValuePairs.add(new BasicNameValuePair("course", name));
-					nameValuePairs.add(new BasicNameValuePair("username",mainEntry.getUser()));
+					nameValuePairs.add(new BasicNameValuePair("username",mainEntry.getUsername()));
 					nameValuePairs.add(new BasicNameValuePair("courseNum",course));
 		            
 		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -245,18 +246,19 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	       				Log.i("next", next);
 		       			StringTokenizer eachEle = new StringTokenizer(next, "|");
 		       			while(eachEle.hasMoreTokens()) {
+		       				String id = eachEle.nextToken();
 		       				String author = eachEle.nextToken();
 		       				String target = eachEle.nextToken();
 		       				String msg = eachEle.nextToken();
 		       				String time = eachEle.nextToken();
 		       				Log.i("each", author + "." + target + "." + msg + "." + time);
-		       				postArray.add(1, new Post(author, target, msg, time));
+		       				postArray.add(1, new Post(id, author, target, msg, time));
 		       			}
 	       			}
 			   }
 			   
 			   
-			   mAdapter = new CustomAdapter(postArray, getActivity(), 0, name);//???
+			   mAdapter = new CustomAdapter(postArray, getActivity(), 0, name);
 			   mCoursePageList.setAdapter(mAdapter);
 		   }
 		   
@@ -286,7 +288,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		mCoursePageList.invalidateViews();
 		
 		// push to DB
-		String user = ((MainEntry)getActivity()).getUser();
+		String user = ((MainEntry)getActivity()).getUsername();
 		String msg = mText.getText().toString();
 		String timeStamp = post.getTime();
 		new postActivity().execute(name, user, msg, timeStamp);

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <!-- The post text area and button -->
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_text_edit"
+        android:minHeight="35dp"
+        android:orientation="horizontal" >
+
+        <EditText android:id="@+id/text_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:ems="10"
+            android:minHeight="35dp" >
+        </EditText>
+                
+        <Button android:id="@+id/comment_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="3"
+            android:background="#005c27"
+            android:minHeight="35dp"
+            android:text="Post"
+            android:textColor="#FFFFFFFF" />
+        
+    </LinearLayout>
+    
+    <!-- This is the original post -->
+	<RelativeLayout android:id="@+id/post_box"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#ecb326"
+	    android:orientation="vertical"
+	    android:padding="15dp" >
+	
+	    <ImageView android:id="@+id/post_icon"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginTop="15dp"
+	        android:background="@drawable/border"
+	        android:src="@drawable/icon" />
+	
+	    <TextView android:id="@+id/message"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/post_icon"
+	        android:layout_below="@+id/post_icon"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginBottom="15dp"
+	        android:paddingRight="15dp"
+	        android:paddingBottom="5dp"
+	        android:text="message"
+	        android:textColor="#fff"
+	        android:textSize="14sp"/>
+	
+	    <TextView android:id="@+id/author"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/post_icon"
+	        android:layout_marginTop="3dp"
+	        android:layout_toRightOf="@+id/post_icon"
+	        android:paddingLeft="10dp"
+	        android:paddingRight="15dp"
+	        android:text="author"
+	        android:textColor="#fff"
+	        android:textSize="16sp" />
+	
+	    <TextView android:id="@+id/time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@+id/post_icon"
+	        android:layout_alignLeft="@+id/author"
+	        android:layout_marginBottom="3dp"
+	        android:paddingLeft="10dp"
+	        android:paddingRight="15dp"
+	        android:text="time"
+	        android:textColor="#fff" />
+	
+	    <TextView android:id="@+id/target"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/author"
+	        android:layout_alignBottom="@+id/author"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginBottom="5dp"
+	        android:layout_toRightOf="@+id/author"
+	        android:paddingLeft="3dp"
+	        android:paddingRight="15dp"
+	        android:text="target"
+	        android:textColor="#fff"
+	        android:textSize="16sp" />	
+	
+	</RelativeLayout>
+    
+	<!-- List of comments -->
+    <ListView android:id="@+id/commentsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

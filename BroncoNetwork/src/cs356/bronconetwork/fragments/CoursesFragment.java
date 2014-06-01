@@ -1,30 +1,24 @@
 package cs356.bronconetwork.fragments;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import cs356.bronconetwork.MainEntry;
-import cs356.bronconetwork.R;
-import cs356.bronconetwork.R.id;
-import cs356.bronconetwork.R.layout;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+import cs356.bronconetwork.MainEntry;
+import cs356.bronconetwork.R;
 @SuppressLint("ValidFragment")
 public class CoursesFragment extends Fragment implements NetworkFragment {
 	
@@ -38,146 +32,31 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	private MainEntry mainEntry;
 	private CourseListAdapter courseListAdapter;
 	private String[] major = {
-      "ABM",
-      "ACC",
-      "AG",
-      "AGS",
-      "AHS",
-      "AMM",
-      "ANT",
-      "ARC",
-      "ARO",
-      "ART",
-      "AVS",
-      "BHS",
-      "BIO",
-      "BOT",
-      "BUS",
-      "CE",
-      "CEU",
-      "CHE",
-      "CHM",
-      "CIS",
-      "CLS",
-      "COM",
-      "CPU",
-      "CS",
-      "CSA",
+      "ABM", "ACC", "AG", "AGS", "AHS", "AMM", "ANT", "ARC", "ARO", "ART", "AVS",
+      "BHS", "BIO", "BOT", "BUS", "CE", "CEU", "CHE", "CHM", "CIS", "CLS", "COM", "CPU", "CS", "CSA",
       "DAN",
-      "EBZ",
-      "EC",
-      "ECE",
-      "EDD",
-      "EDS",
-      "EDU",
-      "EGR",
-      "ELI",
-      "ENG",
-      "ENV",
-      "ETC",
-      "ETE",
-      "ETM",
-      "ETP",
-      "ETT",
-      "EWS",
-      "FL",
-      "FMA",
-      "FN",
-      "FRL",
-      "FST",
-      "GBA",
-      "GED",
-      "GEO",
-      "GSC",
-      "HPS",
-      "HRT",
-      "HST",
-      "IA",
-      "IBM",
-      "IE",
-      "IGE",
-      "IME",
-      "INA",
-      "IPC",
+      "EBZ", "EC", "ECE", "EDD", "EDS", "EDU", "EGR", "ELI", "ENG", "ENV", "ETC", "ETE", "ETM", "ETP", "ETT", "EWS",
+      "FL", "FMA", "FN", "FRL", "FST",
+      "GBA", "GED", "GEO", "GSC",
+      "HPS", "HRT", "HST",
+      "IA", "IBM", "IE", "IGE", "IME", "INA", "IPC",
       "KIN",
-      "LA",
-      "LIS",
-      "LRC",
-      "LS",
-      "MAE",
-      "MAT",
-      "ME",
-      "MFE",
-      "MHR",
-      "MIC",
-      "MPA",
-      "MSL",
-      "MTE",
-      "MU",
+      "LA", "LIS", "LRC", "LS",
+      "MAE", "MAT", "ME", "MFE", "MHR", "MIC", "MPA", "MSL", "MTE", "MU", 
       "NSE",
-      "PHL",
-      "PHY",
-      "PLS",
-      "PLT",
-      "PSY",
+      "PHL", "PHY", "PLS", "PLT", "PSY",
       "RS",
-      "SCI",
-      "SME",
-      "SOC",
-      "SPN",
-      "SSC",
-      "STA",
-      "STS",
-      "SW",
-      "TED",
-      "TH",
-      "TOM",
-      "UNDC",
-      "URP",
+      "SCI", "SME", "SOC", "SPN", "SSC", "STA", "STS", "SW",
+      "TED", "TH", "TOM",
+      "UNDC", "URP",
       "ZOO"
       
 	};
 	private String[] cs_courses = {
-			"101",
-			"128",
-			"130",
-			"140",
-			"141",
-			"200",
-			"210",
-			"240",
-			"241",
-			"245",
-			"256",
-			"260",
-			"264",
-			"299",
-			"301",
-			"311",
-			"331",
-			"352",
-			"356",
-			"370",
-			"375",
-			"375",
-			"380",
-			"400",
-			"408",
-			"411",
-			"420",
-			"431",
-			"435",
-			"445",
-			"450",
-			"460",
-			"461",
-			"462",
-			"463",
-			"470",
-			"480",
-			"481",
-			"490",
-			"499"
+			"101", "128", "130", "140", "141", 
+			"200", "210", "240", "241", "245", "256", "260", "264", "299",
+			"301", "311", "331", "352", "356", "370", "375", "380", 
+			"400", "408", "411", "420", "431", "435", "445", "450", "460", "461", "462", "463", "470", "480", "481", "490", "499"
 	};
 	private String selected_major = "";
 	private String selected_course = "";
@@ -244,21 +123,8 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	               
 	        }
 		});
-		
-		/*course_array = new ArrayList<String>();
-		course_array.add(new String());
-		String[] courses = mainEntry.getCourses();
-		for(int i=0; i < courses.length; i++)
-		{
-			if(!courses[i].equals(""))
-			{
-				course_array.add(courses[i]);
-			}
-		}
-		
-		courseListAdapter = new CourseListAdapter(course_array, mainEntry);*/
+
 		my_courses = (ListView) fragView.findViewById(R.id.curr_course_list);
-		/*my_courses.setAdapter(courseListAdapter);*/
 		my_courses.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -294,61 +160,7 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		/*go_to_course_button = (Button) getView().findViewById(R.id.go_course);
-		go_to_course_button.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(selected_major.length() > 0 && selected_course.length() > 0) {
-					Toast.makeText(c.getApplicationContext(),"Go to "+selected_major+selected_course,Toast.LENGTH_LONG).show();
-					go_to_course(selected_major+selected_course);
-				}
-			}
-		});
-		
-		major_list = (Spinner) getView().findViewById(R.id.major_);
-		
-		ArrayAdapter<String> major_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, major);
-		major_list.setAdapter(major_adapter);
-		major_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			boolean first_open_major = true;
-	        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				if(first_open_major)
-					first_open_major = false;
-				else {
-		        	int position = major_list.getSelectedItemPosition();
-					selected_major = major[position];
-		            Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major,Toast.LENGTH_LONG).show();
-		            
-		            course_list = (Spinner) getView().findViewById(R.id.class_num);
-		            
-		    		switch(selected_major) {
-		    		case "CS":
-		    			ArrayAdapter<String> class_adapter = new ArrayAdapter<String>(c, R.layout.spinner_text_layout, cs_courses);
-		    			course_list.setAdapter(class_adapter);
-		    			course_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		    	            boolean first_open_course = true;
-		    		        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    		        	if(first_open_course)
-		    		        		first_open_course = false;
-		    		        	else {
-			    					int position = course_list.getSelectedItemPosition();
-			    		            selected_course = cs_courses[position];
-			    					Toast.makeText(c.getApplicationContext(),"You have selected "+selected_major+selected_course,Toast.LENGTH_LONG).show();
-		    					}
-		    				}
-		    		        @Override
-		    		        public void onNothingSelected(AdapterView<?> arg0) {
-		    		               
-		    		        }
-		    			});
-		    		}
-				}
-	        }
-	        @Override
-	        public void onNothingSelected(AdapterView<?> arg0) {
-	               
-	        }
-		});
-*/	}
+	}
 	
 	public String getName() {
 		return name;

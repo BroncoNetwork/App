@@ -66,7 +66,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 			}
 		});*/
 		
-		mNewsfeedList = (ListView)fragView.findViewById(R.id.newsfeed_list);
+		mNewsfeedList = (ListView) fragView.findViewById(R.id.newsfeed_list);
 		postArray = new ArrayList<Post>();
 
 		getData();
@@ -132,10 +132,10 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 				   for(int i = 0; i < temp.length; i++)
 				   {
 					   String[] temp2 = temp[i].split("<a>");
-					   postArray.add(0, new Post(temp2[0], temp2[1], temp2[2], temp2[3]));
+					   postArray.add(0, new Post(temp2[0], temp2[1], temp2[2], temp2[3], temp2[4]));
 				   }
 			   }
-			   mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1,""));
+			   mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1, ""));
 		   }
 		   
 		}
@@ -145,10 +145,6 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 	public void onPause() {
 		super.onPause();
 		
-	}
-	
-	public void refresh() {
-		getData();
 	}
 	
 	public void message(String message)

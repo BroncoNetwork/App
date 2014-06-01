@@ -2,25 +2,28 @@ package cs356.bronconetwork.fragments;
 
 import java.util.ArrayList;
 
-import cs356.bronconetwork.DownloadImageTask;
-import cs356.bronconetwork.Post;
-import cs356.bronconetwork.R;
-import cs356.bronconetwork.R.id;
-import cs356.bronconetwork.R.layout;
-import cs356.bronconetwork.UserData;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import cs356.bronconetwork.DownloadImageTask;
+import cs356.bronconetwork.Post;
+import cs356.bronconetwork.R;
 
 
 public class CustomAdapter extends BaseAdapter {
 	private ArrayList<Post> _data;
-	private Context _c;
+	private static Context _c;
 	private String course;
 	// If _flag == 0, show course info in first item. Else, don't show.
 	// Must add exactly one post in order to show course info.
@@ -76,6 +79,16 @@ public class CustomAdapter extends BaseAdapter {
 				v = vi.inflate(R.layout.post_box_image, null);
 				break;
 			}
+			// this connects each comment button with the load comments async task
+			// the load comments async task in turn connects each comment (Post) button
+			// with the PostComment async task
+			TextView comment = (TextView) v.findViewById(R.id.comment);
+			final Post p = _data.get(position);
+			comment.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					new LoadComments(_c, p).execute();
+				}
+			});
 		}
 		if((position > 0 && _flag == 0) || _flag != 0) {
 			Post post;
@@ -101,7 +114,7 @@ public class CustomAdapter extends BaseAdapter {
 			TextView timeView = (TextView)v.findViewById(R.id.time);
 			image.setImageResource(post.getIcon());
 			authorView.setText(Html.fromHtml("<b>"+post.getAuthor()+"</b>"));
-			if(post.getAuthor() != post.getTarget())
+			if(!post.getAuthor().equals(post.getTarget()))
 				targetView.setText(Html.fromHtml("<b>"+post.getTarget()+"</b>"));
 			else
 				targetView.setText("");
@@ -109,4 +122,5 @@ public class CustomAdapter extends BaseAdapter {
 		}
 		return v;
 	}
+
 }

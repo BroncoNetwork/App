@@ -24,6 +24,31 @@ public class Post {
 	private String content[];
 	private ArrayList<Comment> comments;
 	
+	/*
+	 * Post from the DB
+	 */
+	public Post(String id, String auth, String tar, String msg, String ti) {
+		size = 0;
+		icon = 0;
+		type = 0;
+		if((msg.contains(".jpg") ||
+			msg.contains(".gif") ||
+			msg.contains(".png") ||
+			msg.contains(".bmp") ||
+			msg.contains(".webp")))
+					type = 1;
+		content = new String[5];
+		content[this.id] = id;
+		content[author] = auth;
+		content[target] = tar;
+		content[message] = msg;
+		content[time] = ti;
+		comments = new ArrayList<Comment>();
+	}
+	
+	/*
+	 * New Post, hopefully will get pushed to DB
+	 */
 	public Post(String auth, String tar, String msg, String ti) {
 		size = 0;
 		icon = 0;
@@ -35,14 +60,14 @@ public class Post {
 			msg.contains(".webp")))
 					type = 1;
 		content = new String[5];
-		content[id] = "";
+		content[this.id] = "";
 		content[author] = auth;
 		content[target] = tar;
 		content[message] = msg;
 		content[time] = ti;
 		comments = new ArrayList<Comment>();
 	}
-
+	
 	public Post() {
 		size = 0;
 		icon = 0;

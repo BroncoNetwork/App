@@ -47,7 +47,6 @@ public class MainEntry extends FragmentActivity {
 	private FragmentManager fMger = getSupportFragmentManager();
 	
 	private NetworkFragment[] frags = new NetworkFragment[SIZE];
-
 	
 	public void onBackPressed() {
 		Intent startMain = new Intent(Intent.ACTION_MAIN);
@@ -84,17 +83,21 @@ public class MainEntry extends FragmentActivity {
 				// if logout then logout
 				if(position == 5) logout();
 				else {
-					if(position == 0)//if click on newsfeed button,it will reload the latest news.
+					if(position == NEWSFEED)//if click on newsfeed button,it will reload the latest news.
 					{
-						((NewsfeedFragment) frags[0]).getData();
+						((NewsfeedFragment) frags[position]).getData();
 					}
-					else if(position == 1)
+					else if(position == PROFILE)
 					{
-						((ProfileFragment) frags[1]).setData();
+						((ProfileFragment) frags[position]).setData();
 					}
-					else if(position == 3)
+					else if(position == COURSES)
 					{
-						((CoursesFragment) frags[3]).getData();
+						((CoursesFragment) frags[position]).getData();
+					}
+					else if(position == INBOX)
+					{
+						((InboxFragment) frags[position]).refresh();
 					}
 					getActionBar().show();
 					getActionBar().setTitle(frags[position].getName());
@@ -143,7 +146,7 @@ public class MainEntry extends FragmentActivity {
 			case R.id.refresh: 
 				// right now only works for refreshing the inbox
 				if(((Fragment) frags[NEWSFEED]).isVisible()) {
-					((NewsfeedFragment) frags[NEWSFEED]).refresh();
+					((NewsfeedFragment) frags[NEWSFEED]).getData();
 					Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
 				} else if(((Fragment) frags[INBOX]).isVisible()) {
 					((InboxFragment) frags[INBOX]).refresh();
@@ -198,8 +201,12 @@ public class MainEntry extends FragmentActivity {
 	}
 	
 	//this function will be used in fragment 
-	public String getUser()
+	public UserData getUser()
 	{
+		return user;
+	}
+	
+	public String getUsername() {
 		return user.getUserName();
 	}
 	

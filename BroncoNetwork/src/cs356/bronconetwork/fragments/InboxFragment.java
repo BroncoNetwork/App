@@ -48,7 +48,7 @@ public class InboxFragment extends Fragment implements NetworkFragment {
 		tabHost = (TabHost) getView().findViewById(R.id.inboxTabHost);
 		inboxPager = (ViewPagerParallax) getView().findViewById(R.id.inboxViewPager);
 		adapter = new InboxAdapter(this);
-		inboxPager.setBackgroundAsset(R.drawable.transparent);
+		inboxPager.setBackgroundAsset(R.drawable.inbox_bg);
 		inboxPager.set_max_pages(adapter.getCount());
 		inboxPager.setAdapter(adapter);
 		tabHost.setup();

@@ -54,7 +54,7 @@ public class ProfileCourseAdapter extends BaseAdapter{
 			TextView major = (TextView)v.findViewById(R.id.major_);
 			TextView email = (TextView)v.findViewById(R.id.email_);
 			
-			firstName.setText(((MainEntry)_c).getUser());
+			firstName.setText(((MainEntry)_c).getUsername());
 			//lastName.setText("Nham");
 			major.setText("Computer Science");
 			email.setText(((MainEntry)_c).getEmail());
