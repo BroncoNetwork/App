@@ -22,14 +22,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.Toast;
 import cs356.bronconetwork.Mail;
 import cs356.bronconetwork.R;
 import cs356.bronconetwork.UserData;
@@ -83,6 +90,11 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     	
     	private ListView list;
     	private boolean sent;
+		private int mNumberOfSelectedItems = 0;
+		private Mail mailObject;
+		private String author;
+		private String target;
+		private String timestamp;
     	
     	public InboxList(int which) {
     		if(which == INBOX) sent = false;
@@ -177,6 +189,63 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
         		
         		// setup the listview
         		list.setAdapter(new InboxListAdapter(msgs, getActivity()));
+        		/*list.setOnItemLongClickListener(new OnItemLongClickListener() {
+					@Override
+					public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+						Toast.makeText(inboxFrag.getMainEntry(), "hello", Toast.LENGTH_SHORT).show();
+						return true;
+					}
+        			
+        		});
+        		*/
+        		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+
+					@Override
+					public boolean onActionItemClicked(ActionMode mode,
+							MenuItem item) {
+						switch(item.getItemId()) {
+						case R.id.item_delete:
+							deletePost();
+							mode.finish();
+							return true;
+						default:
+							return false;
+						}
+						
+					}
+
+					@Override
+					public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+						MenuInflater inflater = mode.getMenuInflater();
+						inflater.inflate(R.menu.contextual_menu, menu);
+						return true;
+					}
+
+					@Override
+					public void onDestroyActionMode(ActionMode arg0) {
+						mNumberOfSelectedItems = 0;
+					}
+
+					@Override
+					public boolean onPrepareActionMode(ActionMode mode,
+							Menu menu) {
+						return false;
+					}
+
+					@Override
+					public void onItemCheckedStateChanged(ActionMode mode,
+							int position, long id, boolean checked) {
+						if(checked) {
+							++mNumberOfSelectedItems;
+						} else {
+							--mNumberOfSelectedItems;
+						}
+						mode.invalidate();
+						mode.setTitle(String.valueOf(mNumberOfSelectedItems) + " selected");
+					} 
+        			
+        		});
         		list.setOnItemClickListener(new OnItemClickListener() {
     				@Override
     				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -206,9 +275,74 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     					dialog.show();
     				}		
         		});
+        		
         	}
         }
 
-    }
+		private void deletePost() {
+			SparseBooleanArray checked = list.getCheckedItemPositions();
+			//gets all of the checked list objects
+			//adds data to a mail object
+			//call async task to delete
+			for(int i = 0; i < checked.size(); i++) {
+				Mail theSelectedMsg = (Mail) list.getItemAtPosition(checked.keyAt(i));
+				mailObject = theSelectedMsg;
+				//sets fields, testing to make sure they worked, getting author gives From: so had to replace
+				author = mailObject.getFrom().replace("From: ", "");
+				target = mailObject.getTo();
+				timestamp = mailObject.getTimeStamp();
+				new deleteMsgs().execute();
+				Toast.makeText(inboxFrag.getMainEntry(), author + " " + target + " " + timestamp, Toast.LENGTH_SHORT).show();
 
+			}
+			
+		}
+		
+    	public class deleteMsgs extends AsyncTask<String,Void,String>{
+    		
+ 		   protected void onPreExecute(){
+ 			   
+ 		   }
+ 		   
+ 		   //This function is used to make connection to online database
+ 		   @Override
+ 		   protected String doInBackground(String... args0) {
+ 		         try{
+ 		            String link = "http://bronconetwork.comuv.com/deleteMsgs.php";
+ 		            
+ 		            HttpClient client = new DefaultHttpClient();
+ 		            HttpPost send = new HttpPost(link);
+ 		            
+ 		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+ 		            nameValuePairs.add(new BasicNameValuePair("target",target));
+ 		            nameValuePairs.add(new BasicNameValuePair("author",author));
+ 		            nameValuePairs.add(new BasicNameValuePair("timestamp",timestamp));
+
+ 		            
+		            HttpResponse response = client.execute(send);
+		            
+		            BufferedReader in = new BufferedReader
+		           (new InputStreamReader(response.getEntity().getContent()));
+
+		           StringBuffer sb = new StringBuffer("");
+		           String line="";
+		           
+		           while ((line = in.readLine()) != null) {
+		              sb.append(line);
+		            }
+		            in.close();
+		            return sb.toString() + "Executed";
+		      }catch(Exception e){
+		         return new String("Exception: " + e.getMessage());
+		      }
+		      }
+ 		    
+ 		   
+ 		   @Override
+ 		   protected void onPostExecute(String result){
+ 			   
+ 			   //post function
+ 		   }
+    	}
+    }		
 }
