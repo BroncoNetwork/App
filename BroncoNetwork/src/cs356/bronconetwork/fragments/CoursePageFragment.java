@@ -21,7 +21,6 @@ import cs356.bronconetwork.R;
 import cs356.bronconetwork.UserData;
 import cs356.bronconetwork.R.id;
 import cs356.bronconetwork.R.layout;
-import cs356.bronconetwork.Register.registerActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
