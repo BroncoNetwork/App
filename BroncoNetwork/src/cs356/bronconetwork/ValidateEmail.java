@@ -27,6 +27,7 @@ public class ValidateEmail extends Activity{
 	private String pass;
 	private String email;
 	private String code;
+	private String state;
 	private EditText validationCode;
 	
 	public void onCreate(Bundle b) {
@@ -36,19 +37,28 @@ public class ValidateEmail extends Activity{
 		actionBar.hide();
 		validationCode = (EditText) findViewById(R.id.validationCode);
 		
+		
 		Bundle bundle = getIntent().getBundleExtra("information");
-		if(bundle!=null){
-			username = bundle.getString("username");
-			email = bundle.getString("email");
+		state = bundle.getString("state");
+		username = bundle.getString("username");
+		email = bundle.getString("email");
+		code = bundle.getString("code");
+		if(state.equals("register")){
 			pass = bundle.getString("password");
-			code = bundle.getString("code");
 		}
 	}
 	
 	public void submit(View v) {
 		if(code.equals(validationCode.getText().toString()))
 		{
-			new registerActivity().execute(username,pass,email);
+			if(state.equals("register"))
+			{
+				new registerActivity().execute(username,pass,email);
+			}
+			else
+			{
+				startResetPass();
+			}
 		}
 		else
 		{
@@ -59,6 +69,18 @@ public class ValidateEmail extends Activity{
 	public void startMainEntry()
 	{
 		Intent i = new Intent(this, MainEntry.class);
+		startActivity(i);
+		finish();
+	}
+	
+	public void startResetPass()
+	{
+		Intent i = new Intent(this, ResetpassActivity.class);
+		Bundle data = new Bundle();
+		data.putString("username",username);
+		data.putString("email",email);
+		i.putExtra("information", data);
+		message(username);
 		startActivity(i);
 		finish();
 	}
