@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import cs356.bronconetwork.DownloadImageTask;
+import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
 
@@ -69,6 +71,13 @@ public class CustomAdapter extends BaseAdapter {
 			TextView courseNumber = (TextView)v.findViewById(R.id.course_number);
 			//TextView courseDescription = (TextView)v.findViewById(R.id.course_description);
 			courseNumber.setText(course);
+			for(int i = 0; i < ((MainEntry)_c).getCourses().length; ++i) {
+				if(((MainEntry)_c).getCourses()[i] == course) {
+					v.setBackgroundColor(Color.parseColor("#ECB326"));
+					v.invalidate();
+					break;
+				}
+			}
 		}
 		else {
 			switch(_data.get(position).getType()) {

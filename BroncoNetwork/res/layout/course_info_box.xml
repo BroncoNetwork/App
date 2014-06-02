@@ -3,7 +3,7 @@
     android:id="@+id/post_box"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ecb326"
+    android:background="#005c27"
     android:orientation="horizontal"
     android:padding="20dp" >
 

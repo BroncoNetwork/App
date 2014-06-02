@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -85,6 +86,7 @@ class LoadComments extends AsyncTask<String, Integer, String> {
 					String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 					String root = p.getId();
 					new PostComment(LoadComments.this).execute(username, target, comment, timestamp, root);
+					eT.setText("");
 				}
 				else
 					Toast.makeText(c, "Failed to post comment (too short).", Toast.LENGTH_SHORT).show();

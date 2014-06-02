@@ -39,18 +39,6 @@
             android:text="Post"
             android:textColor="#FFFFFFFF" />
 
-        <Button
-            android:id="@+id/add_course"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="3dp"
-            android:layout_weight="3"
-            android:background="#005c27"
-            android:minHeight="35dp"
-            android:text="Add Course"
-            android:textColor="#FFFFFFFF"
-            android:textSize="12dp" />
-
     </LinearLayout>
     <ListView
         android:id="@+id/course_page_list"

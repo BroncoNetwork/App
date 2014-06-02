@@ -128,8 +128,10 @@ public class CoursesFragment extends Fragment implements NetworkFragment {
 		my_courses.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String target = (String) courseListAdapter.getItem(position);
-				go_to_course(target);
+				if(position > 0) {
+					String target = (String) courseListAdapter.getItem(position);
+					go_to_course(target);
+				}
 			}
 
 	    });

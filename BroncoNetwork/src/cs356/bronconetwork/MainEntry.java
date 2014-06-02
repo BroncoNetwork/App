@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -242,6 +243,25 @@ public class MainEntry extends FragmentActivity {
 				user.setCourse(course,i);
 				break;
 			}
+		}
+	}
+	
+	public void removeCourse(String course) {
+		boolean removed = false;
+		for(int i = 0; i < user.getCourses().length; ++i) {
+			if(removed) {
+				user.setCourse(user.getCourses()[i],i-1);
+				if(user.getCourses()[i] == "") {
+					user.setCourse("", i-1);
+				}
+			}
+			if(user.getCourses()[i].equals(course)) {
+				user.setCourse("", i);
+				removed = true;
+			}
+		}
+		if(removed) {
+			user.setCourse("",user.getCourses().length-1);
 		}
 	}
 }

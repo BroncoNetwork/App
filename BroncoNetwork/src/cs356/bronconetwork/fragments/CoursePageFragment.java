@@ -21,8 +21,11 @@ import cs356.bronconetwork.R;
 import cs356.bronconetwork.UserData;
 import cs356.bronconetwork.R.id;
 import cs356.bronconetwork.R.layout;
+import cs356.bronconetwork.Register.registerActivity;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +64,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	private MainEntry mainEntry;
 	private Button addCourse;
 	private String course;
+	private boolean isAdded;
   
 	public CoursePageFragment(MainEntry mainEntry) {
 		//name = course;
@@ -90,29 +95,77 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 			}
 		});
 		
-		addCourse = (Button)fragView.findViewById(R.id.add_course);
-		addCourse.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				//checks the course array if current course is already there
-				//if not update the database
-				course_array = new ArrayList<String>();
-				String[] courses = mainEntry.getCourses();
-				for(int i=0; i < courses.length; i++)
-				{
-					if(!courses[i].equals(""))
-					{
+		mCoursePageList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				if(position == 0) {
+					//checks the course array if current course is already there
+					//if not update the database
+					course_array = new ArrayList<String>();
+					String[] courses = mainEntry.getCourses();
+					for(int i=0; i < courses.length; i++) {
 						course_array.add(courses[i]);
 					}
-				}
-				if(course_array.contains(name)) {
-					Toast.makeText(mainEntry, "Already added to courses", Toast.LENGTH_LONG).show();
-				} else {
-					int courseNum = course_array.size()+1;
-					course_array.add(name);
-					course = "Course" + courseNum;
-					mainEntry.setNewCourse(name);
-					new updateCourses().execute();
-		            Toast.makeText(mainEntry, "Added " + name + " to courses", Toast.LENGTH_LONG).show();
+					if(course_array.contains(name)) {
+						//Toast.makeText(mainEntry, "Already added to courses", Toast.LENGTH_LONG).show();
+						AlertDialog.Builder dropClassBuilder = new AlertDialog.Builder(mainEntry);
+						dropClassBuilder.setTitle("Drop Class");
+						dropClassBuilder
+							.setMessage("Do you wish to drop this class?")
+							.setCancelable(false)
+							.setPositiveButton("No",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									// if this button is clicked, just close
+									// the dialog box and do nothing
+									dialog.cancel();
+								}
+							})
+							.setNegativeButton("Yes",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									// if this button is clicked, close
+									// current activity
+									isAdded = false;
+									mainEntry.removeCourse(name);
+						            mAdapter = new CustomAdapter(postArray, mainEntry, 0, name);
+									mCoursePageList.setAdapter(mAdapter);
+						            Toast.makeText(mainEntry, "Removed " + name + " from courses", Toast.LENGTH_LONG).show();
+								}
+							  });
+						AlertDialog dropClass = dropClassBuilder.create();
+						dropClass.show();
+					} else {AlertDialog.Builder dropClassBuilder = new AlertDialog.Builder(mainEntry);
+					dropClassBuilder.setTitle("Add Class");
+					dropClassBuilder
+						.setMessage("Do you wish to add this class?")
+						.setCancelable(false)
+						.setPositiveButton("No",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+							}
+						})
+						.setNegativeButton("Yes",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								// if this button is clicked, close
+								// current activity
+								isAdded = true;
+								int courseNum = course_array.size()+1;
+								course_array.add(name);
+								course = "Course" + courseNum;
+								mainEntry.setNewCourse(name);
+								new updateCourses().execute();
+					            Toast.makeText(mainEntry, "Added " + name + " to courses", Toast.LENGTH_LONG).show();
+					            mAdapter = new CustomAdapter(postArray, mainEntry, 0, name);
+								mCoursePageList.setAdapter(mAdapter);
+							}
+						  });
+					AlertDialog dropClass = dropClassBuilder.create();
+					dropClass.show();
+					}
 				}
 			}
 		});
@@ -130,13 +183,11 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 	
-	public void getData()
-	{
+	public void getData() {
 		/*if(name.equals(""))
 			message("no current course");
 		else*/
-		if(!name.equals(""))
-		{
+		if(!name.equals("")) {
 			new retrieveDataActivity().execute();
 		}
 	}
@@ -256,8 +307,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	       			}
 			   }
 			   
-			   
-			   mAdapter = new CustomAdapter(postArray, getActivity(), 0, name);
+			   mAdapter = new CustomAdapter(postArray, mainEntry, 0, name);
 			   mCoursePageList.setAdapter(mAdapter);
 		   }
 		   
