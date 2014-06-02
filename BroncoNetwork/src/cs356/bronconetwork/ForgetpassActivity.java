@@ -67,7 +67,7 @@ public class ForgetpassActivity extends Activity {
 		data.putString("email",emailField.getText().toString());
 		data.putString("username", username);
 		data.putString("code",code);
-		data.putString("state","1");
+		data.putString("state","reset");
 		i.putExtra("information", data);
 		startActivity(i);
 		finish();
