@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -46,12 +47,14 @@ public class Register extends Activity {
 		String pw1 = pw1Field.getText().toString();
 		String pw2 = pw2Field.getText().toString();
 		String email = emailField.getText().toString();
+		String code = generatePin();
 		if(pw1.equals(pw2))	
 		{
 			// create user
 			if(isValidEmail(email))
 			{
-				new registerActivity().execute(username,pw1,email);
+				//send validation code to email of user
+				new SendValidationCode().execute(username,email,code);
 			}
 			else
 			{
@@ -65,20 +68,30 @@ public class Register extends Activity {
 		
 	}
 	
-	public void startMainEntry()
+	public void startValidateEmail(String code)
 	{
-		Intent i = new Intent(this, MainEntry.class);
+		Intent i = new Intent(this, ValidateEmail.class);
+		Bundle data = new Bundle();
+		data.putString("username",usernameField.getText().toString());
+		data.putString("password",pw1Field.getText().toString());
+		data.putString("email",emailField.getText().toString());
+		data.putString("code",code);
+		i.putExtra("information", data);
 		startActivity(i);
 		finish();
 	}
+	
+	
+	
 	
 	public void message(String message)
 	{
 		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 	}
 	
-	public class registerActivity  extends AsyncTask<String,Void,String>{
+	public class SendValidationCode  extends AsyncTask<String,Void,String>{
 
+		private String code;
 
 		   protected void onPreExecute(){
 			   
@@ -90,17 +103,17 @@ public class Register extends Activity {
 		      
 		         try {
 		            String username = (String)arg0[0];
-		            String password = (String)arg0[1];
-		            String email = (String)arg0[2];
-		            String link = "http://bronconetwork.comuv.com/register.php";
+		            String email = (String)arg0[1];
+		            code = (String)arg0[2];
+		            String link = "http://bronconetwork.comuv.com/sendCode.php";
 		            
 		            HttpClient client = new DefaultHttpClient();
 		            HttpPost send = new HttpPost(link);
 		            
 		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 		            nameValuePairs.add(new BasicNameValuePair("username",username));
-		            nameValuePairs.add(new BasicNameValuePair("password",password));
 		            nameValuePairs.add(new BasicNameValuePair("email",email));
+		            nameValuePairs.add(new BasicNameValuePair("code",code));
 		            
 		            send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		            
@@ -115,7 +128,7 @@ public class Register extends Activity {
 		           while ((line = in.readLine()) != null) {
 		              sb.append(line);
 		            }
-		            in.close();
+		            in.close();		            
 		            return sb.toString();
 		      }catch(Exception e){
 		         return new String("Exception: " + e.getMessage());
@@ -125,31 +138,41 @@ public class Register extends Activity {
 		   
 		   @Override
 		   protected void onPostExecute(String result){
-			   if(result.charAt(0) == 'D')
+			   
+			   message(result);
+			   if(result.substring(0,5).equals(" User"))
 			   {
-				   message("The account with same username or email already exists on the system!");
+				   message("This username has been taken. Please choose another one.");
+			   }
+			   else if(result.substring(0,5).equals("Email"))
+			   {
+				   message("This email has been taken. Please choose another one.");
 			   }
 			   else
 			   {
-				   UserData userInfo = (UserData)getApplicationContext();//userInfo will contain all user's info
-				   userInfo.setUserName(usernameField.getText().toString());
-				   userInfo.setEmail(emailField.getText().toString());
-				   message("Register Successfully");
-				   startMainEntry(); //jump to MainEntry activity
+				   startValidateEmail(code);
 			   }
-			   
 		   }
 		   
 		}
-	
-			public final static boolean isValidEmail(CharSequence target) {
-				if (target == null) {
-					return false;
-				} else {
-					return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-				}
-			}
+			
+	public final static boolean isValidEmail(CharSequence target) {
+		if (target == null) {
+			return false;
+		} else {
+			return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+		}
+	}
 
+	public String generatePin()
+	{
+		Random random = new Random();
+		int randomNum1 = random.nextInt(10);
+		int randomNum2 = random.nextInt(10);
+		int randomNum3 = random.nextInt(10);
+		int randomNum4 = random.nextInt(10);
+		return "" + randomNum1 + randomNum2 + randomNum3 + randomNum4;
+	}
 }
 
 
