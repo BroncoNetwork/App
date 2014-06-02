@@ -15,15 +15,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import cs356.bronconetwork.Mail;
+import cs356.bronconetwork.MainActivity;
 import cs356.bronconetwork.MainEntry;
 import cs356.bronconetwork.Post;
 import cs356.bronconetwork.R;
 import cs356.bronconetwork.UserData;
 import cs356.bronconetwork.R.id;
 import cs356.bronconetwork.R.layout;
-import cs356.bronconetwork.Register.registerActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -194,9 +195,14 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 	
 	public class updateCourses extends AsyncTask<String, Void, String>{
 
-
+		   private ProgressDialog dialog;
+		   
 		   protected void onPreExecute() {
 			   //postArray.clear();
+			   dialog = new ProgressDialog(mainEntry);
+			   dialog.setTitle("Loading Posts");
+			   dialog.setMessage("Please wait...");
+			   dialog.show();
 		   }
 		   
 		   //This function is used to make connection to online database
@@ -237,15 +243,21 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		   @Override
 		   public void onPostExecute(String result) {
 			   //getData();
-			   
+			   dialog.dismiss();
 		   }
 	}
 	
 	public class retrieveDataActivity extends AsyncTask<String, Void, String>{
 
 
+		   private ProgressDialog dialog;
+		   
 		   protected void onPreExecute() {
 			   postArray.clear();
+			   dialog = new ProgressDialog(mainEntry);
+			   dialog.setTitle("Loading Posts");
+			   dialog.setMessage("Please wait...");
+			   dialog.show();
 		   }
 		   
 		   //This function is used to make connection to online database
@@ -305,6 +317,7 @@ public class CoursePageFragment extends Fragment implements NetworkFragment {
 		       				postArray.add(1, new Post(id, author, target, msg, time));
 		       			}
 	       			}
+	       			dialog.dismiss();
 			   }
 			   
 			   mAdapter = new CustomAdapter(postArray, mainEntry, 0, name);

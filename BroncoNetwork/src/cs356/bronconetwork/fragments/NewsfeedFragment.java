@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -13,6 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -80,9 +82,13 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 	
 	public class retrieveDataActivity extends AsyncTask<String, Void, String>{
 
-
+		   private ProgressDialog dialog;
 		   protected void onPreExecute() {
 			   postArray.clear();
+			   dialog = new ProgressDialog(getActivity());
+			   dialog.setTitle("Loading Posts");
+			   dialog.setMessage("Please wait...");
+			   dialog.show();
 		   }
 		   
 		   //This function is used to make connection to online database
@@ -135,6 +141,7 @@ public class NewsfeedFragment extends Fragment implements NetworkFragment {
 					   postArray.add(0, new Post(temp2[0], temp2[1], temp2[2], temp2[3], temp2[4]));
 				   }
 			   }
+			   dialog.dismiss();
 			   mNewsfeedList.setAdapter(new CustomAdapter(postArray, getActivity(), 1, ""));
 		   }
 		   

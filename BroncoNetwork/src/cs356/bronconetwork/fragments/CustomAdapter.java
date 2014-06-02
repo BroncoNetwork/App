@@ -31,6 +31,8 @@ public class CustomAdapter extends BaseAdapter {
 	// Must add exactly one post in order to show course info.
 	// Consequent posts will fall under course info.
 	private int _flag;
+	TextView courseTitle;
+	TextView courseDescription;
 	
 	CustomAdapter(ArrayList<Post> data, Context c) {
 		_data = data;
@@ -67,10 +69,70 @@ public class CustomAdapter extends BaseAdapter {
 
 		if(position == 0 && _flag == 0) {
 			v = vi.inflate(R.layout.course_info_box, null);//post the course info
-			//TextView courseTitle = (TextView)v.findViewById(R.id.course_title);
+			courseTitle = (TextView)v.findViewById(R.id.course_title);
 			TextView courseNumber = (TextView)v.findViewById(R.id.course_number);
-			//TextView courseDescription = (TextView)v.findViewById(R.id.course_description);
+			courseDescription = (TextView)v.findViewById(R.id.course_description);
 			courseNumber.setText(course);
+			switch(course) {
+			case "CS 101":
+				courseTitle.setText("Introduction to Computers for Non-CS Majors");
+				courseDescription.setText("Basic concepts of computer hardware and software.");
+				break;
+			case "CS 128":
+				courseTitle.setText("Introduction to C++");
+				courseDescription.setText("Basic concepts of computer software and programming.");
+				break;
+			case "CS 130":
+				courseTitle.setText("Discrete Structures");
+				courseDescription.setText("Fundamental topics for Computer Science, such as logic, proof techniques, sets, basic counting rules, relations, functions and recursion, graphs and trees.");
+				break;
+			case "CS 140":
+				courseTitle.setText("Introduction to Computer Science");
+				courseDescription.setText("Basic concepts of Computer Science, including hardware and software. Problem-solving methods. Programming in an object-oriented language.");
+				break;
+			case "CS 141":
+				courseTitle.setText("Introduction to Programming and Problem-Solving");
+				courseDescription.setText("Design, implementation, documentation and testing of programs in an object-oriented language.");
+				break;
+			case "CS 200":
+				break;
+			case "CS 210":
+				courseTitle.setText("Computer Logic");
+				courseDescription.setText("Boolean algebra with applications to computers and logic design.");
+				break;
+			case "CS 240":
+				courseTitle.setText("Data Structures and Algorithms I");
+				courseDescription.setText("Abstract data types and their implementations.");
+				break;
+			case "CS 241":
+				courseTitle.setText("Data Structures and Algorithms II");
+				courseDescription.setText("Trees, priority queues, graphs, sets, and maps.");
+				break;
+			case "CS 245":
+				courseTitle.setText("Programming Graphical User Interfaces");
+				courseDescription.setText("Computer interfaces. Usability of interactive systems. GUI development processes.");
+				break;
+			case "CS 256":
+				courseTitle.setText("C++ Programming");
+				courseDescription.setText("Class encapsulation, inheritance, polymorphism, object storage management, and exception handling.");
+				break;
+			case "CS 301":
+				courseTitle.setText("Numerical Methods");
+				courseDescription.setText("Error analysis, zeros of a function, systems of linear equations, interpolation.");
+				break;
+			case "CS 356":
+				courseTitle.setText("Object-Oriented Design and Programming");
+				courseDescription.setText("Elements of the object model. Abstraction, encapsulation, modularity and hierarchy.");
+				break;
+			case "CS 408":
+				courseTitle.setText("Programming Languages");
+				courseDescription.setText("Concepts in programming languages. Virtual machines and abstraction.");
+				break;
+			case "CS 450":
+				courseTitle.setText("Computability");
+				courseDescription.setText("Abstract models of computation, including Turing machines. Church- Turing thesis.");
+				break;
+			}
 			for(int i = 0; i < ((MainEntry)_c).getCourses().length; ++i) {
 				if(((MainEntry)_c).getCourses()[i] == course) {
 					v.setBackgroundColor(Color.parseColor("#ECB326"));

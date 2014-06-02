@@ -292,13 +292,14 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
         		while(eachMsg.hasMoreTokens()) {
         			StringTokenizer eachEle = new StringTokenizer(eachMsg.nextToken(), "|");
         			while(eachEle.hasMoreTokens()) {
+        				String id = eachEle.nextToken();
         				String from = eachEle.nextToken();
         				String to = eachEle.nextToken();
         				String timestamp = eachEle.nextToken();
         				String msg = eachEle.nextToken();
         				//should add the to/from separately 
-        				if(sent) msgs.add(new Mail("To: " + to, from, timestamp, msg));
-        				else msgs.add(new Mail("From: " + from, to, timestamp, msg));
+        				if(sent) msgs.add(new Mail(id, "To: " + to, from, timestamp, msg));
+        				else msgs.add(new Mail(id, "From: " + from, to, timestamp, msg));
         			}
         		}
         		
