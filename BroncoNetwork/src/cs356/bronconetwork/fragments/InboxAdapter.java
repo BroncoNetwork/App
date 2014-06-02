@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,10 +31,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -91,10 +93,10 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     	private ListView list;
     	private boolean sent;
 		private int mNumberOfSelectedItems = 0;
-		private Mail mailObject;
-		private String author;
-		private String target;
-		private String timestamp;
+		private ArrayList<Mail> msgs = new ArrayList<Mail>();
+		private ArrayList<Integer> msgsToDelete = new ArrayList<Integer>(); // this list is used to delete the msgs in the inbox/sent UI
+																			// the actual mail item to be deleted in the DB is taken from the ListView list
+		private InboxListAdapter listAdapter;
     	
     	public InboxList(int which) {
     		if(which == INBOX) sent = false;
@@ -102,7 +104,7 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     	}
     	
     	public InboxList() {
-
+    		
     	}
     	
     	@Override
@@ -114,6 +116,12 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     		return inflater.inflate(R.layout.inbox_sent, container, false);
     	}
+    	
+    	// refresh list
+    	public void refresh() {
+    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
+    		new GetMessages().execute(user);
+    	}
 
     	@Override
     	public void onActivityCreated(Bundle savedInstanceState) {
@@ -121,9 +129,39 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		
     		list = (ListView) getView().findViewById(R.id.inboxList);
     		
-    		// get the mail msgs
-    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
-    		new GetMessages().execute(user);
+    		listAdapter = new InboxListAdapter(this, msgs);
+    		list.setAdapter(listAdapter);
+    		list.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					// open up a new window to display the full message
+					AlertDialog.Builder builder = new AlertDialog.Builder(inboxFrag.getMainEntry());
+					final Mail mail = msgs.get(position);
+					final AlertDialog dialog = builder.setTitle(mail.getFrom())
+						   .setMessage(mail.getMsg())
+						   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+								}
+						   })
+						   .setNegativeButton("Reply", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+									TabHost tabHost = inboxFrag.getTabHost();
+									tabHost.setCurrentTab(COMPOSE);
+									inboxFrag.getInboxPager().setCurrentItem(tabHost.getCurrentTab());
+									if(sent) ((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom().substring(4, mail.getFrom().length()));
+									else ((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom().substring(6, mail.getFrom().length()));
+									((ComposeFragment) frags[COMPOSE]).getMsgField().requestFocus();
+									
+								}
+						   })
+						   .create();
+					dialog.show();
+				}		
+    		});
     		
     		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
@@ -152,27 +190,54 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 				@Override
 				public void onDestroyActionMode(ActionMode arg0) {
 					mNumberOfSelectedItems = 0;
+					
+					// remove any checkmarks and clear the msgsToDelete list
+					for(int i=0; i < msgsToDelete.size(); i++) {
+						int item = msgsToDelete.get(i);
+						View v = (View) listAdapter.getItem(item);
+						CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkbox);
+						checkbox.setChecked(false);
+					}
+					msgsToDelete.clear();
+					listAdapter.setActionModeNull();
 				}
 
 				@Override
-				public boolean onPrepareActionMode(ActionMode mode,
-						Menu menu) {
+				public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 					return false;
 				}
 
 				@Override
-				public void onItemCheckedStateChanged(ActionMode mode,
-						int position, long id, boolean checked) {
+				public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
 					if(checked) {
 						++mNumberOfSelectedItems;
 					} else {
 						--mNumberOfSelectedItems;
 					}
-					mode.invalidate();
+					View v = (View) listAdapter.getItem(position);
+					CheckBox checkbox = (CheckBox) v.findViewById(R.id.checkbox);
+					checkbox.setChecked(checked);
+					// add position of the item to delete
+					if(checked) {
+						msgsToDelete.add(position);
+					// otherwise look for the index of the item to remove and remove it
+					} else {
+						for(int i=0; i < msgsToDelete.size(); i++) {
+							int msg = msgsToDelete.get(i);
+							if(msg == position) {
+								msgsToDelete.remove(i);
+								break;
+							}
+						}
+					}
 					mode.setTitle(String.valueOf(mNumberOfSelectedItems) + " selected");
+					mode.invalidate();
 				} 
     			
     		});
+    		
+    		// get the mail msgs
+    		refresh();
     		
     		Log.i("INFO", "INSIDE, sent: " + sent);
     	}
@@ -183,22 +248,28 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 			//adds data to a mail object
 			//call async task to delete
 			for(int i = 0; i < checked.size(); i++) {
-				Mail theSelectedMsg = (Mail) list.getItemAtPosition(checked.keyAt(i));
-				mailObject = theSelectedMsg;
-				//sets fields, testing to make sure they worked, getting author gives From: so had to replace
-				author = mailObject.getFrom().replace("From: ", "");
-				target = mailObject.getTo();
-				timestamp = mailObject.getTimeStamp();
-				new deleteMsgs().execute();
-				Toast.makeText(inboxFrag.getMainEntry(), author + " " + target + " " + timestamp, Toast.LENGTH_SHORT).show();
-
+				//Mail theSelectedMsg = (Mail) list.getItemAtPosition(checked.keyAt(i));
+				Mail theSelectedMsg = msgs.get(checked.keyAt(i));
+				// collect the id's of the msgs and delete them from the db
+				deleteMsgs(theSelectedMsg.getId());
 			}
 			
 		}
 		
-    	public class deleteMsgs extends AsyncTask<String,Void,String>{
+		/*
+		 * So it can be called from the inbox list adapter, when the checkbox is checked
+		 */
+		public void deleteMsgs(String id) {
+			new deleteMsgs().execute(id);
+		}
+
+		/**
+		 * Deletes the Message(s) from the DB
+		 *
+		 */
+    	public class deleteMsgs extends AsyncTask<String,Void,String> {
     		
- 		   protected void onPreExecute(){
+ 		   protected void onPreExecute() {
  			   
  		   }
  		   
@@ -206,16 +277,16 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
  		   @Override
  		   protected String doInBackground(String... args0) {
  		         try{
+ 		        	 String id = args0[0];
  		            String link = "http://bronconetwork.comuv.com/deleteMsgs.php";
  		            
  		            HttpClient client = new DefaultHttpClient();
  		            HttpPost send = new HttpPost(link);
  		            
- 		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
- 		            nameValuePairs.add(new BasicNameValuePair("target",target));
- 		            nameValuePairs.add(new BasicNameValuePair("author",author));
- 		            nameValuePairs.add(new BasicNameValuePair("timestamp",timestamp));
-
+ 		            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+ 		            nameValuePairs.add(new BasicNameValuePair("id", id));
+ 		            
+ 		           send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
  		            
 		            HttpResponse response = client.execute(send);
 		            
@@ -229,7 +300,7 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
 		              sb.append(line);
 		            }
 		            in.close();
-		            return sb.toString() + "Executed";
+		            return sb.toString() + " Executed";
 		      }catch(Exception e){
 		         return new String("Exception: " + e.getMessage());
 		      }
@@ -237,23 +308,36 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
  		    
  		   
  		   @Override
- 		   protected void onPostExecute(String result){
- 			   //post function
+ 		   protected void onPostExecute(String result) {
+ 			   String executed = result.substring(result.lastIndexOf(" ")+1, result.length());
+ 			   if(executed.equals("Executed")) {
+	 			   //post function
+	 			   // delete msgs from UI
+	 			   for(int i=0; i < msgsToDelete.size(); i++) {
+	 				   msgs.remove(msgsToDelete.get(i));
+	 			   }
+	 			   msgsToDelete.clear();
+	 			  refresh();
+ 			   } else {
+ 				   Toast.makeText(getActivity(), executed, Toast.LENGTH_SHORT).show();
+ 			   }
  		   }
     	}
     	
-    	// refresh list
-    	public void refresh() {
-    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
-    		new GetMessages().execute(user);
-    	}
-    	
+    	/**
+    	 * Get messages and load up the inbox/sent
+    	 *
+    	 */
         class GetMessages extends AsyncTask<String, Integer, String> {
      
         	private String link = "";
         	public GetMessages() {
         		if(sent) link = "http://bronconetwork.comuv.com/getSent.php";
         		else link = "http://bronconetwork.comuv.com/getInbox.php";
+        	}
+        	
+        	public void onPreExecute() {
+        		msgs.clear();
         	}
         	
         	public String doInBackground(String... args) {
@@ -287,7 +371,6 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
         	
         	public void onPostExecute(String result) {
         		// parse each message
-        		final ArrayList<Mail> msgs = new ArrayList<Mail>();
         		StringTokenizer eachMsg = new StringTokenizer(result, "`");
         		while(eachMsg.hasMoreTokens()) {
         			StringTokenizer eachEle = new StringTokenizer(eachMsg.nextToken(), "|");
@@ -301,51 +384,37 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
         				if(sent) msgs.add(new Mail(id, "To: " + to, from, timestamp, msg));
         				else msgs.add(new Mail(id, "From: " + from, to, timestamp, msg));
         			}
-        		}
-        		
-        		// setup the listview
-        		list.setAdapter(new InboxListAdapter(msgs, getActivity()));
-        		/*list.setOnItemLongClickListener(new OnItemLongClickListener() {
-					@Override
-					public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-						Toast.makeText(inboxFrag.getMainEntry(), "hello", Toast.LENGTH_SHORT).show();
-						return true;
-					}
-        			
-        		});
-        		*/
-
-        		list.setOnItemClickListener(new OnItemClickListener() {
-    				@Override
-    				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    					// open up a new window to display the full message
-    					AlertDialog.Builder builder = new AlertDialog.Builder(inboxFrag.getMainEntry());
-    					final Mail mail = msgs.get(position);
-    					final AlertDialog dialog = builder.setTitle(mail.getFrom())
-    						   .setMessage(mail.getMsg())
-    						   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-    								@Override
-    								public void onClick(DialogInterface dialog, int which) {
-    									dialog.dismiss();
-    								}
-    						   })
-    						   .setNegativeButton("Reply", new DialogInterface.OnClickListener() {
-    								@Override
-    								public void onClick(DialogInterface dialog, int which) {
-    									dialog.dismiss();
-    									TabHost tabHost = inboxFrag.getTabHost();
-    									tabHost.setCurrentTab(COMPOSE);
-    									inboxFrag.getInboxPager().setCurrentItem(tabHost.getCurrentTab());
-    									((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom());
-    									((ComposeFragment) frags[COMPOSE]).getMsgField().requestFocus();
-    								}			
-    						   })
-    						   .create();
-    					dialog.show();
-    				}		
-        		});
-        		
+        		}        		
+        		list.invalidateViews();
         	}
+        }
+        
+        public ListView getList() {
+        	return list;
+        }
+        
+        public ArrayList<Mail> getMsgs() {
+        	return msgs;
+        }
+        
+        public void addMsgToDelete(int i) {
+        	msgsToDelete.add(i);
+        }
+        
+        public void removeMsgToDelete(int i) {
+        	msgsToDelete.remove(i);
+        }
+        
+        public void clearMsgsToDelete() {
+        	msgsToDelete.clear();
+        }
+        
+        public int getMsgToDelete(int i) {
+        	return msgsToDelete.get(i);
+        }
+        
+        public int getMsgsToDeleteSize() {
+        	return msgsToDelete.size();
         }
     }		
 }
