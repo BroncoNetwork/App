@@ -76,6 +76,7 @@ public class Register extends Activity {
 		data.putString("password",pw1Field.getText().toString());
 		data.putString("email",emailField.getText().toString());
 		data.putString("code",code);
+		data.putString("state","register");
 		i.putExtra("information", data);
 		startActivity(i);
 		finish();
@@ -139,7 +140,6 @@ public class Register extends Activity {
 		   @Override
 		   protected void onPostExecute(String result){
 			   
-			   message(result);
 			   if(result.substring(0,5).equals(" User"))
 			   {
 				   message("This username has been taken. Please choose another one.");

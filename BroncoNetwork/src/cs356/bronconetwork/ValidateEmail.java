@@ -80,7 +80,6 @@ public class ValidateEmail extends Activity{
 		data.putString("username",username);
 		data.putString("email",email);
 		i.putExtra("information", data);
-		message(username);
 		startActivity(i);
 		finish();
 	}
