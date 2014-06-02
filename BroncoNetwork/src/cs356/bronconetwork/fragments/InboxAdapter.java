@@ -125,160 +125,58 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
     		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
     		new GetMessages().execute(user);
     		
+    		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+
+				@Override
+				public boolean onActionItemClicked(ActionMode mode,
+						MenuItem item) {
+					switch(item.getItemId()) {
+					case R.id.item_delete:
+						deletePost();
+						mode.finish();
+						return true;
+					default:
+						return false;
+					}
+					
+				}
+
+				@Override
+				public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+					MenuInflater inflater = mode.getMenuInflater();
+					inflater.inflate(R.menu.contextual_menu, menu);
+					return true;
+				}
+
+				@Override
+				public void onDestroyActionMode(ActionMode arg0) {
+					mNumberOfSelectedItems = 0;
+				}
+
+				@Override
+				public boolean onPrepareActionMode(ActionMode mode,
+						Menu menu) {
+					return false;
+				}
+
+				@Override
+				public void onItemCheckedStateChanged(ActionMode mode,
+						int position, long id, boolean checked) {
+					if(checked) {
+						++mNumberOfSelectedItems;
+					} else {
+						--mNumberOfSelectedItems;
+					}
+					mode.invalidate();
+					mode.setTitle(String.valueOf(mNumberOfSelectedItems) + " selected");
+				} 
+    			
+    		});
+    		
     		Log.i("INFO", "INSIDE, sent: " + sent);
     	}
     	
-    	// refresh list
-    	public void refresh() {
-    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
-    		new GetMessages().execute(user);
-    	}
-    	
-        class GetMessages extends AsyncTask<String, Integer, String> {
-     
-        	private String link = "";
-        	public GetMessages() {
-        		if(sent) link = "http://bronconetwork.comuv.com/getSent.php";
-        		else link = "http://bronconetwork.comuv.com/getInbox.php";
-        	}
-        	
-        	public String doInBackground(String... args) {
-    			try {		        
-    		        HttpClient client = new DefaultHttpClient();
-    		        HttpPost send = new HttpPost(link);
-    		        
-    		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-    		        nameValuePairs.add(new BasicNameValuePair("username", args[0]));
-    		        
-    		        send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-    		            
-    		        HttpResponse response = client.execute(send);
-    		            
-    		        BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-    	            StringBuffer sb = new StringBuffer("");
-    		        String line="";
-
-    	            while ((line = in.readLine()) != null) {
-    	            	sb.append(line);
-    		        }
-    	            
-    	            // got the response
-    	           String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
-    	            return ans;
-    			} catch(Exception e) {
-    				Log.e("ERROR", e.getMessage());
-    				return "";
-    		    }
-        	}
-        	
-        	public void onPostExecute(String result) {
-        		// parse each message
-        		final ArrayList<Mail> msgs = new ArrayList<Mail>();
-        		StringTokenizer eachMsg = new StringTokenizer(result, "`");
-        		while(eachMsg.hasMoreTokens()) {
-        			StringTokenizer eachEle = new StringTokenizer(eachMsg.nextToken(), "|");
-        			while(eachEle.hasMoreTokens()) {
-        				String from = eachEle.nextToken();
-        				String to = eachEle.nextToken();
-        				String timestamp = eachEle.nextToken();
-        				String msg = eachEle.nextToken();
-        				if(sent) msgs.add(new Mail("To: " + to, from, timestamp, msg));
-        				else msgs.add(new Mail("From: " + from, to, timestamp, msg));
-        			}
-        		}
-        		
-        		// setup the listview
-        		list.setAdapter(new InboxListAdapter(msgs, getActivity()));
-        		/*list.setOnItemLongClickListener(new OnItemLongClickListener() {
-					@Override
-					public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-						Toast.makeText(inboxFrag.getMainEntry(), "hello", Toast.LENGTH_SHORT).show();
-						return true;
-					}
-        			
-        		});
-        		*/
-        		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
-
-					@Override
-					public boolean onActionItemClicked(ActionMode mode,
-							MenuItem item) {
-						switch(item.getItemId()) {
-						case R.id.item_delete:
-							deletePost();
-							mode.finish();
-							return true;
-						default:
-							return false;
-						}
-						
-					}
-
-					@Override
-					public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-						MenuInflater inflater = mode.getMenuInflater();
-						inflater.inflate(R.menu.contextual_menu, menu);
-						return true;
-					}
-
-					@Override
-					public void onDestroyActionMode(ActionMode arg0) {
-						mNumberOfSelectedItems = 0;
-					}
-
-					@Override
-					public boolean onPrepareActionMode(ActionMode mode,
-							Menu menu) {
-						return false;
-					}
-
-					@Override
-					public void onItemCheckedStateChanged(ActionMode mode,
-							int position, long id, boolean checked) {
-						if(checked) {
-							++mNumberOfSelectedItems;
-						} else {
-							--mNumberOfSelectedItems;
-						}
-						mode.invalidate();
-						mode.setTitle(String.valueOf(mNumberOfSelectedItems) + " selected");
-					} 
-        			
-        		});
-        		list.setOnItemClickListener(new OnItemClickListener() {
-    				@Override
-    				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    					// open up a new window to display the full message
-    					AlertDialog.Builder builder = new AlertDialog.Builder(inboxFrag.getMainEntry());
-    					final Mail mail = msgs.get(position);
-    					final AlertDialog dialog = builder.setTitle(mail.getFrom())
-    						   .setMessage(mail.getMsg())
-    						   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-    								@Override
-    								public void onClick(DialogInterface dialog, int which) {
-    									dialog.dismiss();
-    								}
-    						   })
-    						   .setNegativeButton("Reply", new DialogInterface.OnClickListener() {
-    								@Override
-    								public void onClick(DialogInterface dialog, int which) {
-    									dialog.dismiss();
-    									TabHost tabHost = inboxFrag.getTabHost();
-    									tabHost.setCurrentTab(COMPOSE);
-    									inboxFrag.getInboxPager().setCurrentItem(tabHost.getCurrentTab());
-    									((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom());
-    									((ComposeFragment) frags[COMPOSE]).getMsgField().requestFocus();
-    								}			
-    						   })
-    						   .create();
-    					dialog.show();
-    				}		
-        		});
-        		
-        	}
-        }
-
 		private void deletePost() {
 			SparseBooleanArray checked = list.getCheckedItemPositions();
 			//gets all of the checked list objects
@@ -340,9 +238,113 @@ public class InboxAdapter extends FragmentStatePagerAdapter {
  		   
  		   @Override
  		   protected void onPostExecute(String result){
- 			   
  			   //post function
  		   }
     	}
+    	
+    	// refresh list
+    	public void refresh() {
+    		String user = ((UserData) inboxFrag.getMainEntry().getApplicationContext()).getUserName();
+    		new GetMessages().execute(user);
+    	}
+    	
+        class GetMessages extends AsyncTask<String, Integer, String> {
+     
+        	private String link = "";
+        	public GetMessages() {
+        		if(sent) link = "http://bronconetwork.comuv.com/getSent.php";
+        		else link = "http://bronconetwork.comuv.com/getInbox.php";
+        	}
+        	
+        	public String doInBackground(String... args) {
+    			try {		        
+    		        HttpClient client = new DefaultHttpClient();
+    		        HttpPost send = new HttpPost(link);
+    		        
+    		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+    		        nameValuePairs.add(new BasicNameValuePair("username", args[0]));
+    		        
+    		        send.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+    		            
+    		        HttpResponse response = client.execute(send);
+    		            
+    		        BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+    	            StringBuffer sb = new StringBuffer("");
+    		        String line="";
+
+    	            while ((line = in.readLine()) != null) {
+    	            	sb.append(line);
+    		        }
+    	            
+    	            // got the response
+    	           String ans = sb.toString().trim().substring(0, sb.toString().trim().indexOf("<!--"));
+    	            return ans;
+    			} catch(Exception e) {
+    				Log.e("ERROR", e.getMessage());
+    				return "";
+    		    }
+        	}
+        	
+        	public void onPostExecute(String result) {
+        		// parse each message
+        		final ArrayList<Mail> msgs = new ArrayList<Mail>();
+        		StringTokenizer eachMsg = new StringTokenizer(result, "`");
+        		while(eachMsg.hasMoreTokens()) {
+        			StringTokenizer eachEle = new StringTokenizer(eachMsg.nextToken(), "|");
+        			while(eachEle.hasMoreTokens()) {
+        				String from = eachEle.nextToken();
+        				String to = eachEle.nextToken();
+        				String timestamp = eachEle.nextToken();
+        				String msg = eachEle.nextToken();
+        				//should add the to/from separately 
+        				if(sent) msgs.add(new Mail("To: " + to, from, timestamp, msg));
+        				else msgs.add(new Mail("From: " + from, to, timestamp, msg));
+        			}
+        		}
+        		
+        		// setup the listview
+        		list.setAdapter(new InboxListAdapter(msgs, getActivity()));
+        		/*list.setOnItemLongClickListener(new OnItemLongClickListener() {
+					@Override
+					public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+						Toast.makeText(inboxFrag.getMainEntry(), "hello", Toast.LENGTH_SHORT).show();
+						return true;
+					}
+        			
+        		});
+        		*/
+
+        		list.setOnItemClickListener(new OnItemClickListener() {
+    				@Override
+    				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    					// open up a new window to display the full message
+    					AlertDialog.Builder builder = new AlertDialog.Builder(inboxFrag.getMainEntry());
+    					final Mail mail = msgs.get(position);
+    					final AlertDialog dialog = builder.setTitle(mail.getFrom())
+    						   .setMessage(mail.getMsg())
+    						   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    								@Override
+    								public void onClick(DialogInterface dialog, int which) {
+    									dialog.dismiss();
+    								}
+    						   })
+    						   .setNegativeButton("Reply", new DialogInterface.OnClickListener() {
+    								@Override
+    								public void onClick(DialogInterface dialog, int which) {
+    									dialog.dismiss();
+    									TabHost tabHost = inboxFrag.getTabHost();
+    									tabHost.setCurrentTab(COMPOSE);
+    									inboxFrag.getInboxPager().setCurrentItem(tabHost.getCurrentTab());
+    									((ComposeFragment) frags[COMPOSE]).getToField().setText(mail.getFrom());
+    									((ComposeFragment) frags[COMPOSE]).getMsgField().requestFocus();
+    								}			
+    						   })
+    						   .create();
+    					dialog.show();
+    				}		
+        		});
+        		
+        	}
+        }
     }		
 }
